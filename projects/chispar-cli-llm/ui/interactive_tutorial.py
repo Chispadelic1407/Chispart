@@ -199,3 +199,55 @@ detecta el tipo de proyecto y proporciona insights detallados.[/]
         focus_table.add_column("Enfoque", style="chispart.brand")
         focus_table.add_column("Descripción", style=self.colors["dim"])
         focus_table.add_column("Ideal Para", style=self.colors["accent"])
+        console.print(focus_table)
+
+    def _section_chat_integration(self):
+        """Sección 4: Integración con Chat Interactivo y Shell"""
+        header = f"""
+[{self.colors['primary']}]💬 Sección 4: Integración con Chat Interactivo[/]
+
+[{self.colors['dim']}]El modo interactivo ahora permite usar comandos del sistema de forma segura,
+además de los comandos especiales de análisis (@analizar, @explorar, navegador).[/]
+"""
+        console.print(create_panel(header, style="chispart.brand"))
+
+        # Tabla de comandos especiales del chat
+        table = create_table(title="Comandos en Modo Interactivo")
+        table.add_column("Comando", style="chispart.brand", width=22)
+        table.add_column("Descripción", style=self.colors["dim"])
+
+        rows = [
+            ("@analizar <ruta>", "Analiza un directorio completo y añade el análisis a la conversación"),
+            ("@explorar <ruta> --enfoque <tipo>", "Explora el codebase con enfoque (architecture, security, performance, testing)"),
+            ("navegador", "Abre el navegador interactivo de directorios"),
+            ("comandos", "Muestra todos los comandos disponibles"),
+            ("!<cmd>", "Ejecuta un comando del sistema con validación de seguridad y timeout"),
+            ("!!", "Re‑ejecuta el último comando del historial"),
+            ("!? <texto|/regex/i>", "Ejecuta la última coincidencia (substring o regex con flag i)"),
+            ("!run <n>", "Ejecuta el n‑ésimo comando listado en el historial"),
+            ("history [-n N] [filtro|/regex/i]", "Muestra historial, opcionalmente filtrado y con límite"),
+            ("history -c", "Limpia el historial de comandos"),
+            ("pwd", "Muestra el directorio de trabajo de comandos"),
+            ("cd <ruta>", "Cambia el directorio de trabajo (soporta rutas relativas y ~)"),
+            ("set timeout <s>", "Configura timeout de comandos (1–600 seg)"),
+            ("set outmax <chars>", "Límite de caracteres mostrados por comando (100–200000)"),
+            ("set histmax <n>", "Máximo de entradas en el historial (10–2000)"),
+        ]
+        for c, d in rows:
+            table.add_row(c, d)
+        console.print(table)
+
+        # Nota de seguridad
+        note = f"""
+[{self.colors['warning']}]🔒 Seguridad:[/]
+[{self.colors['dim']}]Todos los comandos pasan por whitelist/blacklist y validaciones de patrones.
+Acciones sensibles (rm, mv, chmod, git push, docker run) requieren confirmación.
+La salida se trunca según 'outmax' y se indica con [truncado].[/]
+"""
+        console.print(create_panel(note, title="Seguridad", style="chispart.warning"))
+
+        # Sugerir práctica
+        console.print(f"[{self.colors['info']}]Sugerencia:[/] Prueba en una sesión: [bold]chispart-dev interactivo[/bold], luego [bold]!ls[/bold], [bold]history[/bold], [bold]!run 1[/bold].")
+
+        if Confirm.ask(f"[{self.colors['warning']}]¿Continuar al siguiente módulo?", default=True):
+            return
