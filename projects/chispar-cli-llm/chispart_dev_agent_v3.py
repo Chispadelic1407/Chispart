@@ -12,6 +12,7 @@ import time
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 from pathlib import Path
+import re
 
 # Rich imports para interfaz moderna
 from rich.console import Console
@@ -714,6 +715,13 @@ def interactivo(ctx, modelo, api):
         "session_start": datetime.now()
     }
     
+    # Estado de comandos del sistema
+    working_dir = Path.cwd()
+    shell_history: List[str] = []
+    shell_timeout: int = 30
+    output_max_chars: int = 5000
+    history_max: int = 200
+
     # Cargar historial previo si existe
     try:
         previous_history = load_conversation_history()
@@ -783,6 +791,280 @@ def interactivo(ctx, modelo, api):
                     directory_browser.start_interactive_session()
                 except Exception as e:
                     console.print(f"[red]❌ Error en navegador: {str(e)}[/red]")
+                continue
+            # Comandos del sistema (prefijo '!') y utilidades de directorio (pwd, cd)
+            elif user_input == '!!':
+                # Re-ejecutar último comando
+                if not shell_history:
+                    console.print("[yellow]⚠️ No hay comandos previos.[/yellow]")
+                    continue
+                command_str = shell_history[-1]
+                validation = security_manager.validate_command(command_str)
+                if not validation.is_allowed:
+                    reason = validation.reason
+                    alt = f"\n[dim]Sugerencia: {validation.suggested_alternative}[/dim]" if validation.suggested_alternative else ""
+                    console.print(f"[red]❌ Comando bloqueado:[/red] {reason}{alt}")
+                    continue
+                if validation.requires_confirmation and not Confirm.ask("⚠️ Este comando requiere confirmación. ¿Ejecutar de nuevo?"):
+                    console.print("[yellow]Operación cancelada por el usuario.[/yellow]")
+                    continue
+                ok, out, err = security_manager.execute_safe_command(command_str, working_dir=str(working_dir), timeout=shell_timeout)
+                if not ok:
+                    console.print(f"[red]❌ No se pudo ejecutar:[/red] {err}")
+                    continue
+                # Truncar salida si excede límite
+                trunc_note = ""
+                if len(out) > output_max_chars:
+                    out = out[:output_max_chars] + "\n... [salida truncada]"
+                    trunc_note = " [truncado]"
+                if out.strip():
+                    console.print(Panel(out, title=f"$ {command_str}{trunc_note}", border_style="cyan"))
+                if len(err) > output_max_chars:
+                    err = err[:output_max_chars] + "\n... [stderr truncado]"
+                if err.strip():
+                    console.print(Panel(err, title="stderr", border_style="red"))
+                continue
+            elif user_input.lower().startswith('history') or user_input.lower().startswith('hist'):
+                args = user_input.split()[1:]
+                if args and args[0] == '-c':
+                    shell_history.clear()
+                    console.print("[green]🧹 Historial borrado[/green]")
+                    continue
+                # Parse -n <N> o filtro simple
+                limit = 50
+                pattern = None
+                regex_obj = None
+                i = 0
+                while i < len(args):
+                    if args[i] == '-n' and i+1 < len(args):
+                        try:
+                            limit = max(1, min(500, int(args[i+1])))
+                        except ValueError:
+                            pass
+                        i += 2
+                    else:
+                        pattern = " ".join(args[i:])
+                        # Soporte regex: /expresion/ o /expresion/i
+                        p = pattern.strip()
+                        if len(p) >= 2 and p[0] == '/' and p.rfind('/') > 0:
+                            last = p.rfind('/')
+                            body = p[1:last]
+                            flags_str = p[last+1:]
+                            flags = re.IGNORECASE if 'i' in flags_str else 0
+                            try:
+                                regex_obj = re.compile(body, flags)
+                                pattern = None  # usaremos regex
+                            except re.error as ex:
+                                console.print(f"[yellow]⚠️ Regex inválida: {ex}. Usando filtro de texto simple.[/yellow]")
+                        break
+                if not shell_history:
+                    console.print("[yellow]📭 Sin historial de comandos[/yellow]")
+                    continue
+                entries = shell_history[-limit:]
+                if regex_obj is not None:
+                    entries = [c for c in entries if regex_obj.search(c)]
+                elif pattern:
+                    entries = [c for c in entries if pattern.lower() in c.lower()]
+                if not entries:
+                    console.print("[yellow]🔍 Sin coincidencias en el historial[/yellow]")
+                    continue
+                start_index = len(shell_history) - len(entries) + 1
+                lines = [f"{start_index + i}. {cmd}" for i, cmd in enumerate(entries)]
+                console.print(Panel("\n".join(lines), title=f"🕘 Historial de Comandos ({len(entries)})", border_style="magenta"))
+                continue
+            elif user_input.startswith('!?'):
+                # Ejecutar la última coincidencia que contenga el patrón
+                pattern = user_input[2:].strip()
+                if not pattern:
+                    console.print("[yellow]⚠️ Uso: !? <texto a buscar>[/yellow]")
+                    continue
+                match = None
+                # Regex si viene /expresion/flags
+                regex_obj = None
+                p = pattern
+                if len(p) >= 2 and p[0] == '/' and p.rfind('/') > 0:
+                    last = p.rfind('/')
+                    body = p[1:last]
+                    flags_str = p[last+1:]
+                    flags = re.IGNORECASE if 'i' in flags_str else 0
+                    try:
+                        regex_obj = re.compile(body, flags)
+                    except re.error as ex:
+                        console.print(f"[yellow]⚠️ Regex inválida: {ex}. Usando filtro de texto simple.[/yellow]")
+                        regex_obj = None
+                for cmd in reversed(shell_history):
+                    if regex_obj is not None:
+                        ok = bool(regex_obj.search(cmd))
+                    else:
+                        ok = pattern.lower() in cmd.lower()
+                    if ok:
+                        match = cmd
+                        break
+                if not match:
+                    console.print("[yellow]🔍 No hay coincidencias en el historial[/yellow]")
+                    continue
+                command_str = match
+                validation = security_manager.validate_command(command_str)
+                if not validation.is_allowed:
+                    reason = validation.reason
+                    alt = f"\n[dim]Sugerencia: {validation.suggested_alternative}[/dim]" if validation.suggested_alternative else ""
+                    console.print(f"[red]❌ Comando bloqueado:[/red] {reason}{alt}")
+                    continue
+                if validation.requires_confirmation and not Confirm.ask("⚠️ Este comando requiere confirmación. ¿Ejecutar?"):
+                    console.print("[yellow]Operación cancelada por el usuario.[/yellow]")
+                    continue
+                ok, out, err = security_manager.execute_safe_command(command_str, working_dir=str(working_dir), timeout=shell_timeout)
+                if not ok:
+                    console.print(f"[red]❌ No se pudo ejecutar:[/red] {err}")
+                    continue
+                trunc_note = ""
+                if len(out) > output_max_chars:
+                    out = out[:output_max_chars] + "\n... [salida truncada]"
+                    trunc_note = " [truncado]"
+                if out.strip():
+                    console.print(Panel(out, title=f"$ {command_str}{trunc_note}", border_style="cyan"))
+                if len(err) > output_max_chars:
+                    err = err[:output_max_chars] + "\n... [stderr truncado]"
+                if err.strip():
+                    console.print(Panel(err, title="stderr", border_style="red"))
+                continue
+            elif user_input.startswith('!run '):
+                idx_str = user_input[5:].strip()
+                if not idx_str.isdigit():
+                    console.print("[yellow]⚠️ Uso: !run <número de historial>[/yellow]")
+                    continue
+                idx = int(idx_str) - 1
+                if idx < 0 or idx >= len(shell_history):
+                    console.print("[red]❌ Índice fuera de rango[/red]")
+                    continue
+                command_str = shell_history[idx]
+                validation = security_manager.validate_command(command_str)
+                if not validation.is_allowed:
+                    reason = validation.reason
+                    alt = f"\n[dim]Sugerencia: {validation.suggested_alternative}[/dim]" if validation.suggested_alternative else ""
+                    console.print(f"[red]❌ Comando bloqueado:[/red] {reason}{alt}")
+                    continue
+                if validation.requires_confirmation and not Confirm.ask("⚠️ Este comando requiere confirmación. ¿Ejecutar?"):
+                    console.print("[yellow]Operación cancelada por el usuario.[/yellow]")
+                    continue
+                ok, out, err = security_manager.execute_safe_command(command_str, working_dir=str(working_dir), timeout=shell_timeout)
+                if not ok:
+                    console.print(f"[red]❌ No se pudo ejecutar:[/red] {err}")
+                    continue
+                # Truncar salida
+                trunc_note = ""
+                if len(out) > output_max_chars:
+                    out = out[:output_max_chars] + "\n... [salida truncada]"
+                    trunc_note = " [truncado]"
+                if out.strip():
+                    console.print(Panel(out, title=f"$ {command_str}{trunc_note}", border_style="cyan"))
+                if len(err) > output_max_chars:
+                    err = err[:output_max_chars] + "\n... [stderr truncado]"
+                if err.strip():
+                    console.print(Panel(err, title="stderr", border_style="red"))
+                continue
+            elif user_input.startswith('!'):
+                command_str = user_input[1:].strip()
+                if not command_str:
+                    console.print("[yellow]⚠️ Escribe un comando después de '!'. Ej: !ls -la[/yellow]")
+                    continue
+                # Validación de seguridad
+                validation = security_manager.validate_command(command_str)
+                if not validation.is_allowed:
+                    reason = validation.reason
+                    alt = f"\n[dim]Sugerencia: {validation.suggested_alternative}[/dim]" if validation.suggested_alternative else ""
+                    console.print(f"[red]❌ Comando bloqueado:[/red] {reason}{alt}")
+                    continue
+                if validation.requires_confirmation:
+                    if not Confirm.ask("⚠️ Este comando requiere confirmación. ¿Ejecutar de todos modos?"):
+                        console.print("[yellow]Operación cancelada por el usuario.[/yellow]")
+                        continue
+                ok, out, err = security_manager.execute_safe_command(command_str, working_dir=str(working_dir), timeout=shell_timeout)
+                if not ok:
+                    console.print(f"[red]❌ No se pudo ejecutar:[/red] {err}")
+                    continue
+                # Agregar a historial
+                shell_history.append(command_str)
+                if len(shell_history) > history_max:
+                    shell_history = shell_history[-history_max:]
+                # Mostrar salida
+                trunc_note = ""
+                if len(out) > output_max_chars:
+                    out = out[:output_max_chars] + "\n... [salida truncada]"
+                    trunc_note = " [truncado]"
+                if out.strip():
+                    console.print(Panel(out, title=f"$ {command_str}{trunc_note}", border_style="cyan"))
+                if len(err) > output_max_chars:
+                    err = err[:output_max_chars] + "\n... [stderr truncado]"
+                if err.strip():
+                    console.print(Panel(err, title="stderr", border_style="red"))
+                continue
+            elif user_input.lower().startswith('set '):
+                # Configurar timeout y límite de salida
+                parts = user_input.split()
+                if len(parts) < 3:
+                    console.print("[yellow]⚠️ Uso: set timeout <segundos> | set outmax <caracteres> | set histmax <n>[/yellow]")
+                    continue
+                key, value = parts[1].lower(), parts[2]
+                if key == 'timeout':
+                    try:
+                        val = int(value)
+                        if val < 1 or val > 600:
+                            raise ValueError
+                        shell_timeout = val
+                        console.print(f"[green]⏱️ Timeout de comandos establecido en {shell_timeout}s[/green]")
+                    except ValueError:
+                        console.print("[red]❌ Valor inválido para timeout (1-600)[/red]")
+                elif key == 'outmax':
+                    try:
+                        val = int(value)
+                        if val < 100 or val > 200000:
+                            raise ValueError
+                        output_max_chars = val
+                        console.print(f"[green]📏 Límite de salida establecido en {output_max_chars} caracteres[/green]")
+                    except ValueError:
+                        console.print("[red]❌ Valor inválido para outmax (100-200000)[/red]")
+                else:
+                    if key == 'histmax':
+                        try:
+                            val = int(value)
+                            if val < 10 or val > 2000:
+                                raise ValueError
+                            history_max = val
+                            # Recortar historial si excede el nuevo máximo
+                            if len(shell_history) > history_max:
+                                shell_history = shell_history[-history_max:]
+                            console.print(f"[green]🧰 Máximo de historial establecido en {history_max}[/green]")
+                        except ValueError:
+                            console.print("[red]❌ Valor inválido para histmax (10-2000)[/red]")
+                    else:
+                        console.print("[yellow]⚠️ Clave desconocida. Usa 'timeout', 'outmax' o 'histmax'.[/yellow]")
+                continue
+            elif user_input.startswith('cd '):
+                target = user_input[3:].strip()
+                if not target:
+                    console.print("[yellow]⚠️ Especifica una ruta. Ej: cd ./mi-proyecto[/yellow]")
+                    continue
+                try:
+                    # Resolver respecto al directorio de trabajo actual
+                    new_path = Path(target).expanduser()
+                    if not new_path.is_absolute():
+                        new_path = (working_dir / new_path).resolve()
+                    else:
+                        new_path = new_path.resolve()
+                    if not new_path.exists() or not new_path.is_dir():
+                        console.print(f"[red]❌ Directorio inválido:[/red] {new_path}")
+                        continue
+                    if not os.access(new_path, os.R_OK):
+                        console.print(f"[red]❌ Sin permisos de lectura:[/red] {new_path}")
+                        continue
+                    working_dir = new_path
+                    console.print(f"[cyan]📍 Directorio actual:[/cyan] {working_dir}")
+                except Exception as e:
+                    console.print(f"[red]❌ Error al cambiar directorio:[/red] {e}")
+                continue
+            elif user_input.lower() == 'pwd':
+                console.print(f"[cyan]📍 Directorio actual:[/cyan] {working_dir}")
                 continue
             elif user_input.startswith('@analizar '):
                 # Comando especial para análisis de directorio
@@ -867,6 +1149,18 @@ def interactivo(ctx, modelo, api):
 [dim]• stats - Ver estadísticas de sesión[/dim]
 [dim]• historial - Ver historial de conversación[/dim]
 [dim]• comandos - Mostrar esta ayuda[/dim]
+
+[bold yellow]Comandos del Sistema:[/bold yellow]
+[dim]• !<cmd> - Ejecutar comando del sistema con seguridad[/dim]
+[dim]  Ejemplos: !ls -la, !git status, !python --version[/dim]
+[dim]• !! - Re-ejecutar último comando[/dim]
+[dim]• !? <texto|/regex/flags> - Ejecutar última coincidencia (substring o /regex/ con 'i')[/dim]
+[dim]• !run <n> - Ejecutar el n-ésimo del historial[/dim]
+[dim]• pwd - Mostrar directorio de trabajo de comandos[/dim]
+[dim]• cd <ruta> - Cambiar directorio de trabajo[/dim]
+[dim]• history [-n N] [filtro|/regex/flags] - Mostrar historial (texto o /regex/ con 'i')[/dim]
+[dim]• history -c - Limpiar historial[/dim]
+[dim]• set timeout <s> | set outmax <chars> | set histmax <n>[/dim]
 
 [bold yellow]Análisis de Directorios:[/bold yellow]
 [dim]• @analizar <ruta> - Analizar directorio completo[/dim]

@@ -76,7 +76,12 @@ class CodebaseAnalyzer:
     def analyze_directory(self, directory_path: str, 
                          max_depth: Optional[int] = None,
                          include_hidden: bool = False,
-                         analyze_content: bool = True) -> Dict[str, Any]:
+                         analyze_content: bool = True,
+                         prioritize_docs: bool = True,
+                         sample_contents: bool = True,
+                         max_sample_files: int = 15,
+                         max_chars_total: int = 20000,
+                         max_chars_per_file: int = 2000) -> Dict[str, Any]:
         """
         Analiza un directorio completo y retorna información detallada
         
@@ -103,11 +108,14 @@ class CodebaseAnalyzer:
         self._reset_stats()
         
         # Análisis principal
-        file_tree = self._build_file_tree(directory_path, max_depth, include_hidden)
+        file_tree = self._build_file_tree(directory_path, max_depth, include_hidden, prioritize_docs=prioritize_docs)
         
         if analyze_content:
             self._analyze_file_contents(directory_path, include_hidden)
         
+        # Analizar documentación disponible (prioridad alta en protocolo jerárquico)
+        documentation = self._analyze_documentation(directory_path, include_hidden=include_hidden)
+
         # Detectar tipo de proyecto
         project_info = self._detect_project_type(directory_path)
         
@@ -117,6 +125,18 @@ class CodebaseAnalyzer:
         # Patrones de arquitectura
         architecture = self._analyze_architecture(directory_path, file_tree)
         
+        # Muestreo de contenido de archivos (priorizando documentación)
+        content_samples = None
+        if sample_contents:
+            content_samples = self._sample_content_bundle(
+                directory_path,
+                include_hidden=include_hidden,
+                prioritize_docs=prioritize_docs,
+                max_files=max_sample_files,
+                max_total=max_chars_total,
+                max_per_file=max_chars_per_file
+            )
+
         # Generar resumen
         summary = self._generate_summary(directory_path)
         
@@ -125,9 +145,11 @@ class CodebaseAnalyzer:
             'timestamp': datetime.now().isoformat(),
             'file_tree': file_tree,
             'statistics': self.stats,
+            'documentation': documentation,
             'project_info': project_info,
             'dependencies': dependencies,
             'architecture': architecture,
+            'content_samples': content_samples,
             'summary': summary,
             'recommendations': self._generate_recommendations()
         }
@@ -147,7 +169,8 @@ class CodebaseAnalyzer:
         }
 
     def _build_file_tree(self, directory: Path, max_depth: Optional[int], 
-                        include_hidden: bool, current_depth: int = 0) -> Dict[str, Any]:
+                        include_hidden: bool, current_depth: int = 0,
+                        prioritize_docs: bool = True) -> Dict[str, Any]:
         """Construye el árbol de archivos del directorio"""
         
         if max_depth is not None and current_depth >= max_depth:
@@ -164,7 +187,14 @@ class CodebaseAnalyzer:
         }
         
         try:
-            items = sorted(directory.iterdir(), key=lambda x: (x.is_file(), x.name.lower()))
+            def sort_key(x: Path):
+                # Directorios antes que archivos
+                is_file_key = 1 if x.is_file() else 0
+                # Prioridad de documentación si se solicita
+                priority = self._get_item_priority(x) if prioritize_docs else 5
+                return (is_file_key, priority, x.name.lower())
+
+            items = sorted(directory.iterdir(), key=sort_key)
             
             for item in items:
                 # Filtrar archivos/directorios ocultos
@@ -185,7 +215,7 @@ class CodebaseAnalyzer:
                     
                 elif item.is_dir():
                     subdir_tree = self._build_file_tree(
-                        item, max_depth, include_hidden, current_depth + 1
+                        item, max_depth, include_hidden, current_depth + 1, prioritize_docs=prioritize_docs
                     )
                     tree['children'].append(subdir_tree)
                     tree['size'] += subdir_tree['size']
@@ -197,6 +227,189 @@ class CodebaseAnalyzer:
             tree['error'] = 'Permission denied'
         
         return tree
+
+    def _get_item_priority(self, path: Path) -> int:
+        """Devuelve prioridad para ordenar elementos, priorizando documentación.
+        Menor número = mayor prioridad.
+        """
+        name = path.name.lower()
+        # Documentación principal
+        doc_names = {"readme.md", "readme", "changelog.md", "contributing.md", "docs"}
+        if name in doc_names:
+            return 0
+        # Directorios de documentación y archivos markdown/rst
+        if path.is_dir() and name in {"docs", "documentation"}:
+            return 0
+        if path.is_file() and path.suffix.lower() in {".md", ".markdown", ".rst"}:
+            return 1
+        # Archivos importantes de configuración
+        if name in self.IMPORTANT_FILES:
+            return 2
+        # Estructura de código fuente común
+        if path.is_dir() and name in {"src", "app", "lib"}:
+            return 3
+        # Tests
+        if name in {"tests", "test", "__tests__"}:
+            return 4
+        # Resto
+        return 5
+
+    def _analyze_documentation(self, directory: Path, include_hidden: bool = False) -> Dict[str, Any]:
+        """Explora documentación disponible y devuelve un resumen prioritario.
+        Busca README, docs/, CHANGELOG, CONTRIBUTING y archivos .md/.rst.
+        """
+        docs_info = {
+            "has_readme": False,
+            "primary_readme": None,
+            "doc_dirs": [],
+            "doc_files": [],
+            "headings": [],
+            "summary_excerpt": None,
+            "count": 0
+        }
+
+        try:
+            # Archivos de primera prioridad
+            candidates = [
+                directory / "README.md",
+                directory / "Readme.md",
+                directory / "readme.md",
+                directory / "README",
+            ]
+            for c in candidates:
+                if c.exists() and c.is_file():
+                    docs_info["has_readme"] = True
+                    docs_info["primary_readme"] = str(c)
+                    break
+
+            # Directorios de documentación
+            for dname in ["docs", "documentation"]:
+                dpath = directory / dname
+                if dpath.exists() and dpath.is_dir():
+                    docs_info["doc_dirs"].append(str(dpath))
+
+            # Recolectar archivos de documentación nivel superior
+            for item in directory.iterdir():
+                if not include_hidden and item.name.startswith('.'):
+                    continue
+                if item.is_file() and (item.suffix.lower() in {".md", ".markdown", ".rst"} or item.name.lower() in {"changelog.md", "contributing.md"}):
+                    docs_info["doc_files"].append(str(item))
+
+            # Recolectar dentro de docs/ (no profundo para evitar costo alto)
+            for dir_str in docs_info["doc_dirs"]:
+                dpath = Path(dir_str)
+                try:
+                    for sub in dpath.glob("**/*"):
+                        if sub.is_file() and sub.suffix.lower() in {".md", ".markdown", ".rst"}:
+                            docs_info["doc_files"].append(str(sub))
+                except Exception:
+                    pass
+
+            # Eliminar duplicados y ordenar con prioridad por nombre
+            seen = set()
+            ordered = []
+            for f in docs_info["doc_files"]:
+                if f not in seen:
+                    seen.add(f)
+                    ordered.append(f)
+            # Orden: README primero, luego CHANGELOG/CONTRIBUTING, luego resto alfabético
+            def doc_key(p: str):
+                n = Path(p).name.lower()
+                if n.startswith("readme"): return (0, n)
+                if n.startswith("changelog"): return (1, n)
+                if n.startswith("contributing"): return (1, n)
+                return (2, n)
+            ordered.sort(key=doc_key)
+            docs_info["doc_files"] = ordered
+            docs_info["count"] = len(ordered)
+
+            # Extraer headings y un extracto del README si existe
+            readme_path = docs_info["primary_readme"] or (ordered[0] if ordered else None)
+            if readme_path:
+                try:
+                    with open(readme_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        content = f.read(8000)  # límite razonable
+                    # Headings Markdown simples
+                    headings = re.findall(r"^\s{0,3}#{1,6}\s+(.+)$", content, re.MULTILINE)
+                    docs_info["headings"] = headings[:10]
+                    excerpt = content.strip().splitlines()
+                    excerpt = "\n".join(excerpt[:30])  # primeras líneas
+                    docs_info["summary_excerpt"] = excerpt[:1200]
+                except Exception:
+                    pass
+        except Exception:
+            # Ante cualquier error, devolver lo recolectado hasta el momento
+            pass
+
+        return docs_info
+
+    def _iter_files(self, directory: Path, include_hidden: bool = False) -> List[Path]:
+        """Itera archivos del árbol respetando exclusiones comunes."""
+        for root, dirs, files in os.walk(directory):
+            # Filtrar dir ignorados
+            dirs[:] = [d for d in dirs if d not in self.IGNORE_DIRS]
+            if not include_hidden:
+                dirs[:] = [d for d in dirs if not d.startswith('.')]
+                files = [f for f in files if not f.startswith('.')]
+            for fname in files:
+                fpath = Path(root) / fname
+                yield fpath
+
+    def _sample_content_bundle(self, directory: Path,
+                                include_hidden: bool,
+                                prioritize_docs: bool,
+                                max_files: int,
+                                max_total: int,
+                                max_per_file: int) -> Dict[str, Any]:
+        """Selecciona archivos priorizados y devuelve fragmentos de contenido.
+        Respeta límites totales y por archivo, priorizando documentación y archivos clave.
+        """
+        # Recolectar todos los archivos con prioridades
+        candidates: List[Tuple[int, Path]] = []
+        for fpath in self._iter_files(directory, include_hidden=include_hidden):
+            # Ignorar binarios grandes por extensión simple
+            if fpath.suffix.lower() in {'.png', '.jpg', '.jpeg', '.gif', '.pdf', '.zip', '.tar', '.gz', '.rar', '.7z'}:
+                continue
+            prio = self._get_item_priority(fpath) if prioritize_docs else 5
+            # Favorecer raíz con pequeño sesgo
+            if fpath.parent == directory:
+                prio = max(0, prio - 1)
+            candidates.append((prio, fpath))
+
+        # Ordenar por prioridad y nombre
+        candidates.sort(key=lambda t: (t[0], t[1].name.lower()))
+
+        # Seleccionar hasta max_files respetando max_total
+        selected = []
+        total_chars = 0
+        for _, path in candidates:
+            if len(selected) >= max_files:
+                break
+            try:
+                with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                    content = f.read(max_per_file + 1024)  # pequeño margen para truncar limpio
+                snippet = content[:max_per_file]
+                if total_chars + len(snippet) > max_total:
+                    # Si excede, truncar y terminar
+                    remaining = max_total - total_chars
+                    if remaining <= 0:
+                        break
+                    snippet = snippet[:remaining]
+                    selected.append({"path": str(path), "chars": len(snippet), "content": snippet, "truncated": True})
+                    total_chars += len(snippet)
+                    break
+                selected.append({"path": str(path), "chars": len(snippet), "content": snippet, "truncated": len(content) > len(snippet)})
+                total_chars += len(snippet)
+            except Exception:
+                continue
+
+        return {
+            "files": selected,
+            "total_chars": total_chars,
+            "max_total": max_total,
+            "max_files": max_files,
+            "truncated": total_chars >= max_total or len(selected) >= max_files
+        }
 
     def _analyze_file(self, file_path: Path) -> Dict[str, Any]:
         """Analiza un archivo individual"""
@@ -654,6 +867,30 @@ class CodebaseAnalyzer:
             title="📋 Resumen del Análisis",
             style="chispart.brand"
         ))
+
+        # Panel de documentación prioritaria
+        doc = analysis.get('documentation')
+        if doc and (doc.get('has_readme') or doc.get('count', 0) > 0):
+            lines = []
+            if doc.get('has_readme'):
+                from pathlib import Path as _P
+                lines.append(f"📘 README: {_P(doc.get('primary_readme')).name}")
+            if doc.get('doc_dirs'):
+                from pathlib import Path as _P
+                lines.append(f"📚 Directorios: {', '.join([_P(d).name for d in doc.get('doc_dirs', [])])}")
+            if doc.get('doc_files'):
+                from pathlib import Path as _P
+                preview = "\n".join([f"• {_P(p).name}" for p in doc.get('doc_files', [])[:8]])
+                lines.append(preview)
+            if doc.get('headings'):
+                headings = "\n".join([f"# {h}" for h in doc.get('headings', [])[:5]])
+                lines.append(f"\n🧭 Encabezados clave:\n{headings}")
+
+            console.print(create_panel(
+                "\n".join(lines),
+                title="📝 Documentación (Prioritaria)",
+                style="chispart.info"
+            ))
         
         # Tabla de lenguajes
         if analysis['statistics']['languages']:
@@ -665,6 +902,19 @@ class CodebaseAnalyzer:
                 lang_table.add_row(lang.title(), str(count))
             
             console.print(lang_table)
+
+        # Información de muestreo de contenido
+        samples = analysis.get('content_samples')
+        if samples and samples.get('files'):
+            samples_info = f"""
+[bold cyan]🗃️ Fragmentos leídos:[/bold cyan] {len(samples.get('files', []))} archivos
+[bold blue]🧾 Caracteres totales:[/bold blue] {samples.get('total_chars', 0)} / {samples.get('max_total', 'N/A')}
+"""
+            console.print(create_panel(
+                samples_info.strip(),
+                title="📄 Muestreo de Contenido",
+                style="chispart.secondary"
+            ))
         
         # Información de dependencias
         if analysis['dependencies']['total_count'] > 0:

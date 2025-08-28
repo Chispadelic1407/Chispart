@@ -66,13 +66,15 @@ class DirectoryCommands:
                 directory_path=directory_path,
                 max_depth=max_depth,
                 include_hidden=include_hidden,
-                analyze_content=analyze_content
+                analyze_content=analyze_content,
+                prioritize_docs=True,
+                sample_contents=True
             )
             
             # Mostrar resultados del análisis
             directory_analyzer.display_analysis_summary(analysis)
             
-            # Generar prompt enriquecido para IA
+            # Generar prompt enriquecido para IA (incluye fragmentos de archivos)
             enriched_prompt = self._create_enriched_prompt(analysis, prompt)
             
             # Enviar a IA para análisis adicional
@@ -350,8 +352,49 @@ Proporciona un análisis detallado y profesional con recomendaciones específica
         project_info = analysis['project_info']
         dependencies = analysis['dependencies']
         architecture = analysis['architecture']
+        documentation = analysis.get('documentation', {})
+
+        # Preparar strings seguros para documentación (evitar expresiones complejas en f-string)
+        if documentation.get('has_readme') and documentation.get('primary_readme'):
+            try:
+                doc_readme_str = f"Sí → {Path(documentation.get('primary_readme')).name}"
+            except Exception:
+                doc_readme_str = "Sí"
+        else:
+            doc_readme_str = "No"
+
+        try:
+            doc_dirs_list = [Path(d).name for d in documentation.get('doc_dirs', [])]
+            doc_dirs_str = ", ".join(doc_dirs_list) if doc_dirs_list else "Ninguno"
+        except Exception:
+            doc_dirs_str = "Ninguno"
+
+        try:
+            doc_files_list = documentation.get('doc_files', [])
+            doc_files_preview = [f"  • {Path(p).name}" for p in doc_files_list[:10]]
+            doc_files_block = "\n".join(doc_files_preview)
+        except Exception:
+            doc_files_block = ""
+
+        doc_excerpt_str = ""
+        if documentation.get('summary_excerpt'):
+            doc_excerpt_str = "\nResumen README (extracto):\n" + documentation.get('summary_excerpt')
         
         # Crear resumen estructurado
+        # Preparar sección de fragmentos de archivos (limitada)
+        samples = analysis.get('content_samples') or {}
+        sample_files = samples.get('files', [])
+        samples_section = ""
+        if sample_files:
+            samples_preview_lines = []
+            for f in sample_files[:10]:  # máximo 10 fragmentos en prompt
+                path = f.get('path')
+                content = f.get('content', '')
+                # Delimitar cada fragmento
+                samples_preview_lines.append(f"Archivo: {path}\n```\n{content}\n```\n")
+            samples_footer = f"(Fragmentos mostrados: {min(len(sample_files),10)}/{len(sample_files)} | Caracteres totales: {samples.get('total_chars', 0)})"
+            samples_section = "\n**Fragmentos de Archivos (prioridad: documentación primero):**\n" + "\n".join(samples_preview_lines) + samples_footer + "\n"
+
         enriched_prompt = f"""
 {user_prompt}
 
@@ -374,6 +417,13 @@ Proporciona un análisis detallado y profesional con recomendaciones específica
 **Tipos de Archivo Más Comunes:**
 {self._format_file_types(stats['file_types'])}
 
+**Documentación Detectada (prioridad alta):**
+- README: {doc_readme_str}
+- Directorios de docs: {doc_dirs_str}
+- Archivos de docs: {min(documentation.get('count', 0), 10)} mostrados de {documentation.get('count', 0)}
+{doc_files_block}
+{doc_excerpt_str}
+
 **Dependencias:**
 - Total: {dependencies['total_count']}
 - Gestores de paquetes: {', '.join(dependencies['package_managers'])}
@@ -391,6 +441,7 @@ Proporciona un análisis detallado y profesional con recomendaciones específica
 **Recomendaciones Automáticas:**
 {chr(10).join(['- ' + rec for rec in analysis['recommendations']])}
 
+{samples_section}
 Por favor, proporciona un análisis detallado y profesional basado en esta información estructural.
 """
         

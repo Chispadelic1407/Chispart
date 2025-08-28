@@ -181,8 +181,8 @@ class SecurityManager:
         
         return alternatives.get(command)
     
-    def execute_safe_command(self, command: str, working_dir: str = None) -> Tuple[bool, str, str]:
-        """Ejecuta un comando de forma segura"""
+    def execute_safe_command(self, command: str, working_dir: str = None, timeout: int = 30) -> Tuple[bool, str, str]:
+        """Ejecuta un comando de forma segura con timeout configurable"""
         validation = self.validate_command(command)
         
         if not validation.is_allowed:
@@ -204,7 +204,7 @@ class SecurityManager:
                 shell=True,
                 capture_output=True,
                 text=True,
-                timeout=30,  # Timeout de 30 segundos
+                timeout=timeout,
                 cwd=working_dir,
                 env=env
             )
@@ -212,7 +212,7 @@ class SecurityManager:
             return True, result.stdout, result.stderr
             
         except subprocess.TimeoutExpired:
-            return False, "", "Comando excedió el tiempo límite (30s)"
+            return False, "", f"Comando excedió el tiempo límite ({timeout}s)"
         except Exception as e:
             return False, "", f"Error ejecutando comando: {str(e)}"
     

@@ -11,6 +11,8 @@ Esta guía describe las nuevas capacidades de análisis de directorios y codebas
 - **Navegador Interactivo**: Interfaz de línea de comandos para explorar directorios
 - **Comandos Especializados**: Análisis enfocado en arquitectura, seguridad, rendimiento, etc.
 - **Integración con Chat**: Comandos especiales disponibles en modo interactivo
+- **Prioridad de Documentación**: Recorre primero `README*`, `docs/`, `CHANGELOG`, `CONTRIBUTING`, `*.md/*.rst`
+- **Lectura de Archivos (Snippets)**: Extrae fragmentos reales de archivos con límites seguros
 
 ## 📋 Comandos CLI Disponibles
 
@@ -27,6 +29,11 @@ chispart-dev analizar-directorio <directorio> [opciones]
 - `--profundidad, --depth`: Profundidad máxima de análisis
 - `--incluir-ocultos`: Incluir archivos y directorios ocultos
 - `--sin-contenido`: No analizar contenido de archivos
+
+El analizador por defecto:
+- Prioriza documentación y archivos clave al recorrer el árbol.
+- Lee fragmentos de contenido (snippets) limitados para enriquecer el contexto del modelo.
+- Muestra un panel con “Documentación (Prioritaria)” y otro con “Muestreo de Contenido”.
 
 **Ejemplos:**
 ```bash
@@ -121,6 +128,11 @@ navegador
 comandos
 ```
 
+Al usar `@analizar` desde el chat interactivo, el sistema enviará a la IA un prompt enriquecido que incluye:
+- Resumen estructural del proyecto.
+- Sección “Documentación Detectada” (README, dirs de docs, lista de archivos, encabezados y extracto).
+- Sección “Fragmentos de Archivos”, con bloques delimitados por archivo.
+
 ### Ejemplos en Chat Interactivo
 
 ```
@@ -165,8 +177,9 @@ Tú $ navegador
 ### Flujo de Análisis
 
 1. **Validación**: Verificar permisos y existencia del directorio
-2. **Análisis Estructural**: Examinar archivos, dependencias, patrones
-3. **Procesamiento IA**: Enviar datos estructurados a la IA
+2. **Análisis Estructural**: Examinar archivos, dependencias, patrones, y documentación
+3. **Muestreo de Contenido**: Extraer fragmentos priorizando documentación
+4. **Procesamiento IA**: Enviar datos estructurados y fragmentos al modelo
 4. **Presentación**: Mostrar resultados formateados
 5. **Persistencia**: Guardar en historial de conversaciones
 
@@ -186,6 +199,7 @@ Las mismas variables de API que usa Chispart CLI:
 - **Filtros**: Incluir/excluir archivos ocultos
 - **Enfoques**: Especializar el análisis según necesidades
 - **Modelos**: Elegir el modelo de IA más apropiado
+- **Snippets**: El sistema lee hasta N archivos (por defecto 15) y M caracteres (por defecto 20k totales, 2k por archivo)
 
 ## 📊 Tipos de Análisis Proporcionados
 
@@ -206,6 +220,7 @@ Las mismas variables de API que usa Chispart CLI:
 - Recomendaciones de mejores prácticas
 - Identificación de problemas potenciales
 - Sugerencias de optimización
+- Contexto enriquecido con documentación y fragmentos
 
 ### Análisis Especializado
 - **Arquitectura**: Patrones de diseño, escalabilidad

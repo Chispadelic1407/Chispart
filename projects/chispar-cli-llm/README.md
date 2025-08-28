@@ -23,6 +23,8 @@
 - 🎯 **Perfiles Especializados**: 7 tipos de desarrolladores especializados
 - 🛡️ **Sistema de Seguridad**: Whitelist y blacklist de comandos
 - 📱 **Optimizado para Móviles**: Soporte completo para Termux/Android
+ - 📂 **Análisis de Directorios Mejorado**: Prioriza documentación y lee fragmentos reales de archivos
+ - 🖥️ **Shell en Chat Interactivo**: Ejecuta comandos con `!`, historial, búsqueda y regex
 
 ## 🚀 Instalación Rápida
 
@@ -123,6 +125,29 @@ python3 chispart_dev_agent_v3.py playground
 # O usando Python directamente
 python3 chispart_dev_agent_v3.py playground
 ```
+
+### 💬 Modo Interactivo con Comandos de Sistema
+
+Dentro de `chispart-dev interactivo` puedes usar comandos de shell de forma segura:
+
+```text
+!<cmd>           # Ejecuta un comando (seguridad + timeout)
+!!               # Re-ejecuta el último comando
+!? <txt|/re/i>   # Ejecuta la última coincidencia (substring o regex con flag i)
+!run <n>         # Ejecuta el n-ésimo comando del historial
+history [-n N] [filtro|/re/i]  # Muestra historial, opcionalmente filtrado
+history -c       # Limpia historial de comandos
+pwd              # Muestra directorio de trabajo de comandos
+cd <ruta>        # Cambia directorio de trabajo
+set timeout <s>  # Cambia timeout (1–600)
+set outmax <ch>  # Límite de salida (100–200000)
+set histmax <n>  # Tamaño máximo de historial (10–2000)
+```
+
+Notas de seguridad:
+- Validación por whitelist/blacklist y patrones peligrosos.
+- Confirmación para acciones sensibles (`rm`, `mv`, `chmod`, `git push`, `docker run`).
+- Salida truncada según `outmax` con indicación `[truncado]`.
 
 ## 🏗️ Estructura del Proyecto
 
@@ -249,6 +274,14 @@ pip install -r requirements.txt --force-reinstall
 - 📖 [Guía Completa](docs/CHISPART_DEV_AGENT_V3_COMPLETADO.md)
 - 🔧 [Scripts de Instalación](scripts/)
 - 📁 [Archivos Históricos](archive/)
+- 📘 [Guía de Análisis de Directorios](docs/DIRECTORY_ANALYSIS_GUIDE.md)
+
+### 🧠 Notas sobre Análisis de Directorios
+
+- Prioriza documentación: `README*`, `docs/`, `CHANGELOG`, `CONTRIBUTING`, `*.md/*.rst`.
+- Lee fragmentos reales de archivos (snippets) con límites seguros por archivo y totales.
+- El prompt a la IA incluye “Documentación Detectada” y “Fragmentos de Archivos”.
+- Paneles en consola muestran documentación y muestreo de contenido.
 
 ## 🤝 Contribuir
 
