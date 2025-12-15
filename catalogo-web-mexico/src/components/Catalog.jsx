@@ -2,7 +2,7 @@ import React from 'react';
 import WebsiteCard from './WebsiteCard';
 import './Catalog.css';
 
-const Catalog = ({ websites }) => {
+const Catalog = ({ websites, onQuote }) => {
   return (
     <div className="catalog" id="catalogo">
       {websites.length === 0 ? (
@@ -13,7 +13,7 @@ const Catalog = ({ websites }) => {
       ) : (
         <div className="catalog-grid">
           {websites.map((website) => (
-            <WebsiteCard key={website.id} website={website} />
+            <WebsiteCard key={website.id} website={website} onQuote={onQuote} />
           ))}
         </div>
       )}

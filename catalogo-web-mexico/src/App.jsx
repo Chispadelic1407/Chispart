@@ -1,14 +1,30 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Filter from './components/Filter';
 import Catalog from './components/Catalog';
+import InteractiveTour from './components/InteractiveTour';
+import PaymentMockup from './components/PaymentMockup';
 import { websites, categories } from './data/websites';
 import './App.css';
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showTour, setShowTour] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+
+  // Verificar si es la primera visita
+  useEffect(() => {
+    const tourCompleted = localStorage.getItem('tourCompleted');
+    if (!tourCompleted) {
+      // Mostrar el tour automáticamente después de 1 segundo
+      setTimeout(() => {
+        setShowTour(true);
+      }, 1000);
+    }
+  }, []);
 
   // Filtrar sitios web basándose en categoría y búsqueda
   const filteredWebsites = useMemo(() => {
@@ -24,9 +40,27 @@ function App() {
     });
   }, [selectedCategory, searchTerm]);
 
+  const handleStartTour = () => {
+    setShowTour(true);
+  };
+
+  const handleCloseTour = () => {
+    setShowTour(false);
+  };
+
+  const handleQuote = (service) => {
+    setSelectedService(service);
+    setShowPayment(true);
+  };
+
+  const handleClosePayment = () => {
+    setShowPayment(false);
+    setSelectedService(null);
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header onStartTour={handleStartTour} />
 
       <main className="main-content">
         <div className="container">
@@ -42,7 +76,7 @@ function App() {
             Mostrando {filteredWebsites.length} de {websites.length} servicios
           </div>
 
-          <Catalog websites={filteredWebsites} />
+          <Catalog websites={filteredWebsites} onQuote={handleQuote} />
         </div>
       </main>
 
@@ -52,6 +86,11 @@ function App() {
           <p className="footer-note">Todos los precios son estimados y pueden variar según requerimientos específicos</p>
         </div>
       </footer>
+
+      {showTour && <InteractiveTour onClose={handleCloseTour} />}
+      {showPayment && selectedService && (
+        <PaymentMockup service={selectedService} onClose={handleClosePayment} />
+      )}
     </div>
   );
 }
