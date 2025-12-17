@@ -5,8 +5,8 @@ const WebsiteCard = ({ website, onQuote }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleCardClick = (e) => {
-    // No expandir si se hace clic en el botón de cotizar
-    if (e.target.closest('.quote-btn')) {
+    // No expandir si se hace clic en el botón de cotizar o enlaces
+    if (e.target.closest('.quote-btn') || e.target.closest('.project-links a')) {
       return;
     }
     setIsExpanded(!isExpanded);
@@ -49,9 +49,29 @@ const WebsiteCard = ({ website, onQuote }) => {
             </div>
           </div>
 
-          <button className="quote-btn" onClick={handleQuoteClick}>
-            💰 Solicitar Cotización
-          </button>
+          {website.category === "Mis Proyectos" ? (
+            <div className="project-links">
+              {website.demoUrl && (
+                <a href={website.demoUrl} className="demo-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
+                  🎨 Ver Demo
+                </a>
+              )}
+              {website.githubUrl && (
+                <a href={website.githubUrl} className="github-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
+                  📂 GitHub
+                </a>
+              )}
+              {website.liveUrl && (
+                <a href={website.liveUrl} className="live-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
+                  🚀 Sitio en Vivo
+                </a>
+              )}
+            </div>
+          ) : (
+            <button className="quote-btn" onClick={handleQuoteClick}>
+              💰 Solicitar Cotización
+            </button>
+          )}
         </div>
 
         <button className="expand-btn">

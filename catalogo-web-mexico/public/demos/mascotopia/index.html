@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascotopia - Demo | E-commerce para Mascotas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🐾</span>
+                <span class="logo-text">Mascotopia</span>
+            </div>
+            <nav>
+                <a href="#features">Características</a>
+                <a href="#tech">Tecnologías</a>
+                <a href="https://github.com/SebastianVernis/MASCOTOPIA" target="_blank" class="btn-github">
+                    GitHub
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">E-commerce • PHP • Vanilla JS</div>
+                <h1 class="hero-title">
+                    Tienda Online para<br/>
+                    <span class="highlight">Productos de Mascotas</span>
+                </h1>
+                <p class="hero-description">
+                    E-commerce completo especializado en alimentos y accesorios para mascotas. 
+                    Desarrollado con PHP vanilla y JavaScript puro, incluye catálogo de productos, 
+                    carrito de compras persistente y sistema de checkout simulado.
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://github.com/SebastianVernis/MASCOTOPIA" target="_blank" class="btn-primary">
+                        Ver Código en GitHub
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="mockup-browser">
+                    <div class="browser-header">
+                        <div class="browser-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="browser-url">mascotopia.com</div>
+                    </div>
+                    <div class="browser-content">
+                        <div class="product-grid-demo">
+                            <div class="product-demo">🐕 Alimento Premium</div>
+                            <div class="product-demo">🐈 Juguetes</div>
+                            <div class="product-demo">🦴 Snacks</div>
+                            <div class="product-demo">🏠 Accesorios</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Características Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h3>Carrito de Compras</h3>
+                    <p>Sistema completo de carrito con persistencia en LocalStorage, modificación de cantidades y eliminación de productos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Catálogo de Productos</h3>
+                    <p>Navegación por categorías (alimentos, accesorios, juguetes) con filtrado dinámico y búsqueda.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Sistema de Checkout</h3>
+                    <p>Proceso de compra simulado con generación de órdenes y resumen de pedido.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Diseño Responsivo</h3>
+                    <p>Interfaz adaptable a móviles, tablets y desktop usando CSS Grid y Flexbox.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>REST API</h3>
+                    <p>Backend con endpoints RESTful para productos, categorías y órdenes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Vanilla JavaScript</h3>
+                    <p>Código modular sin frameworks, demostrando dominio de JavaScript puro.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Endpoints Section -->
+    <section class="api-section">
+        <div class="container">
+            <h2 class="section-title">API Endpoints</h2>
+            <div class="api-grid">
+                <div class="api-card">
+                    <div class="api-method get">GET</div>
+                    <div class="api-info">
+                        <div class="api-endpoint">/api.php/products</div>
+                        <div class="api-description">Obtener todos los productos</div>
+                    </div>
+                </div>
+                <div class="api-card">
+                    <div class="api-method get">GET</div>
+                    <div class="api-info">
+                        <div class="api-endpoint">/api.php/products?category=alimento</div>
+                        <div class="api-description">Filtrar por categoría</div>
+                    </div>
+                </div>
+                <div class="api-card">
+                    <div class="api-method get">GET</div>
+                    <div class="api-info">
+                        <div class="api-endpoint">/api.php/products/1</div>
+                        <div class="api-description">Obtener producto específico</div>
+                    </div>
+                </div>
+                <div class="api-card">
+                    <div class="api-method get">GET</div>
+                    <div class="api-info">
+                        <div class="api-endpoint">/api.php/categories</div>
+                        <div class="api-description">Obtener categorías disponibles</div>
+                    </div>
+                </div>
+                <div class="api-card">
+                    <div class="api-method post">POST</div>
+                    <div class="api-info">
+                        <div class="api-endpoint">/api.php/orders</div>
+                        <div class="api-description">Crear nueva orden</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech" class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Stack Tecnológico</h2>
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h3>Frontend</h3>
+                    <div class="tech-list">
+                        <span class="tech-item">HTML5</span>
+                        <span class="tech-item">CSS3 (Grid & Flexbox)</span>
+                        <span class="tech-item">Vanilla JavaScript</span>
+                        <span class="tech-item">LocalStorage API</span>
+                        <span class="tech-item">Fetch API</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>Backend</h3>
+                    <div class="tech-list">
+                        <span class="tech-item">PHP 8.1+</span>
+                        <span class="tech-item">REST API</span>
+                        <span class="tech-item">CORS Enabled</span>
+                        <span class="tech-item">PHP Built-in Server</span>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>Skills Demostradas</h3>
+                    <div class="tech-list">
+                        <span class="tech-item">E-commerce Development</span>
+                        <span class="tech-item">API Design</span>
+                        <span class="tech-item">Vanilla JS Mastery</span>
+                        <span class="tech-item">PHP Backend</span>
+                        <span class="tech-item">Responsive Design</span>
+                        <span class="tech-item">State Management</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Structure -->
+    <section class="structure">
+        <div class="container">
+            <h2 class="section-title">Estructura del Proyecto</h2>
+            <div class="code-block">
+                <pre><code>mascotopia/
+├── public/          # Páginas frontend
+│   ├── index.html   # Página principal
+│   ├── products.html # Catálogo
+│   └── cart.html    # Carrito de compras
+├── src/
+│   ├── php/        # API backend
+│   │   └── api.php # Endpoints REST
+│   ├── js/         # Módulos JavaScript
+│   │   ├── cart.js
+│   │   ├── products.js
+│   │   └── checkout.js
+│   └── css/        # Estilos
+├── assets/images/  # Recursos visuales
+└── README.md</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>¿Quieres ver el código?</h2>
+                <p>Explora el repositorio completo en GitHub</p>
+                <a href="https://github.com/SebastianVernis/MASCOTOPIA" target="_blank" class="btn-primary">
+                    Ver en GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Desarrollado con 💜 por <a href="https://sebastianvernis.com" target="_blank">Sebastián Vernis</a></p>
+            <p>Parte del portafolio de proyectos públicos</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

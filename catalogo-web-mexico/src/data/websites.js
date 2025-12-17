@@ -1,5 +1,68 @@
 export const websites = [
   {
+    id: 101,
+    title: "DefiendeteMX - Protección Legal PWA",
+    description: "Aplicación web progresiva que proporciona información legal verificada para casos de detención y emergencias en México. Diseño glassmorphism con Next.js 14.",
+    category: "Mis Proyectos",
+    price: "Proyecto Open Source",
+    features: ["PWA Offline", "Glassmorphism UI", "Botón SOS 911", "Accesibilidad WCAG", "Backend JWT", "Twilio SMS"],
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop",
+    technologies: ["Next.js 14", "React", "Tailwind CSS", "PWA", "Node.js", "JWT"],
+    demoUrl: "/demos/defiendetemx/index.html",
+    githubUrl: "https://github.com/SebastianVernis/DEFIENDETEMX",
+    liveUrl: "https://defiendete-mx.pages.dev"
+  },
+  {
+    id: 102,
+    title: "Mascotopia - E-commerce para Mascotas",
+    description: "Tienda online completa especializada en alimentos y accesorios para mascotas. Desarrollada con PHP vanilla y JavaScript puro, incluye carrito persistente y API REST.",
+    category: "Mis Proyectos",
+    price: "Proyecto Open Source",
+    features: ["Carrito LocalStorage", "API REST PHP", "Filtros por categoría", "Checkout simulado", "Vanilla JavaScript", "Diseño responsivo"],
+    image: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&h=600&fit=crop",
+    technologies: ["PHP 8.1+", "Vanilla JavaScript", "HTML5", "CSS3", "REST API"],
+    demoUrl: "/demos/mascotopia/index.html",
+    githubUrl: "https://github.com/SebastianVernis/MASCOTOPIA"
+  },
+  {
+    id: 103,
+    title: "CHISPART AI - Plataforma Multi-Agente",
+    description: "Plataforma de IA multiagente para creación de contenido con interfaz glassmorphism y flujos colaborativos. Potenciada por Blackbox AI con FastAPI backend.",
+    category: "Mis Proyectos",
+    price: "Proyecto Open Source",
+    features: ["Multi-Agent AI", "FastAPI Backend", "Blackbox AI", "Docker Deploy", "CLI Interface", "REST API"],
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
+    technologies: ["Python", "FastAPI", "Blackbox AI", "Docker", "React"],
+    demoUrl: "/demos/chispart-app/index.html",
+    githubUrl: "https://github.com/SebastianVernis/CHISPART-APP",
+    liveUrl: "https://chispart-app.vercel.app"
+  },
+  {
+    id: 104,
+    title: "SAAS-DND - Editor Visual Drag & Drop",
+    description: "Sistema SaaS completo con editor HTML visual drag-and-drop. Incluye 25 templates profesionales, 34 componentes, autenticación y gestión de equipos.",
+    category: "Mis Proyectos",
+    price: "Proyecto Open Source",
+    features: ["Editor Visual", "25 Templates", "34 Componentes", "Team Management", "Auth System", "PostgreSQL"],
+    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=600&fit=crop",
+    technologies: ["React 19", "TypeScript", "PostgreSQL", "Turborepo", "Drizzle ORM"],
+    demoUrl: "/demos/saas-dnd/index.html",
+    githubUrl: "https://github.com/SebastianVernis/SAAS-DND",
+    liveUrl: "http://18.223.32.141"
+  },
+  {
+    id: 105,
+    title: "NOVA LEGIS AI - Asistente Legal IA",
+    description: "Sistema de asistencia legal inteligente con chatbot 24/7, scoring de leads y análisis contextual. Integración con Blackbox AI, Supabase y Twilio WhatsApp.",
+    category: "Mis Proyectos",
+    price: "Proyecto Open Source",
+    features: ["Chatbot 24/7", "Lead Scoring", "Multi-Model AI", "WhatsApp API", "Supabase DB", "Email Notifications"],
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop",
+    technologies: ["Next.js 14", "TypeScript", "Blackbox AI", "Supabase", "Twilio"],
+    demoUrl: "/demos/nova-legis-ai/index.html",
+    githubUrl: "https://github.com/SebastianVernis/NOVA-LEGIS-AI"
+  },
+  {
     id: 1,
     title: "E-commerce Completo",
     description: "Tienda online con carrito de compras, pasarela de pagos y gestión de inventario completa",
@@ -283,6 +346,7 @@ export const websites = [
 
 export const categories = [
   "Todos",
+  "Mis Proyectos",
   "E-commerce",
   "Landing Page",
   "Sistema Web",
