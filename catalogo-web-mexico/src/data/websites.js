@@ -1,4 +1,8 @@
-export const websites = [
+// Importar proyectos de Sebastian Vernis
+import { sebastianProjects } from './sebastianProjects.js';
+
+// Proyectos de ejemplo/template
+const templateProjects = [
   {
     id: 1,
     title: "E-commerce Completo",
@@ -281,15 +285,26 @@ export const websites = [
   }
 ];
 
+// Combinar proyectos de Sebastian con proyectos template
+export const websites = [...sebastianProjects, ...templateProjects];
+
 export const categories = [
   "Todos",
+  "SaaS/Plataformas",
+  "IA/Chatbots",
+  "Sistemas de Gestión",
+  "Legal/Cívico",
+  "Web Corporativa",
+  "Full-Stack",
+  "Entretenimiento",
+  "Facturación",
   "E-commerce",
+  "Educación",
   "Landing Page",
   "Sistema Web",
   "Blog/Contenido",
   "Portafolio",
   "Sitio Corporativo",
-  "Educación",
   "Inmobiliaria",
   "Fitness/Salud",
   "Eventos",
