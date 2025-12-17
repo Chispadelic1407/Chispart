@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Facturacion - Demo Interactivo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="gradient-bg"></div>
+
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">📄</span>
+                <span>Facturacion Template</span>
+            </div>
+            <nav>
+                <a href="#crear">Crear Factura</a>
+                <a href="#facturas">Mis Facturas</a>
+                <a href="#clientes">Clientes</a>
+                <a href="https://github.com/Chispadelic1407/facturacion-template" class="btn-github" target="_blank">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+
+        <!-- Dashboard Stats -->
+        <section class="dashboard-stats">
+            <div class="stat-card glass">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="totalInvoices">0</div>
+                    <div class="stat-label">Facturas Emitidas</div>
+                </div>
+            </div>
+            <div class="stat-card glass">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="totalRevenue">$0.00</div>
+                    <div class="stat-label">Ingresos Totales</div>
+                </div>
+            </div>
+            <div class="stat-card glass">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="totalClients">0</div>
+                    <div class="stat-label">Clientes</div>
+                </div>
+            </div>
+            <div class="stat-card glass">
+                <div class="stat-icon">📈</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="avgInvoice">$0.00</div>
+                    <div class="stat-label">Promedio por Factura</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Invoice Creation Form -->
+        <section id="crear" class="invoice-section glass">
+            <h2 class="section-title">
+                <span class="title-icon">✨</span>
+                Crear Nueva Factura
+            </h2>
+
+            <form id="invoiceForm" class="invoice-form">
+                <!-- Client Information -->
+                <div class="form-section">
+                    <h3>Información del Cliente</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="clientName">Nombre del Cliente *</label>
+                            <input type="text" id="clientName" required placeholder="Ej: Juan Perez">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientRFC">RFC *</label>
+                            <input type="text" id="clientRFC" required placeholder="Ej: XAXX010101000" maxlength="13">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="clientAddress">Dirección</label>
+                            <input type="text" id="clientAddress" placeholder="Calle, Número, Colonia">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientEmail">Email</label>
+                            <input type="email" id="clientEmail" placeholder="cliente@ejemplo.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientPhone">Teléfono</label>
+                            <input type="tel" id="clientPhone" placeholder="55-1234-5678">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Details -->
+                <div class="form-section">
+                    <h3>Detalles de la Factura</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="invoiceDate">Fecha de Emisión *</label>
+                            <input type="date" id="invoiceDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentMethod">Método de Pago *</label>
+                            <select id="paymentMethod" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="01">Efectivo</option>
+                                <option value="02">Cheque</option>
+                                <option value="03">Transferencia</option>
+                                <option value="04">Tarjeta de Crédito</option>
+                                <option value="28">Tarjeta de Débito</option>
+                                <option value="99">Por Definir</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentForm">Forma de Pago *</label>
+                            <select id="paymentForm" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="PUE">Pago en una sola exhibición</option>
+                                <option value="PPD">Pago en parcialidades</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cfdiUse">Uso de CFDI *</label>
+                            <select id="cfdiUse" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="G01">Adquisición de mercancías</option>
+                                <option value="G02">Devoluciones, descuentos</option>
+                                <option value="G03">Gastos en general</option>
+                                <option value="I01">Construcciones</option>
+                                <option value="P01">Por definir</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Items -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <h3>Conceptos</h3>
+                        <button type="button" class="btn-add" id="addItemBtn">
+                            <span>+</span> Agregar Concepto
+                        </button>
+                    </div>
+                    <div id="itemsContainer">
+                        <!-- Items will be added dynamically -->
+                    </div>
+                </div>
+
+                <!-- Totals -->
+                <div class="totals-section">
+                    <div class="totals-grid">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span class="total-value" id="subtotalDisplay">$0.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>IVA (16%):</span>
+                            <span class="total-value" id="ivaDisplay">$0.00</span>
+                        </div>
+                        <div class="total-row total-final">
+                            <span>Total:</span>
+                            <span class="total-value" id="totalDisplay">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        <span>💾</span> Guardar Factura
+                    </button>
+                    <button type="button" class="btn-secondary" id="previewBtn">
+                        <span>👁️</span> Vista Previa PDF
+                    </button>
+                    <button type="reset" class="btn-outline" id="resetBtn">
+                        <span>🔄</span> Limpiar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Invoice List -->
+        <section id="facturas" class="invoice-list-section glass">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon">📋</span>
+                    Facturas Emitidas
+                </h2>
+                <div class="list-controls">
+                    <input type="text" id="searchInvoice" placeholder="🔍 Buscar por cliente o folio..." class="search-input">
+                    <select id="filterStatus" class="filter-select">
+                        <option value="">Todas</option>
+                        <option value="paid">Pagadas</option>
+                        <option value="pending">Pendientes</option>
+                        <option value="cancelled">Canceladas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="invoicesList" class="invoices-grid">
+                <div class="empty-state">
+                    <div class="empty-icon">📄</div>
+                    <p>No hay facturas emitidas</p>
+                    <p class="empty-hint">Crea tu primera factura usando el formulario de arriba</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients Section -->
+        <section id="clientes" class="clients-section glass">
+            <h2 class="section-title">
+                <span class="title-icon">👥</span>
+                Gestión de Clientes
+            </h2>
+            <div id="clientsList" class="clients-grid">
+                <div class="empty-state">
+                    <div class="empty-icon">👤</div>
+                    <p>No hay clientes registrados</p>
+                    <p class="empty-hint">Los clientes se agregarán automáticamente al crear facturas</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PDF Preview Modal -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>Vista Previa de Factura</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="pdfPreview" class="pdf-preview">
+                    <!-- PDF Preview will be generated here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="downloadPDF">
+                    <span>⬇️</span> Descargar PDF
+                </button>
+                <button class="btn-secondary" id="emailPDF">
+                    <span>📧</span> Enviar por Email
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>Detalles de la Factura</h2>
+                <button class="modal-close" id="closeDetailModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="invoiceDetail" class="invoice-detail">
+                    <!-- Invoice details will be shown here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="printInvoice">
+                    <span>🖨️</span> Imprimir
+                </button>
+                <button class="btn-secondary" id="duplicateInvoice">
+                    <span>📋</span> Duplicar
+                </button>
+                <button class="btn-outline btn-danger" id="cancelInvoice">
+                    <span>❌</span> Cancelar Factura
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast glass">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

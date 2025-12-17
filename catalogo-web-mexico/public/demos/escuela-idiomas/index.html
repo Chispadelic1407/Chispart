@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escuela de Idiomas - Demo Interactivo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Gradient -->
+    <div class="gradient-bg"></div>
+
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🌍</span>
+                <span class="logo-text">Escuela de Idiomas</span>
+            </div>
+            <nav>
+                <a href="#courses">Cursos</a>
+                <a href="#teachers">Profesores</a>
+                <a href="#dashboard" class="btn-dashboard">Mi Panel</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">Aprende • Practica • Domina</div>
+                <h1 class="hero-title">
+                    Aprende Idiomas<br/>
+                    <span class="gradient-text">Con Expertos Nativos</span>
+                </h1>
+                <p class="hero-description">
+                    Plataforma completa de aprendizaje de idiomas con profesores certificados,
+                    horarios flexibles y seguimiento personalizado de tu progreso.
+                    Desde nivel básico hasta avanzado en múltiples idiomas.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="studentCount">1,250+</div>
+                        <div class="stat-label">Estudiantes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Idiomas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">45+</div>
+                        <div class="stat-label">Profesores</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Satisfacción</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section id="courses" class="filters-section">
+        <div class="container">
+            <h2 class="section-title">Encuentra tu Curso Ideal</h2>
+            <div class="filters glass">
+                <div class="filter-group">
+                    <label>Idioma</label>
+                    <select id="languageFilter">
+                        <option value="all">Todos los idiomas</option>
+                        <option value="ingles">Inglés</option>
+                        <option value="frances">Francés</option>
+                        <option value="aleman">Alemán</option>
+                        <option value="italiano">Italiano</option>
+                        <option value="portugues">Portugués</option>
+                        <option value="japones">Japonés</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Nivel</label>
+                    <select id="levelFilter">
+                        <option value="all">Todos los niveles</option>
+                        <option value="A1">A1 - Principiante</option>
+                        <option value="A2">A2 - Elemental</option>
+                        <option value="B1">B1 - Intermedio</option>
+                        <option value="B2">B2 - Intermedio Alto</option>
+                        <option value="C1">C1 - Avanzado</option>
+                        <option value="C2">C2 - Maestría</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Horario</label>
+                    <select id="scheduleFilter">
+                        <option value="all">Todos los horarios</option>
+                        <option value="morning">Mañana (9:00-12:00)</option>
+                        <option value="afternoon">Tarde (14:00-18:00)</option>
+                        <option value="evening">Noche (18:00-21:00)</option>
+                        <option value="weekend">Fin de semana</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Tipo</label>
+                    <select id="typeFilter">
+                        <option value="all">Todos</option>
+                        <option value="group">Grupal</option>
+                        <option value="individual">Individual</option>
+                        <option value="intensive">Intensivo</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Grid -->
+    <section class="courses-section">
+        <div class="container">
+            <div class="courses-header">
+                <h3>Cursos Disponibles</h3>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid">
+                        <span>📊</span>
+                    </button>
+                    <button class="view-btn" data-view="list">
+                        <span>📋</span>
+                    </button>
+                </div>
+            </div>
+            <div id="coursesGrid" class="courses-grid"></div>
+        </div>
+    </section>
+
+    <!-- Teachers Section -->
+    <section id="teachers" class="teachers-section">
+        <div class="container">
+            <h2 class="section-title">Nuestros Profesores</h2>
+            <div id="teachersGrid" class="teachers-grid"></div>
+        </div>
+    </section>
+
+    <!-- Student Dashboard -->
+    <section id="dashboard" class="dashboard-section">
+        <div class="container">
+            <h2 class="section-title">Panel del Estudiante</h2>
+
+            <div class="dashboard-grid">
+                <!-- Profile Card -->
+                <div class="dashboard-card glass">
+                    <div class="card-header">
+                        <h3>👤 Mi Perfil</h3>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-avatar">👨‍🎓</div>
+                        <div class="profile-details">
+                            <h4 id="studentName">Estudiante Demo</h4>
+                            <p id="studentEmail">estudiante@example.com</p>
+                            <div class="profile-stats">
+                                <span class="profile-stat">
+                                    <strong id="enrolledCourses">0</strong> Cursos
+                                </span>
+                                <span class="profile-stat">
+                                    <strong id="completedLessons">0</strong> Lecciones
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Card -->
+                <div class="dashboard-card glass">
+                    <div class="card-header">
+                        <h3>📈 Mi Progreso</h3>
+                    </div>
+                    <div id="progressContainer"></div>
+                </div>
+
+                <!-- Schedule Card -->
+                <div class="dashboard-card glass">
+                    <div class="card-header">
+                        <h3>📅 Próximas Clases</h3>
+                    </div>
+                    <div id="scheduleContainer" class="schedule-list"></div>
+                </div>
+
+                <!-- My Courses Card -->
+                <div class="dashboard-card glass">
+                    <div class="card-header">
+                        <h3>📚 Mis Cursos</h3>
+                    </div>
+                    <div id="myCoursesContainer" class="my-courses-list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enrollment Modal -->
+    <div id="enrollmentModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>📝 Inscripción al Curso</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalCourseInfo"></div>
+                <form id="enrollmentForm">
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" id="enrollName" required placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Correo Electrónico</label>
+                        <input type="email" id="enrollEmail" required placeholder="tu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="enrollPhone" required placeholder="+52 123 456 7890">
+                    </div>
+                    <div class="form-group">
+                        <label>Horario Preferido</label>
+                        <select id="enrollSchedule" required>
+                            <option value="">Selecciona un horario</option>
+                            <option value="morning">Mañana (9:00-12:00)</option>
+                            <option value="afternoon">Tarde (14:00-18:00)</option>
+                            <option value="evening">Noche (18:00-21:00)</option>
+                            <option value="weekend">Fin de semana</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>¿Por qué quieres aprender este idioma?</label>
+                        <textarea id="enrollMotivation" rows="3" placeholder="Cuéntanos tus objetivos..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelEnroll">Cancelar</button>
+                        <button type="submit" class="btn-primary">Inscribirme Ahora</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Detail Modal -->
+    <div id="courseDetailModal" class="modal">
+        <div class="modal-content glass modal-large">
+            <div class="modal-header">
+                <h2 id="detailCourseTitle"></h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="courseDetailContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="toast glass">
+        <span class="toast-icon">✅</span>
+        <span class="toast-message"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Escuela de Idiomas Demo - Sistema de Gestión de Cursos Interactivo</p>
+            <p>Desarrollado con HTML, CSS y JavaScript | Datos almacenados en localStorage</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

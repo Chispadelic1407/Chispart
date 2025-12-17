@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tarot Reading - Mystical Guidance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="mystical-bg">
+        <div class="stars"></div>
+        <div class="nebula"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 0L24.5 15.5H40L28 25L32.5 40.5L20 31L7.5 40.5L12 25L0 15.5H15.5L20 0Z" fill="url(#gradient)"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#a855f7"/>
+                            <stop offset="100%" stop-color="#ec4899"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>AI Tarot Reading</h1>
+            </div>
+            <button class="history-btn" onclick="toggleHistory()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                History
+            </button>
+        </header>
+
+        <!-- Reading Type Selection -->
+        <section class="spread-selection" id="spreadSelection">
+            <h2 class="section-title">Choose Your Spread</h2>
+            <div class="spread-grid">
+                <div class="spread-card" onclick="selectSpread('three-card')">
+                    <div class="spread-icon">
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                    </div>
+                    <h3>Three Card Spread</h3>
+                    <p>Past, Present, Future</p>
+                </div>
+                <div class="spread-card" onclick="selectSpread('celtic-cross')">
+                    <div class="spread-icon cross">
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                    </div>
+                    <h3>Celtic Cross</h3>
+                    <p>Comprehensive 10-card reading</p>
+                </div>
+                <div class="spread-card" onclick="selectSpread('single-card')">
+                    <div class="spread-icon single">
+                        <div class="mini-card"></div>
+                    </div>
+                    <h3>Single Card</h3>
+                    <p>Daily guidance</p>
+                </div>
+                <div class="spread-card" onclick="selectSpread('relationship')">
+                    <div class="spread-icon relationship">
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                        <div class="mini-card"></div>
+                    </div>
+                    <h3>Relationship Spread</h3>
+                    <p>Love & connections</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question Input -->
+        <section class="question-section glass-panel" id="questionSection" style="display: none;">
+            <h2 class="section-title">Focus Your Intention</h2>
+            <textarea
+                id="questionInput"
+                placeholder="What guidance do you seek? (Optional)"
+                rows="3"
+            ></textarea>
+            <button class="primary-btn" onclick="startReading()">
+                <span>Begin Reading</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Card Selection Area -->
+        <section class="card-selection" id="cardSelection" style="display: none;">
+            <h2 class="section-title">Choose Your Cards</h2>
+            <p class="instruction">Select <span id="cardsNeeded">3</span> cards from the deck</p>
+            <div class="card-deck" id="cardDeck"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </section>
+
+        <!-- Reading Result -->
+        <section class="reading-result" id="readingResult" style="display: none;">
+            <div class="result-header">
+                <h2 class="section-title">Your Reading</h2>
+                <div class="result-actions">
+                    <button class="icon-btn" onclick="saveReading()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" onclick="shareReading()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="18" cy="5" r="3"/>
+                            <circle cx="6" cy="12" r="3"/>
+                            <circle cx="18" cy="19" r="3"/>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                        </svg>
+                    </button>
+                    <button class="primary-btn" onclick="newReading()">New Reading</button>
+                </div>
+            </div>
+            <div id="spreadDisplay"></div>
+            <div class="ai-interpretation glass-panel" id="aiInterpretation">
+                <div class="ai-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <h3>AI Interpretation</h3>
+                </div>
+                <div class="interpretation-content" id="interpretationText"></div>
+            </div>
+        </section>
+
+        <!-- Card Gallery -->
+        <section class="card-gallery glass-panel" id="cardGallery" style="display: none;">
+            <div class="gallery-header">
+                <h2 class="section-title">Tarot Card Gallery</h2>
+                <button class="close-btn" onclick="toggleGallery()">×</button>
+            </div>
+            <div class="gallery-filters">
+                <button class="filter-btn active" onclick="filterGallery('all')">All</button>
+                <button class="filter-btn" onclick="filterGallery('major')">Major Arcana</button>
+                <button class="filter-btn" onclick="filterGallery('cups')">Cups</button>
+                <button class="filter-btn" onclick="filterGallery('wands')">Wands</button>
+                <button class="filter-btn" onclick="filterGallery('swords')">Swords</button>
+                <button class="filter-btn" onclick="filterGallery('pentacles')">Pentacles</button>
+            </div>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </section>
+
+        <!-- Reading History Sidebar -->
+        <aside class="history-sidebar" id="historySidebar">
+            <div class="history-header">
+                <h3>Reading History</h3>
+                <button class="close-btn" onclick="toggleHistory()">×</button>
+            </div>
+            <div class="history-list" id="historyList"></div>
+        </aside>
+
+        <!-- Floating Action Buttons -->
+        <div class="fab-container">
+            <button class="fab" onclick="toggleGallery()" title="Card Gallery">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Card Detail Modal -->
+    <div class="modal" id="cardModal">
+        <div class="modal-content glass-panel">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
