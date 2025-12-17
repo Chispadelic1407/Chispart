@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHISPART CLI - Demo | AI-Powered Command Line Interface</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Gradient -->
+    <div class="gradient-bg"></div>
+
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">CHISPART CLI</span>
+            </div>
+            <nav>
+                <a href="#features">Características</a>
+                <a href="#demo">Demo Interactivo</a>
+                <a href="#tech">Tecnologías</a>
+                <a href="https://github.com/Chispadelic1407/chispart-cli" target="_blank" class="btn-github">
+                    <span>GitHub</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">TypeScript • Node.js • AI CLI</div>
+                <h1 class="hero-title">
+                    CLI con<br/>
+                    <span class="gradient-text">Inteligencia Artificial</span>
+                </h1>
+                <p class="hero-description">
+                    Interfaz de línea de comandos avanzada con capacidades de IA.
+                    Procesa lenguaje natural, automatiza tareas complejas, y proporciona
+                    asistencia inteligente directamente desde tu terminal. Construido con
+                    TypeScript y Node.js para máxima eficiencia y confiabilidad.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#demo" class="btn-primary">
+                        <span>🚀 Probar Demo</span>
+                    </a>
+                    <a href="https://github.com/Chispadelic1407/chispart-cli" target="_blank" class="btn-secondary">
+                        <span>📂 Ver Código</span>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">AI</div>
+                        <div class="stat-label">Powered</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">NLP</div>
+                        <div class="stat-label">Natural Language</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">CLI</div>
+                        <div class="stat-label">Interface</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">TS</div>
+                        <div class="stat-label">TypeScript</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Características Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card glass">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Procesamiento de Lenguaje Natural</h3>
+                    <p>Ejecuta comandos usando lenguaje natural. La IA interpreta tus instrucciones y las convierte en acciones específicas.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Automatización Inteligente</h3>
+                    <p>Automatiza tareas repetitivas con scripts inteligentes que se adaptan al contexto y aprenden de tus patrones de uso.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Comandos Contextuales</h3>
+                    <p>El CLI entiende el contexto de tu proyecto y ofrece sugerencias relevantes basadas en tu entorno de trabajo.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">📊</div>
+                    <h3>Análisis de Datos</h3>
+                    <p>Procesa y analiza datos directamente desde la terminal con comandos potenciados por IA para insights instantáneos.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Workflow Integration</h3>
+                    <p>Integra con tus herramientas favoritas y crea workflows personalizados que optimizan tu productividad.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">💡</div>
+                    <h3>Sugerencias Inteligentes</h3>
+                    <p>Recibe sugerencias contextuales y auto-completado inteligente que acelera tu trabajo en la terminal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <h2 class="section-title">Demo Interactivo</h2>
+            <p class="demo-subtitle">Prueba los comandos de ejemplo o escribe los tuyos propios</p>
+
+            <div class="terminal-container glass">
+                <div class="terminal-header">
+                    <div class="terminal-buttons">
+                        <span class="terminal-button close"></span>
+                        <span class="terminal-button minimize"></span>
+                        <span class="terminal-button maximize"></span>
+                    </div>
+                    <div class="terminal-title">chispart-cli v1.0.0</div>
+                    <div class="terminal-actions">
+                        <button id="clearBtn" class="terminal-action-btn" title="Clear terminal">🗑️</button>
+                        <button id="helpBtn" class="terminal-action-btn" title="Show help">❓</button>
+                    </div>
+                </div>
+                <div class="terminal-body">
+                    <div id="terminal-output"></div>
+                    <div class="terminal-input-line">
+                        <span class="terminal-prompt">chispart@ai:~$</span>
+                        <input type="text" id="terminal-input" class="terminal-input" autocomplete="off" autofocus placeholder="Type a command or try 'help'">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Command Examples -->
+            <div class="command-examples">
+                <h3>Comandos de Ejemplo</h3>
+                <div class="examples-grid">
+                    <button class="example-cmd glass" data-cmd="help">
+                        <span class="cmd-icon">📖</span>
+                        <span class="cmd-text">help</span>
+                    </button>
+                    <button class="example-cmd glass" data-cmd="ai explain quantum computing">
+                        <span class="cmd-icon">🧠</span>
+                        <span class="cmd-text">ai explain quantum computing</span>
+                    </button>
+                    <button class="example-cmd glass" data-cmd="analyze project structure">
+                        <span class="cmd-icon">📊</span>
+                        <span class="cmd-text">analyze project structure</span>
+                    </button>
+                    <button class="example-cmd glass" data-cmd="generate api documentation">
+                        <span class="cmd-icon">📝</span>
+                        <span class="cmd-text">generate api documentation</span>
+                    </button>
+                    <button class="example-cmd glass" data-cmd="optimize database queries">
+                        <span class="cmd-icon">⚡</span>
+                        <span class="cmd-text">optimize database queries</span>
+                    </button>
+                    <button class="example-cmd glass" data-cmd="create component UserProfile">
+                        <span class="cmd-icon">🎨</span>
+                        <span class="cmd-text">create component UserProfile</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech" class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Stack Tecnológico</h2>
+            <div class="tech-grid">
+                <div class="tech-category glass">
+                    <h3>Core</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Commander.js</span>
+                        <span class="tech-tag">Inquirer.js</span>
+                    </div>
+                </div>
+                <div class="tech-category glass">
+                    <h3>AI & NLP</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">OpenAI API</span>
+                        <span class="tech-tag">Natural</span>
+                        <span class="tech-tag">LangChain</span>
+                        <span class="tech-tag">Vector DB</span>
+                    </div>
+                </div>
+                <div class="tech-category glass">
+                    <h3>CLI Tools</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Chalk</span>
+                        <span class="tech-tag">Ora</span>
+                        <span class="tech-tag">Boxen</span>
+                        <span class="tech-tag">Figlet</span>
+                    </div>
+                </div>
+                <div class="tech-category glass">
+                    <h3>Features</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">NLP Processing</span>
+                        <span class="tech-tag">Context Awareness</span>
+                        <span class="tech-tag">Auto-completion</span>
+                        <span class="tech-tag">Task Automation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture">
+        <div class="container">
+            <h2 class="section-title">Arquitectura del CLI</h2>
+            <div class="architecture-grid">
+                <div class="arch-card glass">
+                    <div class="arch-icon">⌨️</div>
+                    <h3>Input Parser</h3>
+                    <p>Procesa comandos y detecta intención</p>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-card glass">
+                    <div class="arch-icon">🧠</div>
+                    <h3>AI Engine</h3>
+                    <p>Interpreta lenguaje natural</p>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-card glass">
+                    <div class="arch-icon">⚙️</div>
+                    <h3>Executor</h3>
+                    <p>Ejecuta acciones específicas</p>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-card glass">
+                    <div class="arch-icon">📤</div>
+                    <h3>Output</h3>
+                    <p>Formatea y muestra resultados</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content glass">
+                <h2>¿Listo para revolucionar tu terminal?</h2>
+                <p>Explora el código fuente y comienza a usar CHISPART CLI hoy mismo</p>
+                <div class="cta-buttons">
+                    <a href="https://github.com/Chispadelic1407/chispart-cli" target="_blank" class="btn-primary">
+                        <span>🚀 Instalar CLI</span>
+                    </a>
+                    <a href="https://github.com/Chispadelic1407/chispart-cli#readme" target="_blank" class="btn-secondary">
+                        <span>📖 Documentación</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Desarrollado con 💜 por <a href="https://sebastianvernis.com" target="_blank">Sebastián Vernis</a></p>
+            <p>Parte del portafolio de proyectos públicos</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
