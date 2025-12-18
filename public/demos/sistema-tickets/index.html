@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Tickets - HelpDesk Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-ticket-alt"></i>
+            <span>HelpDesk Pro</span>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="#" class="nav-item active" data-view="dashboard">
+                <i class="fas fa-th-large"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-view="tickets">
+                <i class="fas fa-inbox"></i>
+                <span>Tickets</span>
+                <span class="badge">12</span>
+            </a>
+            <a href="#" class="nav-item" data-view="knowledge-base">
+                <i class="fas fa-book"></i>
+                <span>Base de Conocimiento</span>
+            </a>
+            <a href="#" class="nav-item" data-view="analytics">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+        </nav>
+
+        <div class="user-info">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="user-details">
+                <div class="user-name">Ana García</div>
+                <div class="user-role">Agente de Soporte</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-icon" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar tickets..." id="searchInput">
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="btn-icon notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <button class="btn-primary" id="newTicketBtn">
+                    <i class="fas fa-plus"></i>
+                    Nuevo Ticket
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard View -->
+        <div class="view-container active" id="dashboardView">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Resumen de tickets y rendimiento</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-inbox"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Total Tickets</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i> 12%
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">En Progreso</div>
+                    </div>
+                    <div class="stat-trend">
+                        <i class="fas fa-minus"></i> 0%
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Resueltos Hoy</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i> 25%
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">2.5h</div>
+                        <div class="stat-label">Tiempo Promedio</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-down"></i> 15%
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Tickets Recientes</h2>
+                        <button class="btn-text">Ver todos</button>
+                    </div>
+                    <div class="recent-tickets" id="recentTickets">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h2>SLA Status</h2>
+                    </div>
+                    <div class="sla-list">
+                        <div class="sla-item">
+                            <div class="sla-info">
+                                <div class="sla-title">Alta Prioridad</div>
+                                <div class="sla-subtitle">3 tickets</div>
+                            </div>
+                            <div class="sla-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%; background: #4facfe;"></div>
+                                </div>
+                                <div class="sla-time">1.5h restante</div>
+                            </div>
+                        </div>
+                        <div class="sla-item">
+                            <div class="sla-info">
+                                <div class="sla-title">Media Prioridad</div>
+                                <div class="sla-subtitle">5 tickets</div>
+                            </div>
+                            <div class="sla-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 90%; background: #f5576c;"></div>
+                                </div>
+                                <div class="sla-time">30m restante</div>
+                            </div>
+                        </div>
+                        <div class="sla-item">
+                            <div class="sla-info">
+                                <div class="sla-title">Baja Prioridad</div>
+                                <div class="sla-subtitle">4 tickets</div>
+                            </div>
+                            <div class="sla-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 40%; background: #43e97b;"></div>
+                                </div>
+                                <div class="sla-time">12h restante</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tickets View -->
+        <div class="view-container" id="ticketsView">
+            <div class="page-header">
+                <h1>Tickets</h1>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">Todos</button>
+                    <button class="filter-tab" data-filter="open">Abiertos</button>
+                    <button class="filter-tab" data-filter="in-progress">En Progreso</button>
+                    <button class="filter-tab" data-filter="resolved">Resueltos</button>
+                    <button class="filter-tab" data-filter="closed">Cerrados</button>
+                </div>
+            </div>
+
+            <div class="tickets-container">
+                <div class="tickets-list" id="ticketsList">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Knowledge Base View -->
+        <div class="view-container" id="knowledgeBaseView">
+            <div class="page-header">
+                <h1>Base de Conocimiento</h1>
+                <p>Artículos y guías de ayuda</p>
+            </div>
+
+            <div class="kb-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar en la base de conocimiento..." id="kbSearch">
+            </div>
+
+            <div class="kb-categories">
+                <div class="kb-category">
+                    <div class="kb-category-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Primeros Pasos</h3>
+                    <p>Guías básicas para comenzar</p>
+                    <div class="kb-articles">
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Cómo crear tu primera cuenta</span>
+                        </a>
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Configuración inicial del sistema</span>
+                        </a>
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Tutorial de navegación</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="kb-category">
+                    <div class="kb-category-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Configuración</h3>
+                    <p>Personaliza tu experiencia</p>
+                    <div class="kb-articles">
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Gestión de permisos</span>
+                        </a>
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Configurar notificaciones</span>
+                        </a>
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Integración con terceros</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="kb-category">
+                    <div class="kb-category-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Seguridad</h3>
+                    <p>Protege tu información</p>
+                    <div class="kb-articles">
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Autenticación de dos factores</span>
+                        </a>
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Gestión de contraseñas</span>
+                        </a>
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Políticas de seguridad</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="kb-category">
+                    <div class="kb-category-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>Preguntas Frecuentes</h3>
+                    <p>Respuestas rápidas</p>
+                    <div class="kb-articles">
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>¿Cómo reseteo mi contraseña?</span>
+                        </a>
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>¿Cómo contacto con soporte?</span>
+                        </a>
+                        <a href="#" class="kb-article">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Precios y facturación</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics View -->
+        <div class="view-container" id="analyticsView">
+            <div class="page-header">
+                <h1>Analytics</h1>
+                <p>Métricas y rendimiento del equipo</p>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h3>Tickets por Estado</h3>
+                    <div class="chart-container">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3>Tickets por Prioridad</h3>
+                    <div class="chart-container">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card full-width">
+                    <h3>Tendencia de Tickets (Últimos 7 días)</h3>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3>Tiempo de Respuesta</h3>
+                    <div class="metrics-list">
+                        <div class="metric-item">
+                            <span>Primera Respuesta</span>
+                            <strong>45 min</strong>
+                        </div>
+                        <div class="metric-item">
+                            <span>Tiempo Promedio</span>
+                            <strong>2.5 hrs</strong>
+                        </div>
+                        <div class="metric-item">
+                            <span>Resolución Promedio</span>
+                            <strong>8.2 hrs</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3>Top Agentes</h3>
+                    <div class="agents-list">
+                        <div class="agent-item">
+                            <div class="agent-info">
+                                <div class="agent-avatar">AG</div>
+                                <span>Ana García</span>
+                            </div>
+                            <strong>42</strong>
+                        </div>
+                        <div class="agent-item">
+                            <div class="agent-info">
+                                <div class="agent-avatar">JM</div>
+                                <span>Juan Martínez</span>
+                            </div>
+                            <strong>38</strong>
+                        </div>
+                        <div class="agent-item">
+                            <div class="agent-info">
+                                <div class="agent-avatar">ML</div>
+                                <span>María López</span>
+                            </div>
+                            <strong>35</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Ticket Modal -->
+    <div class="modal" id="newTicketModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Crear Nuevo Ticket</h2>
+                <button class="btn-close" id="closeNewTicket">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="newTicketForm">
+                <div class="form-group">
+                    <label>Asunto</label>
+                    <input type="text" name="subject" required placeholder="Describe brevemente el problema">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Prioridad</label>
+                        <select name="priority" required>
+                            <option value="low">Baja</option>
+                            <option value="medium" selected>Media</option>
+                            <option value="high">Alta</option>
+                            <option value="urgent">Urgente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select name="category" required>
+                            <option value="technical">Técnico</option>
+                            <option value="billing">Facturación</option>
+                            <option value="account">Cuenta</option>
+                            <option value="other">Otro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea name="description" rows="5" required placeholder="Describe el problema en detalle..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Adjuntar Archivos</label>
+                    <div class="file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Arrastra archivos o haz clic para seleccionar</span>
+                        <input type="file" multiple>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelNewTicket">Cancelar</button>
+                    <button type="submit" class="btn-primary">Crear Ticket</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Ticket Detail Modal -->
+    <div class="modal" id="ticketDetailModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <div>
+                    <h2 id="ticketDetailTitle">Ticket #12345</h2>
+                    <div class="ticket-meta" id="ticketDetailMeta"></div>
+                </div>
+                <button class="btn-close" id="closeTicketDetail">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="ticket-detail-content">
+                <div class="ticket-main">
+                    <div class="ticket-description" id="ticketDetailDescription">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="ticket-comments" id="ticketComments">
+                        <h3>Comentarios</h3>
+                        <div class="comments-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="add-comment">
+                        <textarea placeholder="Agregar un comentario..." id="newComment"></textarea>
+                        <div class="comment-actions">
+                            <button class="btn-text">
+                                <i class="fas fa-paperclip"></i>
+                                Adjuntar
+                            </button>
+                            <button class="btn-primary" id="addCommentBtn">
+                                <i class="fas fa-paper-plane"></i>
+                                Enviar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ticket-sidebar">
+                    <div class="ticket-info-section">
+                        <h4>Estado</h4>
+                        <select class="status-select" id="ticketStatus">
+                            <option value="open">Abierto</option>
+                            <option value="in-progress">En Progreso</option>
+                            <option value="resolved">Resuelto</option>
+                            <option value="closed">Cerrado</option>
+                        </select>
+                    </div>
+
+                    <div class="ticket-info-section">
+                        <h4>Prioridad</h4>
+                        <select class="priority-select" id="ticketPriority">
+                            <option value="low">Baja</option>
+                            <option value="medium">Media</option>
+                            <option value="high">Alta</option>
+                            <option value="urgent">Urgente</option>
+                        </select>
+                    </div>
+
+                    <div class="ticket-info-section">
+                        <h4>Asignado a</h4>
+                        <select class="agent-select" id="ticketAgent">
+                            <option value="">Sin asignar</option>
+                            <option value="ana">Ana García</option>
+                            <option value="juan">Juan Martínez</option>
+                            <option value="maria">María López</option>
+                        </select>
+                    </div>
+
+                    <div class="ticket-info-section">
+                        <h4>SLA Timer</h4>
+                        <div class="sla-timer">
+                            <div class="sla-timer-value" id="slaTimer">2:45:30</div>
+                            <div class="sla-timer-label">Tiempo restante</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="slaProgress" style="width: 65%; background: #4facfe;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ticket-info-section">
+                        <h4>Información</h4>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <span>Creado:</span>
+                                <strong id="ticketCreated">Hace 2 horas</strong>
+                            </div>
+                            <div class="info-item">
+                                <span>Actualizado:</span>
+                                <strong id="ticketUpdated">Hace 15 min</strong>
+                            </div>
+                            <div class="info-item">
+                                <span>Categoría:</span>
+                                <strong id="ticketCategory">Técnico</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header" id="chatHeader">
+            <div class="chat-header-info">
+                <i class="fas fa-comments"></i>
+                <span>Chat en Vivo</span>
+            </div>
+            <div class="chat-status online">
+                <span class="status-dot"></span>
+                En línea
+            </div>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-welcome">
+                <div class="chat-avatar">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>¡Hola! ¿En qué podemos ayudarte?</h3>
+                <p>Nuestro equipo está disponible 24/7</p>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be added here -->
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" placeholder="Escribe un mensaje..." id="chatInput">
+            <button class="chat-send-btn" id="chatSendBtn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <button class="chat-toggle" id="chatToggle">
+        <i class="fas fa-comments"></i>
+        <span class="chat-notification">1</span>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>

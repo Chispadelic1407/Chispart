@@ -212,6 +212,59 @@
         </div>
     </footer>
 
+    <script src="../shared/customer-flow-mockup.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Initialize customer flow mockup for DefiendeteMX
+        window.customerFlow = new CustomerFlowMockup({
+            siteName: 'DefiendeteMX',
+            currency: 'MXN',
+            theme: 'legal',
+            products: [
+                {
+                    id: 1,
+                    name: 'Consulta Legal Básica',
+                    price: 499,
+                    image: '⚖️',
+                    category: 'Servicios'
+                },
+                {
+                    id: 2,
+                    name: 'Asesoría Legal Premium',
+                    price: 1299,
+                    image: '👨‍⚖️',
+                    category: 'Servicios'
+                },
+                {
+                    id: 3,
+                    name: 'Representación Legal',
+                    price: 2999,
+                    image: '📋',
+                    category: 'Servicios'
+                },
+                {
+                    id: 4,
+                    name: 'Servicio SOS 24/7',
+                    price: 899,
+                    image: '🚨',
+                    category: 'Emergencia'
+                },
+                {
+                    id: 5,
+                    name: 'Plan Anual Protección',
+                    price: 4999,
+                    image: '🛡️',
+                    category: 'Planes'
+                },
+                {
+                    id: 6,
+                    name: 'Documentos Legales',
+                    price: 299,
+                    image: '📄',
+                    category: 'Documentos'
+                }
+            ]
+        });
+    </script>
 </body>
 </html>
