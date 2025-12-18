@@ -266,6 +266,58 @@
         </div>
     </footer>
 
+    <script src="../shared/customer-flow-mockup.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Initialize customer flow mockup for Escuela de Idiomas
+        window.customerFlow = new CustomerFlowMockup({
+            siteName: 'Escuela de Idiomas',
+            currency: 'MXN',
+            products: [
+                {
+                    id: 1,
+                    name: 'Curso Inglés Básico',
+                    price: 1999,
+                    image: '🇬🇧',
+                    category: 'Cursos'
+                },
+                {
+                    id: 2,
+                    name: 'Curso Francés',
+                    price: 2499,
+                    image: '🇫🇷',
+                    category: 'Cursos'
+                },
+                {
+                    id: 3,
+                    name: 'Curso Alemán',
+                    price: 2499,
+                    image: '🇩🇪',
+                    category: 'Cursos'
+                },
+                {
+                    id: 4,
+                    name: 'Clases Particulares',
+                    price: 499,
+                    image: '👨‍🏫',
+                    category: 'Clases'
+                },
+                {
+                    id: 5,
+                    name: 'Certificación TOEFL',
+                    price: 3999,
+                    image: '📜',
+                    category: 'Certificaciones'
+                },
+                {
+                    id: 6,
+                    name: 'Material Didáctico',
+                    price: 299,
+                    image: '📚',
+                    category: 'Materiales'
+                },
+            ]
+        });
+    </script>
 </body>
 </html>

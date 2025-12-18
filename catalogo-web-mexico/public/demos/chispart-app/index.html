@@ -219,6 +219,58 @@
         </div>
     </footer>
 
+    <script src="../shared/customer-flow-mockup.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Initialize customer flow mockup for CHISPART AI
+        window.customerFlow = new CustomerFlowMockup({
+            siteName: 'CHISPART AI',
+            currency: 'MXN',
+            products: [
+                {
+                    id: 1,
+                    name: 'Plan Básico IA',
+                    price: 999,
+                    image: '🤖',
+                    category: 'Planes'
+                },
+                {
+                    id: 2,
+                    name: 'Plan Pro IA',
+                    price: 1999,
+                    image: '⚡',
+                    category: 'Planes'
+                },
+                {
+                    id: 3,
+                    name: 'Plan Enterprise',
+                    price: 4999,
+                    image: '🏢',
+                    category: 'Planes'
+                },
+                {
+                    id: 4,
+                    name: 'Créditos IA Extra',
+                    price: 299,
+                    image: '💎',
+                    category: 'Créditos'
+                },
+                {
+                    id: 5,
+                    name: 'Consultoría IA',
+                    price: 2499,
+                    image: '👨‍💼',
+                    category: 'Servicios'
+                },
+                {
+                    id: 6,
+                    name: 'Integración Custom',
+                    price: 3999,
+                    image: '🔧',
+                    category: 'Servicios'
+                },
+            ]
+        });
+    </script>
 </body>
 </html>
