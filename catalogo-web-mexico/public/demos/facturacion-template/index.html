@@ -280,6 +280,58 @@
         <span id="toastMessage"></span>
     </div>
 
+    <script src="../shared/customer-flow-mockup.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Initialize customer flow mockup for Sistema de Facturación
+        window.customerFlow = new CustomerFlowMockup({
+            siteName: 'Sistema de Facturación',
+            currency: 'MXN',
+            products: [
+                {
+                    id: 1,
+                    name: 'Plan Básico',
+                    price: 299,
+                    image: '📄',
+                    category: 'Planes'
+                },
+                {
+                    id: 2,
+                    name: 'Plan Profesional',
+                    price: 799,
+                    image: '💼',
+                    category: 'Planes'
+                },
+                {
+                    id: 3,
+                    name: 'Plan Enterprise',
+                    price: 1999,
+                    image: '🏢',
+                    category: 'Planes'
+                },
+                {
+                    id: 4,
+                    name: 'Timbres Extra',
+                    price: 99,
+                    image: '🎫',
+                    category: 'Add-ons'
+                },
+                {
+                    id: 5,
+                    name: 'Soporte Premium',
+                    price: 499,
+                    image: '🎯',
+                    category: 'Servicios'
+                },
+                {
+                    id: 6,
+                    name: 'Integración Contable',
+                    price: 999,
+                    image: '🔗',
+                    category: 'Integraciones'
+                },
+            ]
+        });
+    </script>
 </body>
 </html>

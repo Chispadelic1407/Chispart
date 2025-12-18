@@ -245,6 +245,58 @@
         </div>
     </footer>
 
+    <script src="../shared/customer-flow-mockup.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Initialize customer flow mockup for NOVA LEGIS AI
+        window.customerFlow = new CustomerFlowMockup({
+            siteName: 'NOVA LEGIS AI',
+            currency: 'MXN',
+            products: [
+                {
+                    id: 1,
+                    name: 'Consulta IA Básica',
+                    price: 299,
+                    image: '💬',
+                    category: 'Consultas'
+                },
+                {
+                    id: 2,
+                    name: 'Análisis Legal IA',
+                    price: 899,
+                    image: '📊',
+                    category: 'Análisis'
+                },
+                {
+                    id: 3,
+                    name: 'Plan Mensual Pro',
+                    price: 1999,
+                    image: '⭐',
+                    category: 'Planes'
+                },
+                {
+                    id: 4,
+                    name: 'Redacción Documentos',
+                    price: 599,
+                    image: '📝',
+                    category: 'Documentos'
+                },
+                {
+                    id: 5,
+                    name: 'Asesoría 24/7',
+                    price: 2999,
+                    image: '🌐',
+                    category: 'Premium'
+                },
+                {
+                    id: 6,
+                    name: 'Integración WhatsApp',
+                    price: 499,
+                    image: '📱',
+                    category: 'Integraciones'
+                },
+            ]
+        });
+    </script>
 </body>
 </html>

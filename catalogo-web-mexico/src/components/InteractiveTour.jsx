@@ -19,7 +19,7 @@ const InteractiveTour = ({ onClose }) => {
       position: 'bottom'
     },
     {
-      target: '.filter-container',
+      target: '.filter',
       title: 'Filtros por Categoría 🏷️',
       content: 'Filtra los servicios por categoría. Ahora incluimos servicios de Inteligencia Artificial.',
       position: 'bottom'
@@ -91,11 +91,24 @@ const InteractiveTour = ({ onClose }) => {
 
   // Posicionar el tooltip según la posición especificada
   if (currentStepData.position === 'bottom') {
-    tooltipStyle.top = `${rect.bottom + 20}px`;
+    const topPosition = rect.bottom + 20;
+    // Ensure tooltip doesn't go off bottom of screen
+    if (topPosition + 400 > window.innerHeight) {
+      tooltipStyle.top = `${Math.max(20, window.innerHeight - 420)}px`;
+    } else {
+      tooltipStyle.top = `${topPosition}px`;
+    }
     tooltipStyle.left = `${rect.left + rect.width / 2}px`;
     tooltipStyle.transform = 'translateX(-50%)';
   } else if (currentStepData.position === 'top') {
-    tooltipStyle.bottom = `${window.innerHeight - rect.top + 20}px`;
+    const bottomPosition = window.innerHeight - rect.top + 20;
+    // Ensure tooltip doesn't go off top of screen
+    if (bottomPosition + 400 > window.innerHeight) {
+      tooltipStyle.top = `20px`;
+      tooltipStyle.bottom = 'auto';
+    } else {
+      tooltipStyle.bottom = `${bottomPosition}px`;
+    }
     tooltipStyle.left = `${rect.left + rect.width / 2}px`;
     tooltipStyle.transform = 'translateX(-50%)';
   }
