@@ -34,7 +34,13 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="badge">React 19 • TypeScript • Turborepo</div>
+                <div class="hero-badges">
+                    <div class="badge">React 19 • TypeScript • Turborepo</div>
+                    <div class="status-badges">
+                        <span class="status-badge active">✓ 100% Funcional</span>
+                        <span class="status-badge deploy">🚀 Deploy Activo</span>
+                    </div>
+                </div>
                 <h1 class="hero-title">
                     Editor Visual<br/>
                     <span class="gradient-text">Drag & Drop Profesional</span>
@@ -55,28 +61,213 @@
                 </div>
                 <div class="hero-stats">
                     <div class="stat">
-                        <div class="stat-value">25+</div>
+                        <div class="stat-value" data-target="25">0</div>
                         <div class="stat-label">Templates</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">34+</div>
+                        <div class="stat-value" data-target="34">0</div>
                         <div class="stat-label">Componentes</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">100%</div>
-                        <div class="stat-label">TypeScript</div>
+                        <div class="stat-value" data-target="100">0</div>
+                        <div class="stat-label">Tests</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">Full</div>
-                        <div class="stat-label">Stack</div>
+                        <div class="stat-value" data-target="85">0</div>
+                        <div class="stat-label">Commits</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Live Demo Section -->
+    <section class="live-demo">
+        <div class="container">
+            <h2 class="section-title">🖥️ Demo en Vivo</h2>
+            <p class="section-subtitle">Explora el editor en acción - Proyecto deployado en AWS EC2</p>
+            <div class="demo-container glass">
+                <div class="demo-controls">
+                    <div class="demo-url">
+                        <span class="url-icon">🔗</span>
+                        <span class="url-text">http://18.223.32.141</span>
+                    </div>
+                    <button class="btn-fullscreen" onclick="toggleFullscreen()">
+                        <span>⛶ Fullscreen</span>
+                    </button>
+                </div>
+                <div class="iframe-wrapper" id="iframeWrapper">
+                    <iframe 
+                        src="http://18.223.32.141" 
+                        frameborder="0"
+                        id="demoIframe"
+                        title="SAAS-DND Live Demo"
+                        loading="lazy"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture">
+        <div class="container">
+            <h2 class="section-title">🏗️ Arquitectura del Sistema</h2>
+            <p class="section-subtitle">Monorepo moderno con Turborepo - Escalable y mantenible</p>
+            
+            <div class="architecture-diagram glass">
+                <div class="arch-layer">
+                    <h3>📦 Monorepo Structure</h3>
+                    <div class="arch-boxes">
+                        <div class="arch-box">
+                            <div class="arch-icon">🌐</div>
+                            <div class="arch-name">packages/web</div>
+                            <div class="arch-desc">Frontend React App</div>
+                        </div>
+                        <div class="arch-box">
+                            <div class="arch-icon">⚙️</div>
+                            <div class="arch-name">packages/api</div>
+                            <div class="arch-desc">Backend REST API</div>
+                        </div>
+                        <div class="arch-box">
+                            <div class="arch-icon">📚</div>
+                            <div class="arch-name">packages/shared</div>
+                            <div class="arch-desc">Shared Types & Utils</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow">↓</div>
+                
+                <div class="arch-layer">
+                    <h3>🔧 Tech Stack Flow</h3>
+                    <div class="stack-flow">
+                        <div class="stack-item">React 19</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="stack-item">TypeScript</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="stack-item">Vite</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="stack-item">PostgreSQL</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="stack-item">Docker</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="stack-item">AWS EC2</div>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow">↓</div>
+                
+                <div class="arch-layer">
+                    <h3>🎯 Key Features</h3>
+                    <div class="arch-features">
+                        <span class="arch-feature">Hot Module Reload</span>
+                        <span class="arch-feature">Shared Build Cache</span>
+                        <span class="arch-feature">Parallel Execution</span>
+                        <span class="arch-feature">Type Safety</span>
+                        <span class="arch-feature">CI/CD Pipeline</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Gallery Section -->
+    <section id="features" class="features-gallery">
+        <div class="container">
+            <h2 class="section-title">✨ Galería de Características</h2>
+            <p class="section-subtitle">Explora las funcionalidades del editor visual</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item glass" onclick="openLightbox(0)">
+                    <div class="gallery-placeholder">
+                        <div class="placeholder-icon">🖱️</div>
+                        <div class="placeholder-title">Editor Drag & Drop</div>
+                        <div class="placeholder-desc">Interfaz intuitiva con arrastrar y soltar</div>
+                    </div>
+                    <div class="gallery-overlay">
+                        <span class="view-icon">👁️ Ver más</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item glass" onclick="openLightbox(1)">
+                    <div class="gallery-placeholder">
+                        <div class="placeholder-icon">⚙️</div>
+                        <div class="placeholder-title">Panel de Propiedades</div>
+                        <div class="placeholder-desc">Edición en tiempo real de estilos</div>
+                    </div>
+                    <div class="gallery-overlay">
+                        <span class="view-icon">👁️ Ver más</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item glass" onclick="openLightbox(2)">
+                    <div class="gallery-placeholder">
+                        <div class="placeholder-icon">📐</div>
+                        <div class="placeholder-title">25 Templates</div>
+                        <div class="placeholder-desc">Biblioteca profesional de diseños</div>
+                    </div>
+                    <div class="gallery-overlay">
+                        <span class="view-icon">👁️ Ver más</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item glass" onclick="openLightbox(3)">
+                    <div class="gallery-placeholder">
+                        <div class="placeholder-icon">📊</div>
+                        <div class="placeholder-title">Dashboard</div>
+                        <div class="placeholder-desc">Gestión completa de proyectos</div>
+                    </div>
+                    <div class="gallery-overlay">
+                        <span class="view-icon">👁️ Ver más</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item glass" onclick="openLightbox(4)">
+                    <div class="gallery-placeholder">
+                        <div class="placeholder-icon">👥</div>
+                        <div class="placeholder-title">Team Management</div>
+                        <div class="placeholder-desc">Colaboración en tiempo real</div>
+                    </div>
+                    <div class="gallery-overlay">
+                        <span class="view-icon">👁️ Ver más</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item glass" onclick="openLightbox(5)">
+                    <div class="gallery-placeholder">
+                        <div class="placeholder-icon">🧩</div>
+                        <div class="placeholder-title">34 Componentes</div>
+                        <div class="placeholder-desc">Biblioteca modular completa</div>
+                    </div>
+                    <div class="gallery-overlay">
+                        <span class="view-icon">👁️ Ver más</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+            <div class="lightbox-body">
+                <div class="lightbox-placeholder">
+                    <div class="lightbox-icon" id="lightboxIcon">🖱️</div>
+                    <h3 id="lightboxTitle">Feature Title</h3>
+                    <p id="lightboxDesc">Feature description goes here</p>
+                </div>
+            </div>
+            <div class="lightbox-nav">
+                <button class="lightbox-prev" onclick="navigateLightbox(-1)">← Anterior</button>
+                <button class="lightbox-next" onclick="navigateLightbox(1)">Siguiente →</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Features Section -->
-    <section id="features" class="features">
+    <section class="features">
         <div class="container">
             <h2 class="section-title">Características Principales</h2>
             <div class="features-grid">
@@ -156,6 +347,83 @@
                         <span class="tech-tag">UI/UX Design</span>
                         <span class="tech-tag">Cloud Deployment</span>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Snippets Section -->
+    <section class="code-snippets">
+        <div class="container">
+            <h2 class="section-title">💻 Code Snippets</h2>
+            <p class="section-subtitle">Ejemplos de implementación del editor</p>
+            
+            <div class="snippets-grid">
+                <div class="snippet-card glass">
+                    <div class="snippet-header">
+                        <h3>🎨 Uso del Editor</h3>
+                        <span class="snippet-lang">TypeScript</span>
+                    </div>
+                    <pre class="snippet-code"><code>import { DragDropEditor } from '@saas-dnd/web';
+
+function App() {
+  const [elements, setElements] = useState([]);
+  
+  return (
+    &lt;DragDropEditor
+      elements={elements}
+      onChange={setElements}
+      templates={templates}
+      components={componentLibrary}
+    /&gt;
+  );
+}</code></pre>
+                </div>
+                
+                <div class="snippet-card glass">
+                    <div class="snippet-header">
+                        <h3>🔌 API Endpoints</h3>
+                        <span class="snippet-lang">REST API</span>
+                    </div>
+                    <pre class="snippet-code"><code>// Guardar proyecto
+POST /api/projects
+{
+  "name": "Mi Proyecto",
+  "elements": [...],
+  "template": "landing-page"
+}
+
+// Obtener templates
+GET /api/templates?category=business
+
+// Gestión de equipos
+POST /api/teams/:id/members</code></pre>
+                </div>
+                
+                <div class="snippet-card glass">
+                    <div class="snippet-header">
+                        <h3>🧩 Componente Draggable</h3>
+                        <span class="snippet-lang">React + TypeScript</span>
+                    </div>
+                    <pre class="snippet-code"><code>interface DraggableProps {
+  id: string;
+  type: ComponentType;
+  children: React.ReactNode;
+}
+
+export const Draggable: FC&lt;DraggableProps&gt; = ({
+  id, type, children
+}) => {
+  const [{ isDragging }, drag] = useDrag({
+    type: 'COMPONENT',
+    item: { id, type },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  });
+  
+  return &lt;div ref={drag}&gt;{children}&lt;/div&gt;;
+};</code></pre>
                 </div>
             </div>
         </div>
