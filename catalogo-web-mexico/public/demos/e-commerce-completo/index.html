@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Completo - Demo | Tienda Online Profesional</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Gradient -->
+    <div class="gradient-bg"></div>
+
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🛍️</span>
+                <span class="logo-text">ShopPro</span>
+            </div>
+            <nav>
+                <a href="#products">Productos</a>
+                <a href="#features">Características</a>
+                <a href="#admin">Admin Panel</a>
+                <button id="cartBtn" class="btn-cart">
+                    🛒 Carrito <span id="cartCount" class="cart-count">0</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">E-commerce • React • Node.js • Stripe</div>
+                <h1 class="hero-title">
+                    Tienda Online<br/>
+                    <span class="gradient-text">Completa y Profesional</span>
+                </h1>
+                <p class="hero-description">
+                    Plataforma de e-commerce con carrito de compras, pasarela de pagos,
+                    gestión de inventario y panel administrativo. Todo lo que necesitas
+                    para vender online de manera profesional.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#products" class="btn-primary">
+                        <span>🛍️ Ver Productos</span>
+                    </a>
+                    <a href="#admin" class="btn-secondary">
+                        <span>⚙️ Panel Admin</span>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">500+</div>
+                        <div class="stat-label">Productos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Disponible</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Seguro</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">Fast</div>
+                        <div class="stat-label">Envío</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Catálogo de Productos</h2>
+                <div class="filters">
+                    <button class="filter-btn active" data-category="all">Todos</button>
+                    <button class="filter-btn" data-category="electronics">Electrónica</button>
+                    <button class="filter-btn" data-category="fashion">Moda</button>
+                    <button class="filter-btn" data-category="home">Hogar</button>
+                    <button class="filter-btn" data-category="sports">Deportes</button>
+                </div>
+            </div>
+
+            <div id="productsGrid" class="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Características del Sistema</h2>
+            <div class="features-grid">
+                <div class="feature-card glass">
+                    <div class="feature-icon">🛒</div>
+                    <h3>Carrito Inteligente</h3>
+                    <p>Sistema de carrito con persistencia en LocalStorage, actualización en tiempo real y cálculo automático de totales.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">💳</div>
+                    <h3>Pasarela de Pagos</h3>
+                    <p>Integración con Stripe para pagos seguros. Acepta tarjetas de crédito, débito y métodos alternativos.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">📦</div>
+                    <h3>Gestión de Inventario</h3>
+                    <p>Control de stock en tiempo real, alertas de productos agotados y reabastecimiento automático.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">📊</div>
+                    <h3>Panel Administrativo</h3>
+                    <p>Dashboard completo con estadísticas de ventas, gestión de productos y análisis de clientes.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Búsqueda Avanzada</h3>
+                    <p>Filtros por categoría, precio, marca y características. Búsqueda instantánea con sugerencias.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">📱</div>
+                    <h3>Diseño Responsivo</h3>
+                    <p>Optimizado para todos los dispositivos. Experiencia perfecta en móvil, tablet y desktop.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Flow Section -->
+    <section class="checkout-flow">
+        <div class="container">
+            <h2 class="section-title">Proceso de Compra</h2>
+            <div class="flow-steps">
+                <div class="flow-step glass">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🛍️</div>
+                    <h3>Seleccionar Productos</h3>
+                    <p>Navega el catálogo y agrega productos al carrito</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step glass">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">📝</div>
+                    <h3>Datos de Envío</h3>
+                    <p>Completa tu información de entrega</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step glass">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">💳</div>
+                    <h3>Método de Pago</h3>
+                    <p>Selecciona tu forma de pago preferida</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step glass">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">✅</div>
+                    <h3>Confirmación</h3>
+                    <p>Recibe confirmación y tracking</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel Preview -->
+    <section id="admin" class="admin-section">
+        <div class="container">
+            <h2 class="section-title">Panel Administrativo</h2>
+            <div class="admin-grid">
+                <div class="admin-card glass">
+                    <div class="admin-header">
+                        <h3>📊 Estadísticas de Ventas</h3>
+                        <span class="admin-badge">Hoy</span>
+                    </div>
+                    <div class="admin-stats">
+                        <div class="admin-stat">
+                            <div class="stat-label">Ventas Totales</div>
+                            <div class="stat-value">$45,230 MXN</div>
+                            <div class="stat-change positive">+12.5%</div>
+                        </div>
+                        <div class="admin-stat">
+                            <div class="stat-label">Órdenes</div>
+                            <div class="stat-value">127</div>
+                            <div class="stat-change positive">+8.3%</div>
+                        </div>
+                        <div class="admin-stat">
+                            <div class="stat-label">Clientes Nuevos</div>
+                            <div class="stat-value">34</div>
+                            <div class="stat-change positive">+15.2%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card glass">
+                    <div class="admin-header">
+                        <h3>📦 Productos Más Vendidos</h3>
+                        <button class="admin-btn-small">Ver Todos</button>
+                    </div>
+                    <div class="top-products">
+                        <div class="top-product-item">
+                            <span class="product-rank">#1</span>
+                            <span class="product-name">Laptop Pro 15"</span>
+                            <span class="product-sales">89 ventas</span>
+                        </div>
+                        <div class="top-product-item">
+                            <span class="product-rank">#2</span>
+                            <span class="product-name">Smartphone X</span>
+                            <span class="product-sales">76 ventas</span>
+                        </div>
+                        <div class="top-product-item">
+                            <span class="product-rank">#3</span>
+                            <span class="product-name">Auriculares Pro</span>
+                            <span class="product-sales">64 ventas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card glass">
+                    <div class="admin-header">
+                        <h3>⚠️ Alertas de Inventario</h3>
+                        <span class="admin-badge alert">3 alertas</span>
+                    </div>
+                    <div class="inventory-alerts">
+                        <div class="alert-item">
+                            <span class="alert-icon">🔴</span>
+                            <span class="alert-text">Tablet Mini - Stock bajo (5 unidades)</span>
+                        </div>
+                        <div class="alert-item">
+                            <span class="alert-icon">🟡</span>
+                            <span class="alert-text">Smartwatch Pro - Reabastecimiento pendiente</span>
+                        </div>
+                        <div class="alert-item">
+                            <span class="alert-icon">🔴</span>
+                            <span class="alert-text">Cámara 4K - Agotado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card glass">
+                    <div class="admin-header">
+                        <h3>🚚 Órdenes Recientes</h3>
+                        <button class="admin-btn-small">Gestionar</button>
+                    </div>
+                    <div class="recent-orders">
+                        <div class="order-item">
+                            <div class="order-id">#ORD-1234</div>
+                            <div class="order-customer">Juan Pérez</div>
+                            <div class="order-status pending">Pendiente</div>
+                            <div class="order-amount">$2,450</div>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-id">#ORD-1233</div>
+                            <div class="order-customer">María García</div>
+                            <div class="order-status shipped">Enviado</div>
+                            <div class="order-amount">$1,890</div>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-id">#ORD-1232</div>
+                            <div class="order-customer">Carlos López</div>
+                            <div class="order-status delivered">Entregado</div>
+                            <div class="order-amount">$3,200</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content glass">
+                <h2>¿Listo para lanzar tu tienda online?</h2>
+                <p>Comienza a vender hoy con nuestra plataforma completa de e-commerce</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary" onclick="alert('Demo: Contacta para más información')">
+                        <span>🚀 Comenzar Ahora</span>
+                    </button>
+                    <button class="btn-secondary" onclick="alert('Demo: Ver documentación técnica')">
+                        <span>📖 Ver Documentación</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>🛒 Tu Carrito</h2>
+                <button class="modal-close" id="closeCart">&times;</button>
+            </div>
+            <div id="cartItems" class="cart-items">
+                <!-- Cart items will be dynamically loaded here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">$0.00 MXN</span>
+                </div>
+                <button class="btn-primary btn-checkout" id="checkoutBtn">
+                    <span>💳 Proceder al Pago</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content glass product-detail">
+            <button class="modal-close" id="closeProduct">&times;</button>
+            <div id="productDetail">
+                <!-- Product details will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Demo de E-commerce Completo - Desarrollado con 💜</p>
+            <p>React • Node.js • MongoDB • Stripe</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

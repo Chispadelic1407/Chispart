@@ -131,7 +131,8 @@ const templateProjects = [
     price: "$25,000 - $50,000 MXN",
     features: ["Carrito de compras", "Pasarela de pagos", "Gestión de inventario", "Panel administrativo"],
     image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"]
+    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+    demoUrl: "/demos/e-commerce-completo/index.html"
   },
   {
     id: 2,
@@ -141,7 +142,8 @@ const templateProjects = [
     price: "$8,000 - $15,000 MXN",
     features: ["Diseño responsivo", "Formulario de contacto", "SEO optimizado", "Animaciones"],
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-    technologies: ["React", "CSS3", "EmailJS"]
+    technologies: ["React", "CSS3", "EmailJS"],
+    demoUrl: "/demos/landing-corporativa/index.html"
   },
   {
     id: 3,
@@ -151,7 +153,8 @@ const templateProjects = [
     price: "$35,000 - $60,000 MXN",
     features: ["Calendario interactivo", "Pagos en línea", "Notificaciones por email", "Dashboard"],
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
-    technologies: ["React", "Firebase", "Calendar API", "PayPal"]
+    technologies: ["React", "Firebase", "Calendar API", "PayPal"],
+    demoUrl: "/demos/portal-reservaciones/index.html"
   },
   {
     id: 4,
@@ -161,7 +164,8 @@ const templateProjects = [
     price: "$12,000 - $20,000 MXN",
     features: ["CMS personalizado", "Categorías y tags", "Comentarios", "SEO avanzado"],
     image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=600&fit=crop",
-    technologies: ["React", "Headless CMS", "Markdown"]
+    technologies: ["React", "Headless CMS", "Markdown"],
+    demoUrl: "/demos/blog-corporativo/index.html"
   },
   {
     id: 5,
@@ -171,7 +175,8 @@ const templateProjects = [
     price: "$10,000 - $18,000 MXN",
     features: ["Galería interactiva", "Filtros por categoría", "Lightbox", "Formulario contacto"],
     image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
-    technologies: ["React", "Framer Motion", "CSS Grid"]
+    technologies: ["React", "Framer Motion", "CSS Grid"],
+    demoUrl: "/demos/portafolio-creativo/index.html"
   },
   {
     id: 6,
@@ -181,7 +186,8 @@ const templateProjects = [
     price: "$40,000 - $70,000 MXN",
     features: ["Gráficos interactivos", "Datos en tiempo real", "Exportar reportes", "Multi-usuario"],
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    technologies: ["React", "D3.js", "WebSocket", "Chart.js"]
+    technologies: ["React", "D3.js", "WebSocket", "Chart.js"],
+    demoUrl: "/demos/dashboard-analitico/index.html"
   },
   {
     id: 7,
@@ -191,7 +197,8 @@ const templateProjects = [
     price: "$15,000 - $25,000 MXN",
     features: ["Menú interactivo", "Reservaciones", "Galería de fotos", "Integración redes sociales"],
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
-    technologies: ["React", "Google Maps API", "WhatsApp API"]
+    technologies: ["React", "Google Maps API", "WhatsApp API"],
+    demoUrl: "/demos/restaurante/index.html"
   },
   {
     id: 8,
@@ -211,7 +218,8 @@ const templateProjects = [
     price: "$60,000 - $120,000 MXN",
     features: ["Perfiles de usuario", "Chat en tiempo real", "Sistema de pagos", "Calificaciones"],
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-    technologies: ["React", "Socket.io", "Express", "PostgreSQL"]
+    technologies: ["React", "Socket.io", "Express", "PostgreSQL"],
+    demoUrl: "/demos/marketplace-local/index.html"
   },
   {
     id: 10,

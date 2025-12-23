@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Reservaciones - Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                    <path d="M20 10L25 15H22V25H18V15H15L20 10Z" fill="white"/>
+                    <rect x="12" y="27" width="16" height="2" rx="1" fill="white"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#6366f1"/>
+                            <stop offset="100%" stop-color="#8b5cf6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>Portal de Reservaciones</h1>
+            </div>
+            <button class="btn-dashboard" onclick="showDashboard()">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                </svg>
+                Dashboard
+            </button>
+        </header>
+
+        <div class="main-content">
+            <!-- Booking Form Section -->
+            <div class="booking-section glass-card">
+                <h2>Nueva Reservación</h2>
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Fecha</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Horario</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Detalles</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Confirmar</div>
+                    </div>
+                </div>
+
+                <form id="bookingForm" class="booking-form">
+                    <!-- Step 1: Date Selection -->
+                    <div class="form-step active" data-step="1">
+                        <h3>Selecciona una Fecha</h3>
+                        <div id="calendar" class="calendar"></div>
+                        <button type="button" class="btn-primary" onclick="nextStep()">Siguiente</button>
+                    </div>
+
+                    <!-- Step 2: Time Selection -->
+                    <div class="form-step" data-step="2">
+                        <h3>Selecciona un Horario</h3>
+                        <div id="timeSlots" class="time-slots"></div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep()">Anterior</button>
+                            <button type="button" class="btn-primary" onclick="nextStep()">Siguiente</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Details -->
+                    <div class="form-step" data-step="3">
+                        <h3>Información de Contacto</h3>
+                        <div class="form-group">
+                            <label>Nombre Completo</label>
+                            <input type="text" id="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Número de Personas</label>
+                            <input type="number" id="guests" min="1" max="20" value="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Notas Especiales (Opcional)</label>
+                            <textarea id="notes" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep()">Anterior</button>
+                            <button type="button" class="btn-primary" onclick="nextStep()">Siguiente</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Confirmation -->
+                    <div class="form-step" data-step="4">
+                        <h3>Confirmar Reservación</h3>
+                        <div id="confirmationDetails" class="confirmation-details"></div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="prevStep()">Anterior</button>
+                            <button type="button" class="btn-primary" onclick="confirmBooking()">Confirmar Reservación</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Availability Calendar -->
+            <div class="availability-section glass-card">
+                <h2>Disponibilidad del Mes</h2>
+                <div class="availability-legend">
+                    <div class="legend-item">
+                        <span class="legend-color available"></span>
+                        <span>Disponible</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color limited"></span>
+                        <span>Limitado</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color full"></span>
+                        <span>Completo</span>
+                    </div>
+                </div>
+                <div id="availabilityCalendar" class="availability-calendar"></div>
+            </div>
+        </div>
+
+        <!-- Dashboard Modal -->
+        <div id="dashboardModal" class="modal">
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h2>Dashboard de Reservaciones</h2>
+                    <button class="close-btn" onclick="closeDashboard()">&times;</button>
+                </div>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-value" id="totalBookings">0</div>
+                        <div class="stat-label">Total Reservaciones</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="confirmedBookings">0</div>
+                        <div class="stat-label">Confirmadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-value" id="pendingBookings">0</div>
+                        <div class="stat-label">Pendientes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value" id="totalGuests">0</div>
+                        <div class="stat-label">Total Personas</div>
+                    </div>
+                </div>
+                <div class="bookings-list">
+                    <h3>Reservaciones Recientes</h3>
+                    <div id="bookingsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="modal">
+            <div class="modal-content glass-card success-modal">
+                <div class="success-icon">✓</div>
+                <h2>¡Reservación Confirmada!</h2>
+                <p>Tu reservación ha sido registrada exitosamente.</p>
+                <div id="successDetails"></div>
+                <button class="btn-primary" onclick="closeSuccessModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

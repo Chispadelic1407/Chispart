@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante - Demo | Sabores Auténticos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Gradient -->
+    <div class="gradient-bg"></div>
+
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">Sabores</span>
+            </div>
+            <nav>
+                <a href="#menu">Menú</a>
+                <a href="#gallery">Galería</a>
+                <a href="#reservations">Reservar</a>
+                <a href="#contact">Contacto</a>
+                <button class="btn-whatsapp" onclick="orderWhatsApp()">
+                    📱 Ordenar
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">Cocina Mexicana Auténtica</div>
+                <h1 class="hero-title">
+                    Experiencia<br/>
+                    <span class="gradient-text">Gastronómica Única</span>
+                </h1>
+                <p class="hero-description">
+                    Descubre los sabores tradicionales de México en cada platillo.
+                    Ingredientes frescos, recetas auténticas y un ambiente acogedor
+                    te esperan en nuestro restaurante.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn-primary">
+                        <span>🍽️ Ver Menú</span>
+                    </a>
+                    <a href="#reservations" class="btn-secondary">
+                        <span>📅 Reservar Mesa</span>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">15+</div>
+                        <div class="stat-label">Años</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">4.9★</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Platillos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Fresco</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chef's Special -->
+    <section class="chef-special">
+        <div class="container">
+            <h2 class="section-title">Especial del Chef</h2>
+            <div class="special-grid">
+                <div class="special-card glass">
+                    <div class="special-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                    <div class="special-info">
+                        <h3>Mole Poblano Premium</h3>
+                        <p>Pollo en salsa de mole tradicional con más de 30 ingredientes, servido con arroz mexicano</p>
+                        <div class="special-price">$285 MXN</div>
+                        <button class="btn-order" onclick="addToOrder('Mole Poblano Premium', 285)">Ordenar</button>
+                    </div>
+                </div>
+                <div class="special-card glass">
+                    <div class="special-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    <div class="special-info">
+                        <h3>Tacos de Rib Eye</h3>
+                        <p>Tres tacos de rib eye a la parrilla con guacamole, cebolla caramelizada y salsa especial</p>
+                        <div class="special-price">$195 MXN</div>
+                        <button class="btn-order" onclick="addToOrder('Tacos de Rib Eye', 195)">Ordenar</button>
+                    </div>
+                </div>
+                <div class="special-card glass">
+                    <div class="special-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    <div class="special-info">
+                        <h3>Ceviche Tropical</h3>
+                        <p>Pescado fresco marinado en limón con mango, aguacate y chile habanero</p>
+                        <div class="special-price">$165 MXN</div>
+                        <button class="btn-order" onclick="addToOrder('Ceviche Tropical', 165)">Ordenar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <h2 class="section-title">Nuestro Menú</h2>
+            <p class="section-subtitle">Explora nuestra selección de platillos auténticos</p>
+            
+            <div class="menu-tabs">
+                <button class="menu-tab active" onclick="showMenuCategory('entradas')">🥗 Entradas</button>
+                <button class="menu-tab" onclick="showMenuCategory('platos')">🍖 Platos Fuertes</button>
+                <button class="menu-tab" onclick="showMenuCategory('postres')">🍰 Postres</button>
+                <button class="menu-tab" onclick="showMenuCategory('bebidas')">🍹 Bebidas</button>
+            </div>
+
+            <div id="menuContent" class="menu-content">
+                <!-- Menu items will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Galería</h2>
+            <p class="section-subtitle">Un vistazo a nuestros platillos y ambiente</p>
+            
+            <div class="gallery-carousel">
+                <button class="carousel-btn prev" onclick="prevImage()">‹</button>
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Gallery images will be dynamically loaded -->
+                    </div>
+                </div>
+                <button class="carousel-btn next" onclick="nextImage()">›</button>
+            </div>
+            
+            <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="container">
+            <h2 class="section-title">Lo Que Dicen Nuestros Clientes</h2>
+            
+            <div class="reviews-carousel">
+                <button class="slider-btn prev" onclick="prevReview()">‹</button>
+                <div class="reviews-container">
+                    <div class="reviews-track" id="reviewsTrack">
+                        <!-- Reviews will be dynamically loaded -->
+                    </div>
+                </div>
+                <button class="slider-btn next" onclick="nextReview()">›</button>
+            </div>
+            
+            <div class="slider-dots" id="reviewsDots"></div>
+        </div>
+    </section>
+
+    <!-- Reservations Section -->
+    <section id="reservations" class="reservations-section">
+        <div class="container">
+            <h2 class="section-title">Reserva Tu Mesa</h2>
+            <p class="section-subtitle">Garantiza tu lugar en nuestro restaurante</p>
+            
+            <div class="reservation-grid">
+                <div class="reservation-info">
+                    <div class="info-card glass">
+                        <div class="info-icon">📍</div>
+                        <h3>Ubicación</h3>
+                        <p>Av. Reforma 123, Col. Centro<br/>Ciudad de México, CDMX</p>
+                    </div>
+                    <div class="info-card glass">
+                        <div class="info-icon">⏰</div>
+                        <h3>Horario</h3>
+                        <p>Lunes a Domingo<br/>1:00 PM - 11:00 PM</p>
+                    </div>
+                    <div class="info-card glass">
+                        <div class="info-icon">📞</div>
+                        <h3>Teléfono</h3>
+                        <p>+52 55 1234 5678<br/>Reservaciones</p>
+                    </div>
+                    <div class="info-card glass">
+                        <div class="info-icon">🎉</div>
+                        <h3>Eventos</h3>
+                        <p>Disponible para eventos<br/>privados y corporativos</p>
+                    </div>
+                </div>
+
+                <form class="reservation-form glass" id="reservationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="tel" placeholder="Teléfono" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" placeholder="Personas" min="1" max="20" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="time" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Comentarios especiales (opcional)" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary btn-submit">
+                        <span>📅 Confirmar Reservación</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="contact" class="map-section">
+        <div class="container">
+            <h2 class="section-title">Encuéntranos</h2>
+            <div class="map-container glass">
+                <div class="map-placeholder">
+                    <div class="map-icon">📍</div>
+                    <h3>Av. Reforma 123, Col. Centro</h3>
+                    <p>Ciudad de México, CDMX</p>
+                    <p style="font-size: 0.875rem; opacity: 0.7; margin-top: 1rem;">
+                        En producción, aquí se mostraría un mapa interactivo de Google Maps
+                    </p>
+                    <button class="btn-secondary" onclick="alert('Demo: Abrir en Google Maps')">
+                        Ver en Google Maps
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content glass">
+                <h2>¿Listo para una experiencia inolvidable?</h2>
+                <p>Reserva ahora y disfruta de nuestros platillos especiales</p>
+                <div class="cta-buttons">
+                    <a href="#reservations" class="btn-primary">
+                        <span>📅 Reservar Mesa</span>
+                    </a>
+                    <button class="btn-secondary" onclick="orderWhatsApp()">
+                        <span>📱 Ordenar por WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <span class="logo-icon">🍽️</span>
+                        <span class="logo-text">Sabores</span>
+                    </div>
+                    <p>Cocina mexicana auténtica desde 2009</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Menú</h4>
+                    <a href="#menu">Entradas</a>
+                    <a href="#menu">Platos Fuertes</a>
+                    <a href="#menu">Postres</a>
+                    <a href="#menu">Bebidas</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Información</h4>
+                    <a href="#reservations">Reservaciones</a>
+                    <a href="#gallery">Galería</a>
+                    <a href="#contact">Contacto</a>
+                    <a href="#">Eventos</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Síguenos</h4>
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">TripAdvisor</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Restaurante Sabores. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

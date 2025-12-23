@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Creativo - Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>Portafolio Creativo</h1>
+            </div>
+            <nav class="nav">
+                <a href="#proyectos">Proyectos</a>
+                <a href="#habilidades">Habilidades</a>
+                <a href="#experiencia">Experiencia</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </header>
+
+        <section class="hero glass-card">
+            <div class="hero-content">
+                <h2>Diseñador & Desarrollador Creativo</h2>
+                <p>Transformo ideas en experiencias digitales memorables</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" onclick="scrollToProjects()">Ver Proyectos</button>
+                    <button class="btn-secondary" onclick="showContact()">Contactar</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="filter-section" id="proyectos">
+            <h2>Mis Proyectos</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterProjects('all')">Todos</button>
+                <button class="filter-btn" onclick="filterProjects('web')">Web Design</button>
+                <button class="filter-btn" onclick="filterProjects('branding')">Branding</button>
+                <button class="filter-btn" onclick="filterProjects('ui')">UI/UX</button>
+                <button class="filter-btn" onclick="filterProjects('mobile')">Mobile</button>
+            </div>
+        </div>
+
+        <div id="gallery" class="masonry-gallery"></div>
+
+        <section class="skills-section glass-card" id="habilidades">
+            <h2>Habilidades</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Diseño UI/UX</h3>
+                    <div class="skill-bar"><div class="skill-progress" style="width: 95%"></div></div>
+                    <span class="skill-percent">95%</span>
+                </div>
+                <div class="skill-card">
+                    <h3>Desarrollo Web</h3>
+                    <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+                    <span class="skill-percent">90%</span>
+                </div>
+                <div class="skill-card">
+                    <h3>Diseño Mobile</h3>
+                    <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+                    <span class="skill-percent">85%</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline-section" id="experiencia">
+            <h2>Experiencia</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <div class="timeline-date">2023 - Presente</div>
+                        <h3>Senior UI/UX Designer</h3>
+                        <p>Tech Innovations Inc.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section glass-card" id="contacto">
+            <h2>Contacto</h2>
+            <form class="contact-form" onsubmit="sendMessage(event)">
+                <input type="text" placeholder="Nombre" required>
+                <input type="email" placeholder="Email" required>
+                <textarea rows="5" placeholder="Mensaje" required></textarea>
+                <button type="submit" class="btn-primary">Enviar Mensaje</button>
+            </form>
+        </section>
+
+        <div id="projectModal" class="modal">
+            <div class="modal-content glass-card">
+                <button class="close-btn" onclick="closeProjectModal()">&times;</button>
+                <div id="projectDetail"></div>
+            </div>
+        </div>
+
+        <div id="lightbox" class="lightbox">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightboxImage" src="" alt="">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
