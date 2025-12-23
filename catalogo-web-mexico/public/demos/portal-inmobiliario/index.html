@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Inmobiliario - Encuentra tu Hogar Ideal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 5L35 15V35H25V25H15V35H5V15L20 5Z" fill="url(#gradient)"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#3b82f6"/>
+                            <stop offset="100%" stop-color="#8b5cf6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>InmoMX</h1>
+            </div>
+            <nav class="nav">
+                <a href="#propiedades">Propiedades</a>
+                <a href="#calculadora">Calculadora</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2 class="hero-title">Encuentra tu Hogar Ideal</h2>
+            <p class="hero-subtitle">Miles de propiedades en venta y renta en toda la República Mexicana</p>
+            
+            <!-- Quick Search -->
+            <div class="quick-search">
+                <div class="search-tabs">
+                    <button class="tab-btn active" data-type="venta">Comprar</button>
+                    <button class="tab-btn" data-type="renta">Rentar</button>
+                </div>
+                <div class="search-form">
+                    <input type="text" placeholder="Ciudad, colonia o código postal" class="search-input">
+                    <select class="search-select">
+                        <option value="">Tipo de propiedad</option>
+                        <option value="casa">Casa</option>
+                        <option value="departamento">Departamento</option>
+                        <option value="terreno">Terreno</option>
+                        <option value="local">Local Comercial</option>
+                    </select>
+                    <button class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        Buscar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section" id="propiedades">
+        <div class="container">
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <label>Precio</label>
+                    <select id="priceFilter">
+                        <option value="">Todos</option>
+                        <option value="0-1000000">Hasta $1M</option>
+                        <option value="1000000-3000000">$1M - $3M</option>
+                        <option value="3000000-5000000">$3M - $5M</option>
+                        <option value="5000000-999999999">Más de $5M</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Ubicación</label>
+                    <select id="locationFilter">
+                        <option value="">Todas</option>
+                        <option value="CDMX">Ciudad de México</option>
+                        <option value="Guadalajara">Guadalajara</option>
+                        <option value="Monterrey">Monterrey</option>
+                        <option value="Cancún">Cancún</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Habitaciones</label>
+                    <select id="bedroomsFilter">
+                        <option value="">Todas</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Tipo</label>
+                    <select id="typeFilter">
+                        <option value="">Todos</option>
+                        <option value="Casa">Casa</option>
+                        <option value="Departamento">Departamento</option>
+                        <option value="Terreno">Terreno</option>
+                    </select>
+                </div>
+                <button class="reset-filters" onclick="resetFilters()">Limpiar filtros</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties Grid -->
+    <section class="properties-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Propiedades Destacadas</h2>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                    <button class="view-btn" data-view="list">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <line x1="8" y1="6" x2="21" y2="6"/>
+                            <line x1="8" y1="12" x2="21" y2="12"/>
+                            <line x1="8" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="3.01" y2="6"/>
+                            <line x1="3" y1="12" x2="3.01" y2="12"/>
+                            <line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="properties-grid" id="propertiesGrid">
+                <!-- Properties will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2>Explora en el Mapa</h2>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <p>Mapa Interactivo con Propiedades</p>
+                    <small>Integración con Google Maps API</small>
+                </div>
+                <div class="map-markers">
+                    <div class="marker" style="top: 30%; left: 25%;">
+                        <div class="marker-pin">$2.5M</div>
+                    </div>
+                    <div class="marker" style="top: 50%; left: 60%;">
+                        <div class="marker-pin">$3.8M</div>
+                    </div>
+                    <div class="marker" style="top: 70%; left: 40%;">
+                        <div class="marker-pin">$1.9M</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mortgage Calculator -->
+    <section class="calculator-section" id="calculadora">
+        <div class="container">
+            <h2>Calculadora de Hipoteca</h2>
+            <div class="calculator-card">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label>Precio de la Propiedad</label>
+                        <input type="number" id="propertyPrice" value="2500000" min="0" step="10000">
+                        <span class="input-currency">MXN</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Enganche (%)</label>
+                        <input type="number" id="downPayment" value="20" min="0" max="100" step="5">
+                        <span class="input-currency">%</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Plazo (años)</label>
+                        <input type="number" id="loanTerm" value="20" min="1" max="30" step="1">
+                        <span class="input-currency">años</span>
+                    </div>
+                    <div class="input-group">
+                        <label>Tasa de Interés Anual (%)</label>
+                        <input type="number" id="interestRate" value="10.5" min="0" max="30" step="0.1">
+                        <span class="input-currency">%</span>
+                    </div>
+                    <button class="calculate-btn" onclick="calculateMortgage()">Calcular</button>
+                </div>
+                <div class="calculator-results">
+                    <h3>Resultados</h3>
+                    <div class="result-item">
+                        <span>Enganche</span>
+                        <strong id="downPaymentAmount">$500,000</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Monto del Préstamo</span>
+                        <strong id="loanAmount">$2,000,000</strong>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Pago Mensual</span>
+                        <strong id="monthlyPayment">$19,265</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total a Pagar</span>
+                        <strong id="totalPayment">$4,623,600</strong>
+                    </div>
+                    <div class="result-item">
+                        <span>Total de Intereses</span>
+                        <strong id="totalInterest">$2,623,600</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contacto">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>¿Necesitas Ayuda?</h2>
+                    <p>Nuestros asesores están listos para ayudarte a encontrar la propiedad perfecta</p>
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <div>
+                                <strong>Teléfono</strong>
+                                <p>55 1234 5678</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <div>
+                                <strong>Email</strong>
+                                <p>contacto@inmomx.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <div>
+                                <strong>Oficina</strong>
+                                <p>Av. Reforma 123, CDMX</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Envíanos un Mensaje</h3>
+                    <form onsubmit="handleContactSubmit(event)">
+                        <input type="text" placeholder="Nombre completo" required>
+                        <input type="email" placeholder="Email" required>
+                        <input type="tel" placeholder="Teléfono" required>
+                        <textarea placeholder="Mensaje" rows="4" required></textarea>
+                        <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Detail Modal -->
+    <div class="modal" id="propertyModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Property details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 InmoMX - Portal Inmobiliario. Todos los derechos reservados.</p>
+            <div class="footer-links">
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">Demo</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
