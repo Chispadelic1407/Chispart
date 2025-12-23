@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Predictivo ML - Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .metric-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .metric-trend {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .metric-trend.up {
+            color: #51cf66;
+        }
+
+        .metric-trend.down {
+            color: #ff6b6b;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: 20px;
+        }
+
+        .prediction-list {
+            margin-top: 20px;
+        }
+
+        .prediction-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .prediction-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .prediction-info {
+            flex: 1;
+        }
+
+        .prediction-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .prediction-date {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .prediction-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .accuracy-badge {
+            padding: 5px 12px;
+            background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .model-training {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .training-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .data-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .flow-node {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .flow-node:hover {
+            transform: scale(1.05);
+        }
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tech-icon {
+            font-size: 2rem;
+        }
+
+        .tech-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .tech-info p {
+            font-size: 0.85rem;
+            opacity: 0.95;
+        }
+
+        .alert-box {
+            background: linear-gradient(135deg, #ffd43b 0%, #fab005 100%);
+            color: #333;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .alert-icon {
+            font-size: 2rem;
+        }
+
+        .alert-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .alert-content p {
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1400px) {
+            .metrics-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .metrics-grid, .tech-stack {
+                grid-template-columns: 1fr;
+            }
+            .data-flow {
+                flex-direction: column;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Análisis Predictivo con Machine Learning</h1>
+            <p>Predicción de tendencias y comportamientos con modelos de ML avanzados</p>
+        </div>
+
+        <!-- Metrics Dashboard -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">🎯</div>
+                <div class="metric-value">94.8%</div>
+                <div class="metric-label">Precisión del Modelo</div>
+                <div class="metric-trend up">↑ 2.3% vs mes anterior</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">📈</div>
+                <div class="metric-value">$2.4M</div>
+                <div class="metric-label">Predicción Ventas Q1</div>
+                <div class="metric-trend up">↑ 18% crecimiento</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">👥</div>
+                <div class="metric-value">12.5K</div>
+                <div class="metric-label">Nuevos Clientes</div>
+                <div class="metric-trend up">↑ 15% estimado</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">⚠️</div>
+                <div class="metric-value">8.2%</div>
+                <div class="metric-label">Riesgo de Churn</div>
+                <div class="metric-trend down">↓ 3.1% reducción</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">⚡</div>
+                <div class="metric-value">0.3s</div>
+                <div class="metric-label">Tiempo de Predicción</div>
+                <div class="metric-trend down">↓ 40% más rápido</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Prediction Chart -->
+            <div class="card">
+                <h2>📈 Predicciones vs Datos Reales</h2>
+                <div class="chart-container">
+                    <canvas id="predictionChart"></canvas>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <p style="font-size: 0.9rem; color: #666;">
+                        <strong>Análisis:</strong> El modelo muestra una precisión del 94.8% en las últimas 1000 predicciones. 
+                        La tendencia indica un crecimiento sostenido del 18% para el próximo trimestre.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Predictions List -->
+            <div class="card">
+                <h2>🔮 Predicciones Próximas</h2>
+                <div class="prediction-list">
+                    <div class="prediction-item">
+                        <div class="prediction-info">
+                            <div class="prediction-label">Ventas Enero 2025</div>
+                            <div class="prediction-date">Predicción: 15 días</div>
+                        </div>
+                        <div class="prediction-value">$820K</div>
+                        <div class="accuracy-badge">96.2%</div>
+                    </div>
+
+                    <div class="prediction-item">
+                        <div class="prediction-info">
+                            <div class="prediction-label">Tráfico Web</div>
+                            <div class="prediction-date">Predicción: 7 días</div>
+                        </div>
+                        <div class="prediction-value">45.2K</div>
+                        <div class="accuracy-badge">93.8%</div>
+                    </div>
+
+                    <div class="prediction-item">
+                        <div class="prediction-info">
+                            <div class="prediction-label">Conversión</div>
+                            <div class="prediction-date">Predicción: 30 días</div>
+                        </div>
+                        <div class="prediction-value">4.8%</div>
+                        <div class="accuracy-badge">91.5%</div>
+                    </div>
+
+                    <div class="prediction-item">
+                        <div class="prediction-info">
+                            <div class="prediction-label">Retención Clientes</div>
+                            <div class="prediction-date">Predicción: 90 días</div>
+                        </div>
+                        <div class="prediction-value">87.3%</div>
+                        <div class="accuracy-badge">89.7%</div>
+                    </div>
+                </div>
+
+                <div class="alert-box">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <h3>Alerta Predictiva</h3>
+                        <p>Se detecta posible caída del 12% en conversiones para la próxima semana. Se recomienda ajustar estrategia de marketing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Training Simulation -->
+        <div class="card">
+            <h2>🧠 Proceso de Entrenamiento del Modelo</h2>
+            <div class="model-training">
+                <div class="training-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Recolección de Datos</div>
+                        <div class="step-desc">Extracción de datos históricos de múltiples fuentes (CRM, Analytics, ERP)</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="training-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Limpieza y Preprocesamiento</div>
+                        <div class="step-desc">Normalización, eliminación de outliers, feature engineering</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="training-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Entrenamiento del Modelo</div>
+                        <div class="step-desc">Algoritmos: Random Forest, XGBoost, Neural Networks</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="training-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Validación y Testing</div>
+                        <div class="step-desc">Cross-validation, métricas de precisión, ajuste de hiperparámetros</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="training-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <div class="step-title">Despliegue en Producción</div>
+                        <div class="step-desc">API REST, monitoreo continuo, reentrenamiento automático</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Data Flow -->
+            <div class="card">
+                <h2>🔄 Flujo de Datos → Predicción → Validación</h2>
+                <div class="data-flow">
+                    <div class="flow-node">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">📊</div>
+                        <div style="font-weight: 600;">Datos de Entrada</div>
+                        <div style="font-size: 0.85rem; margin-top: 5px; opacity: 0.9;">Históricos + Tiempo Real</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">🧠</div>
+                        <div style="font-weight: 600;">Modelo ML</div>
+                        <div style="font-size: 0.85rem; margin-top: 5px; opacity: 0.9;">Procesamiento IA</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">🔮</div>
+                        <div style="font-weight: 600;">Predicción</div>
+                        <div style="font-size: 0.85rem; margin-top: 5px; opacity: 0.9;">Resultado + Confianza</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">✅</div>
+                        <div style="font-weight: 600;">Validación</div>
+                        <div style="font-size: 0.85rem; margin-top: 5px; opacity: 0.9;">Métricas de Precisión</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px;">
+                    <h3 style="margin-bottom: 15px; color: #667eea;">Métricas de Evaluación del Modelo</h3>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.8rem; font-weight: 700; color: #667eea;">94.8%</div>
+                            <div style="font-size: 0.85rem; color: #666;">Accuracy</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.8rem; font-weight: 700; color: #667eea;">92.3%</div>
+                            <div style="font-size: 0.85rem; color: #666;">Precision</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.8rem; font-weight: 700; color: #667eea;">91.7%</div>
+                            <div style="font-size: 0.85rem; color: #666;">Recall</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.8rem; font-weight: 700; color: #667eea;">0.92</div>
+                            <div style="font-size: 0.85rem; color: #666;">F1-Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="card">
+                <h2>🛠️ Stack Tecnológico</h2>
+                <div class="tech-stack">
+                    <div class="tech-card" style="background: linear-gradient(135deg, #FF6F00 0%, #FFA000 100%);">
+                        <div class="tech-icon">🐍</div>
+                        <div class="tech-info">
+                            <h3>Python</h3>
+                            <p>Lenguaje principal para ML</p>
+                        </div>
+                    </div>
+                    <div class="tech-card" style="background: linear-gradient(135deg, #00897B 0%, #00ACC1 100%);">
+                        <div class="tech-icon">📊</div>
+                        <div class="tech-info">
+                            <h3>Scikit-learn</h3>
+                            <p>Algoritmos de ML clásicos</p>
+                        </div>
+                    </div>
+                    <div class="tech-card" style="background: linear-gradient(135deg, #5E35B1 0%, #7E57C2 100%);">
+                        <div class="tech-icon">🧠</div>
+                        <div class="tech-info">
+                            <h3>TensorFlow</h3>
+                            <p>Deep Learning y redes neuronales</p>
+                        </div>
+                    </div>
+                    <div class="tech-card" style="background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);">
+                        <div class="tech-icon">📈</div>
+                        <div class="tech-info">
+                            <h3>XGBoost</h3>
+                            <p>Gradient boosting optimizado</p>
+                        </div>
+                    </div>
+                    <div class="tech-card" style="background: linear-gradient(135deg, #C62828 0%, #E53935 100%);">
+                        <div class="tech-icon">🔥</div>
+                        <div class="tech-info">
+                            <h3>PyTorch</h3>
+                            <p>Framework de deep learning</p>
+                        </div>
+                    </div>
+                    <div class="tech-card" style="background: linear-gradient(135deg, #6A1B9A 0%, #8E24AA 100%);">
+                        <div class="tech-icon">📊</div>
+                        <div class="tech-info">
+                            <h3>Pandas & NumPy</h3>
+                            <p>Manipulación de datos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; padding: 20px; background: #f8f9fa; border-radius: 12px;">
+                    <h3 style="margin-bottom: 15px; color: #667eea;">Casos de Uso</h3>
+                    <ul style="color: #666; line-height: 2; padding-left: 20px;">
+                        <li><strong>Retail:</strong> Predicción de demanda, optimización de inventario</li>
+                        <li><strong>Finanzas:</strong> Detección de fraude, análisis de riesgo crediticio</li>
+                        <li><strong>Marketing:</strong> Predicción de churn, segmentación de clientes</li>
+                        <li><strong>Manufactura:</strong> Mantenimiento predictivo, control de calidad</li>
+                        <li><strong>Salud:</strong> Diagnóstico asistido, predicción de readmisiones</li>
+                        <li><strong>E-commerce:</strong> Recomendaciones personalizadas, pricing dinámico</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trend Analysis Chart -->
+        <div class="card">
+            <h2>📊 Análisis de Tendencias Históricas</h2>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Prediction Chart
+        const ctx1 = document.getElementById('predictionChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                datasets: [
+                    {
+                        label: 'Datos Reales',
+                        data: [650, 680, 720, 690, 750, 780, 820, 850, 880, 920, 950, 980],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    },
+                    {
+                        label: 'Predicción ML',
+                        data: [645, 685, 715, 695, 755, 775, 825, 845, 885, 915, 955, 985],
+                        borderColor: '#51cf66',
+                        backgroundColor: 'rgba(81, 207, 102, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        borderDash: [5, 5],
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value + 'K';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Trend Chart
+        const ctx2 = document.getElementById('trendChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Q1 2023', 'Q2 2023', 'Q3 2023', 'Q4 2023', 'Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025 (Pred)'],
+                datasets: [
+                    {
+                        label: 'Ventas',
+                        data: [1800, 2100, 2300, 2800, 2200, 2500, 2700, 3200, 3500],
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                    },
+                    {
+                        label: 'Predicción',
+                        data: [null, null, null, null, null, null, null, null, 3500],
+                        backgroundColor: 'rgba(81, 207, 102, 0.8)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value + 'K';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Animate progress bars on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.progress-fill');
+            bars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
