@@ -38,6 +38,186 @@
             </button>
         </header>
 
+        <!-- Demo Features Section -->
+        <section class="demo-features glass-panel">
+            <h2 class="section-title">🔮 Interactive Demo Features</h2>
+            <div class="features-showcase">
+                <div class="feature-demo">
+                    <div class="feature-icon">🎴</div>
+                    <h3>42 Tarot Cards</h3>
+                    <p>Complete Major Arcana + Minor Arcana suits</p>
+                    <button class="demo-btn" onclick="toggleGallery()">View Gallery</button>
+                </div>
+                <div class="feature-demo">
+                    <div class="feature-icon">✨</div>
+                    <h3>4 Spread Types</h3>
+                    <p>Single, Three-Card, Celtic Cross, Relationship</p>
+                    <button class="demo-btn" onclick="document.getElementById('spreadSelection').scrollIntoView({behavior: 'smooth'})">Try Now</button>
+                </div>
+                <div class="feature-demo">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Interpretations</h3>
+                    <p>Personalized readings with cosmic guidance</p>
+                    <button class="demo-btn" onclick="selectSpread('three-card')">Start Reading</button>
+                </div>
+                <div class="feature-demo">
+                    <div class="feature-icon">📚</div>
+                    <h3>Reading History</h3>
+                    <p>Save and review past readings</p>
+                    <button class="demo-btn" onclick="toggleHistory()">View History</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sample Reading Demo -->
+        <section class="sample-reading glass-panel">
+            <h2 class="section-title">🌟 Sample Reading Example</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                See how a Three-Card Spread reading looks
+            </p>
+            <div class="sample-spread">
+                <div class="sample-card">
+                    <div class="sample-position">Past</div>
+                    <div class="sample-card-visual">
+                        <div class="tarot-card flipped">
+                            <div class="card-face card-back"></div>
+                            <div class="card-face card-front">
+                                <div class="card-number">0</div>
+                                <div class="card-image">🌟</div>
+                                <div class="card-name">The Fool</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sample-meaning">
+                        <strong>New beginnings</strong>
+                        <p>Your journey started with innocence and spontaneity</p>
+                    </div>
+                </div>
+                <div class="sample-card">
+                    <div class="sample-position">Present</div>
+                    <div class="sample-card-visual">
+                        <div class="tarot-card flipped">
+                            <div class="card-face card-back"></div>
+                            <div class="card-face card-front">
+                                <div class="card-number">1</div>
+                                <div class="card-image">🎩</div>
+                                <div class="card-name">The Magician</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sample-meaning">
+                        <strong>Manifestation</strong>
+                        <p>You currently have the power to create your reality</p>
+                    </div>
+                </div>
+                <div class="sample-card">
+                    <div class="sample-position">Future</div>
+                    <div class="sample-card-visual">
+                        <div class="tarot-card flipped">
+                            <div class="card-face card-back"></div>
+                            <div class="card-face card-front">
+                                <div class="card-number">17</div>
+                                <div class="card-image">✨</div>
+                                <div class="card-name">The Star</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sample-meaning">
+                        <strong>Hope & Renewal</strong>
+                        <p>Your path leads to inspiration and spiritual healing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="sample-interpretation glass-panel">
+                <div class="ai-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <h3>AI Interpretation Example</h3>
+                </div>
+                <p><strong>Reading Overview:</strong> This three-card spread reveals a powerful journey of transformation and growth.</p>
+                <p><strong>Past:</strong> The Fool represents your willingness to take a leap of faith. You embarked on this journey with an open heart and curious mind, ready to embrace the unknown.</p>
+                <p><strong>Present:</strong> The Magician shows you now possess all the tools needed for success. You're in a position of power, able to manifest your desires through focused intention and action.</p>
+                <p><strong>Future:</strong> The Star illuminates your path ahead with hope and divine guidance. Healing, inspiration, and renewed faith await you. Trust in the universe's plan.</p>
+                <p><strong>Cosmic Guidance:</strong> This reading suggests you're on the right path. Continue to trust your intuition and take inspired action. The universe supports your journey.</p>
+            </div>
+        </section>
+
+        <!-- Card Meanings Reference -->
+        <section class="card-meanings glass-panel">
+            <h2 class="section-title">📖 Major Arcana Quick Reference</h2>
+            <div class="meanings-grid">
+                <div class="meaning-card">
+                    <span class="meaning-symbol">🌟</span>
+                    <h4>The Fool</h4>
+                    <p>New beginnings, innocence, adventure</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">🎩</span>
+                    <h4>The Magician</h4>
+                    <p>Manifestation, power, skill</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">🌙</span>
+                    <h4>High Priestess</h4>
+                    <p>Intuition, mystery, inner voice</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">👑</span>
+                    <h4>The Empress</h4>
+                    <p>Femininity, abundance, nature</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">⚔️</span>
+                    <h4>The Emperor</h4>
+                    <p>Authority, structure, stability</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">💕</span>
+                    <h4>The Lovers</h4>
+                    <p>Love, harmony, relationships</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">🏆</span>
+                    <h4>The Chariot</h4>
+                    <p>Control, willpower, victory</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">🦁</span>
+                    <h4>Strength</h4>
+                    <p>Courage, patience, compassion</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">✨</span>
+                    <h4>The Star</h4>
+                    <p>Hope, faith, inspiration</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">☀️</span>
+                    <h4>The Sun</h4>
+                    <p>Joy, success, vitality</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">🌍</span>
+                    <h4>The World</h4>
+                    <p>Completion, accomplishment, unity</p>
+                </div>
+                <div class="meaning-card">
+                    <span class="meaning-symbol">🦋</span>
+                    <h4>Death</h4>
+                    <p>Transformation, endings, renewal</p>
+                </div>
+            </div>
+            <button class="primary-btn" onclick="toggleGallery()" style="margin: 2rem auto 0; display: block;">
+                <span>View Full Card Gallery</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </section>
+
         <!-- Reading Type Selection -->
         <section class="spread-selection" id="spreadSelection">
             <h2 class="section-title">Choose Your Spread</h2>

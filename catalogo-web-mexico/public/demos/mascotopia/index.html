@@ -42,24 +42,322 @@
                     <a href="https://github.com/SebastianVernis/MASCOTOPIA" target="_blank" class="btn-primary">
                         Ver Código en GitHub
                     </a>
+                    <a href="#catalog" class="btn-secondary">
+                        Ver Catálogo Demo
+                    </a>
                 </div>
             </div>
             <div class="hero-image">
-                <div class="mockup-browser">
-                    <div class="browser-header">
-                        <div class="browser-dots">
-                            <span></span><span></span><span></span>
-                        </div>
-                        <div class="browser-url">mascotopia.com</div>
+                <div class="featured-product">
+                    <div class="product-badge">⭐ Producto Destacado</div>
+                    <div class="product-image">🦴</div>
+                    <h3>Alimento Premium para Perros</h3>
+                    <p class="product-price">$599.00 MXN</p>
+                    <div class="product-rating">
+                        ⭐⭐⭐⭐⭐ <span>(127 reseñas)</span>
                     </div>
-                    <div class="browser-content">
-                        <div class="product-grid-demo">
-                            <div class="product-demo">🐕 Alimento Premium</div>
-                            <div class="product-demo">🐈 Juguetes</div>
-                            <div class="product-demo">🦴 Snacks</div>
-                            <div class="product-demo">🏠 Accesorios</div>
+                    <button class="add-to-cart-btn">🛒 Agregar al Carrito</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Catalog Section -->
+    <section id="catalog" class="product-catalog">
+        <div class="container">
+            <h2 class="section-title">🛍️ Catálogo de Productos</h2>
+            <div class="catalog-filters">
+                <button class="filter-btn active" data-category="all">Todos</button>
+                <button class="filter-btn" data-category="alimentos">🦴 Alimentos</button>
+                <button class="filter-btn" data-category="juguetes">🎾 Juguetes</button>
+                <button class="filter-btn" data-category="accesorios">🏠 Accesorios</button>
+                <button class="filter-btn" data-category="higiene">🧼 Higiene</button>
+            </div>
+            <div class="products-grid">
+                <div class="product-card" data-category="alimentos" data-id="1">
+                    <div class="product-image-container">
+                        <div class="product-emoji">🦴</div>
+                        <span class="product-tag">Bestseller</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Alimento Premium Perros</h3>
+                        <p class="product-description">Nutrición completa para perros adultos</p>
+                        <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="product-footer">
+                            <span class="product-price">$599.00</span>
+                            <button class="add-btn" onclick="addToCart(1)">+ Agregar</button>
                         </div>
                     </div>
+                </div>
+                <div class="product-card" data-category="higiene" data-id="2">
+                    <div class="product-image-container">
+                        <div class="product-emoji">🐱</div>
+                        <span class="product-tag new">Nuevo</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Arena para Gatos</h3>
+                        <p class="product-description">Arena aglutinante sin polvo</p>
+                        <div class="product-rating">⭐⭐⭐⭐☆</div>
+                        <div class="product-footer">
+                            <span class="product-price">$299.00</span>
+                            <button class="add-btn" onclick="addToCart(2)">+ Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="juguetes" data-id="3">
+                    <div class="product-image-container">
+                        <div class="product-emoji">🎾</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Juguete Interactivo</h3>
+                        <p class="product-description">Pelota dispensadora de premios</p>
+                        <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="product-footer">
+                            <span class="product-price">$199.00</span>
+                            <button class="add-btn" onclick="addToCart(3)">+ Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="accesorios" data-id="4">
+                    <div class="product-image-container">
+                        <div class="product-emoji">🛏️</div>
+                        <span class="product-tag">Oferta</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Cama para Mascotas</h3>
+                        <p class="product-description">Cama ortopédica memory foam</p>
+                        <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="product-footer">
+                            <span class="product-price">$899.00</span>
+                            <button class="add-btn" onclick="addToCart(4)">+ Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="accesorios" data-id="5">
+                    <div class="product-image-container">
+                        <div class="product-emoji">📍</div>
+                        <span class="product-tag new">Nuevo</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Collar con GPS</h3>
+                        <p class="product-description">Rastreador GPS en tiempo real</p>
+                        <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="product-footer">
+                            <span class="product-price">$1,299.00</span>
+                            <button class="add-btn" onclick="addToCart(5)">+ Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="alimentos" data-id="6">
+                    <div class="product-image-container">
+                        <div class="product-emoji">🍖</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Snacks Naturales</h3>
+                        <p class="product-description">Premios 100% naturales</p>
+                        <div class="product-rating">⭐⭐⭐⭐☆</div>
+                        <div class="product-footer">
+                            <span class="product-price">$149.00</span>
+                            <button class="add-btn" onclick="addToCart(6)">+ Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="juguetes" data-id="7">
+                    <div class="product-image-container">
+                        <div class="product-emoji">🧸</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Peluche Resistente</h3>
+                        <p class="product-description">Juguete de peluche indestructible</p>
+                        <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="product-footer">
+                            <span class="product-price">$249.00</span>
+                            <button class="add-btn" onclick="addToCart(7)">+ Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card" data-category="higiene" data-id="8">
+                    <div class="product-image-container">
+                        <div class="product-emoji">🧴</div>
+                        <span class="product-tag">Bestseller</span>
+                    </div>
+                    <div class="product-info">
+                        <h3>Shampoo Premium</h3>
+                        <p class="product-description">Shampoo hipoalergénico</p>
+                        <div class="product-rating">⭐⭐⭐⭐⭐</div>
+                        <div class="product-footer">
+                            <span class="product-price">$179.00</span>
+                            <button class="add-btn" onclick="addToCart(8)">+ Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Demo Section -->
+    <section class="cart-demo">
+        <div class="container">
+            <h2 class="section-title">🛒 Carrito de Compras Funcional</h2>
+            <div class="cart-container">
+                <div class="cart-items">
+                    <h3>Productos en el Carrito</h3>
+                    <div id="cartItemsList" class="cart-list">
+                        <div class="empty-cart">
+                            <div class="empty-icon">🛒</div>
+                            <p>Tu carrito está vacío</p>
+                            <p class="empty-subtitle">Agrega productos desde el catálogo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart-summary">
+                    <h3>Resumen del Pedido</h3>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Envío:</span>
+                        <span id="cartShipping">$99.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>IVA (16%):</span>
+                        <span id="cartTax">$0.00</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="cartTotal">$0.00</span>
+                    </div>
+                    <button class="checkout-btn" onclick="proceedToCheckout()">
+                        Proceder al Pago 💳
+                    </button>
+                    <button class="clear-cart-btn" onclick="clearCart()">
+                        Vaciar Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Process Section -->
+    <section class="checkout-process">
+        <div class="container">
+            <h2 class="section-title">💳 Proceso de Checkout</h2>
+            <div class="checkout-steps">
+                <div class="checkout-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Información de Envío</h3>
+                        <p>Nombre, dirección y datos de contacto</p>
+                        <div class="step-icon">📦</div>
+                    </div>
+                </div>
+                <div class="checkout-arrow">→</div>
+                <div class="checkout-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Método de Pago</h3>
+                        <p>Tarjeta, PayPal, transferencia</p>
+                        <div class="step-icon">💳</div>
+                    </div>
+                </div>
+                <div class="checkout-arrow">→</div>
+                <div class="checkout-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Revisión</h3>
+                        <p>Confirmar pedido y detalles</p>
+                        <div class="step-icon">✅</div>
+                    </div>
+                </div>
+                <div class="checkout-arrow">→</div>
+                <div class="checkout-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Confirmación</h3>
+                        <p>Pedido completado exitosamente</p>
+                        <div class="step-icon">🎉</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Responsive Showcase -->
+    <section class="mobile-showcase">
+        <div class="container">
+            <h2 class="section-title">📱 Diseño Responsivo</h2>
+            <p class="section-subtitle">Experiencia optimizada en todos los dispositivos</p>
+            <div class="devices-grid">
+                <div class="device-mockup mobile">
+                    <div class="device-frame">
+                        <div class="device-screen">
+                            <div class="mobile-header">
+                                <span>☰</span>
+                                <span>🐾 Mascotopia</span>
+                                <span>🛒</span>
+                            </div>
+                            <div class="mobile-content">
+                                <div class="mobile-product">
+                                    <div class="mobile-img">🦴</div>
+                                    <div class="mobile-info">
+                                        <p>Alimento Premium</p>
+                                        <p>$599.00</p>
+                                    </div>
+                                </div>
+                                <div class="mobile-product">
+                                    <div class="mobile-img">🎾</div>
+                                    <div class="mobile-info">
+                                        <p>Juguete</p>
+                                        <p>$199.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="device-label">📱 Mobile</p>
+                </div>
+                <div class="device-mockup tablet">
+                    <div class="device-frame">
+                        <div class="device-screen">
+                            <div class="tablet-layout">
+                                <div class="tablet-sidebar">
+                                    <div class="sidebar-item">🏠</div>
+                                    <div class="sidebar-item">🛍️</div>
+                                    <div class="sidebar-item">🛒</div>
+                                </div>
+                                <div class="tablet-main">
+                                    <div class="tablet-grid">
+                                        <div class="tablet-card">🦴</div>
+                                        <div class="tablet-card">🎾</div>
+                                        <div class="tablet-card">🛏️</div>
+                                        <div class="tablet-card">📍</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="device-label">📱 Tablet</p>
+                </div>
+                <div class="device-mockup desktop">
+                    <div class="device-frame">
+                        <div class="device-screen">
+                            <div class="desktop-header">
+                                <span>🐾 Mascotopia</span>
+                                <span>🛒 Carrito (3)</span>
+                            </div>
+                            <div class="desktop-grid">
+                                <div class="desktop-card">🦴</div>
+                                <div class="desktop-card">🎾</div>
+                                <div class="desktop-card">🛏️</div>
+                                <div class="desktop-card">📍</div>
+                                <div class="desktop-card">🍖</div>
+                                <div class="desktop-card">🧸</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="device-label">💻 Desktop</p>
                 </div>
             </div>
         </div>

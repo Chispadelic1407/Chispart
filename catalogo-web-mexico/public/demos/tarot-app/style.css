@@ -154,6 +154,177 @@ body {
     background-clip: text;
 }
 
+/* Demo Features Section */
+.demo-features {
+    margin: 40px 0;
+}
+
+.features-showcase {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.feature-demo {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.feature-demo:hover {
+    transform: translateY(-10px);
+    background: rgba(168, 85, 247, 0.1);
+}
+
+.feature-demo .feature-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.feature-demo h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.feature-demo p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.demo-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.demo-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(168, 85, 247, 0.4);
+}
+
+/* Sample Reading Section */
+.sample-reading {
+    margin: 40px 0;
+}
+
+.sample-spread {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.sample-card {
+    text-align: center;
+    max-width: 200px;
+}
+
+.sample-position {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.sample-card-visual {
+    margin-bottom: 1.5rem;
+}
+
+.sample-card-visual .tarot-card {
+    width: 140px;
+    height: 230px;
+    margin: 0 auto;
+}
+
+.sample-meaning {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.sample-meaning strong {
+    display: block;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.sample-meaning p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.sample-interpretation {
+    margin-top: 2rem;
+    padding: 2rem;
+}
+
+.sample-interpretation p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+
+.sample-interpretation strong {
+    color: var(--text);
+}
+
+/* Card Meanings Reference */
+.card-meanings {
+    margin: 40px 0;
+}
+
+.meanings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.meaning-card {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.meaning-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+}
+
+.meaning-symbol {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.meaning-card h4 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.meaning-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
 /* Spread Selection */
 .spread-selection {
     margin-bottom: 40px;
