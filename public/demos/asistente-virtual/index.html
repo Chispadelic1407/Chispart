@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente Virtual de Voz - Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .voice-interface {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .voice-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .voice-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
+        }
+
+        .voice-button.active {
+            animation: pulse 1.5s infinite;
+        }
+
+        .voice-icon {
+            font-size: 5rem;
+            color: white;
+        }
+
+        .waveform {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            height: 100px;
+            margin: 30px 0;
+        }
+
+        .wave-bar {
+            width: 8px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 40px; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 60px; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 80px; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 60px; animation-delay: 0.4s; }
+        .wave-bar:nth-child(6) { height: 40px; animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { height: 20px; animation-delay: 0.6s; }
+
+        .status-text {
+            font-size: 1.2rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .commands-list {
+            margin-top: 20px;
+        }
+
+        .command-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .command-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: #e9ecef;
+        }
+
+        .command-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .command-content {
+            flex: 1;
+        }
+
+        .command-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .command-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .integration-diagram {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .diagram-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .diagram-node {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            transition: transform 0.3s ease;
+        }
+
+        .diagram-node:hover {
+            transform: scale(1.05);
+        }
+
+        .diagram-arrow {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .automation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .automation-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .automation-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .automation-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .automation-card p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .speech-demo {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        .speech-input {
+            color: #4ec9b0;
+            margin-bottom: 10px;
+        }
+
+        .speech-output {
+            color: #ce9178;
+            margin-top: 10px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 60px rgba(102, 126, 234, 0.8);
+            }
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(1.5);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .automation-grid, .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .diagram-flow {
+                flex-direction: column;
+            }
+            .diagram-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎤 Asistente Virtual de Voz</h1>
+            <p>Automatización inteligente con comandos de voz</p>
+        </div>
+
+        <div class="main-grid">
+            <!-- Voice Interface -->
+            <div class="card">
+                <h2>🗣️ Interfaz de Voz</h2>
+                <div class="voice-interface">
+                    <button class="voice-button" id="voiceBtn">
+                        <div class="voice-icon">🎙️</div>
+                    </button>
+                    <div class="waveform" id="waveform" style="display: none;">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                    <div class="status-text" id="statusText">Presiona para hablar</div>
+                </div>
+
+                <div class="speech-demo">
+                    <div class="speech-input">🎤 Usuario: "Agenda una reunión para mañana a las 3 PM"</div>
+                    <div style="color: #6a9955; margin: 10px 0;">// Procesando con NLP...</div>
+                    <div class="speech-output">🤖 Asistente: "Reunión agendada para mañana 23 de diciembre a las 15:00. ¿Deseas agregar participantes?"</div>
+                </div>
+
+                <div class="speech-demo" style="margin-top: 15px;">
+                    <div class="speech-input">🎤 Usuario: "Envía un email a Juan con el reporte mensual"</div>
+                    <div style="color: #6a9955; margin: 10px 0;">// Integrando con sistema de email...</div>
+                    <div class="speech-output">🤖 Asistente: "Email enviado a Juan Pérez con el reporte mensual adjunto. Confirmación recibida."</div>
+                </div>
+            </div>
+
+            <!-- Commands List -->
+            <div class="card">
+                <h2>📋 Comandos Disponibles</h2>
+                <div class="commands-list">
+                    <div class="command-item">
+                        <div class="command-icon">📅</div>
+                        <div class="command-content">
+                            <div class="command-text">"Agenda una reunión..."</div>
+                            <div class="command-desc">Crea eventos en tu calendario automáticamente</div>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-icon">📧</div>
+                        <div class="command-content">
+                            <div class="command-text">"Envía un email a..."</div>
+                            <div class="command-desc">Redacta y envía correos electrónicos</div>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-icon">📊</div>
+                        <div class="command-content">
+                            <div class="command-text">"Genera un reporte de..."</div>
+                            <div class="command-desc">Crea reportes y análisis de datos</div>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-icon">🔍</div>
+                        <div class="command-content">
+                            <div class="command-text">"Busca información sobre..."</div>
+                            <div class="command-desc">Búsqueda inteligente en bases de datos</div>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-icon">💰</div>
+                        <div class="command-content">
+                            <div class="command-text">"Procesa la factura..."</div>
+                            <div class="command-desc">Automatiza procesos de facturación</div>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-icon">📞</div>
+                        <div class="command-content">
+                            <div class="command-text">"Llama a..."</div>
+                            <div class="command-desc">Inicia llamadas y videollamadas</div>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-icon">🔔</div>
+                        <div class="command-content">
+                            <div class="command-text">"Recuérdame..."</div>
+                            <div class="command-desc">Configura recordatorios y alertas</div>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-icon">📝</div>
+                        <div class="command-content">
+                            <div class="command-text">"Toma nota de..."</div>
+                            <div class="command-desc">Captura notas y transcripciones</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Diagram -->
+        <div class="card">
+            <h2>🔗 Integración con Sistemas Empresariales</h2>
+            <div class="integration-diagram">
+                <div class="diagram-flow">
+                    <div class="diagram-node">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">🎤</div>
+                        <div>Comando de Voz</div>
+                    </div>
+                    <div class="diagram-arrow">→</div>
+                    <div class="diagram-node">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">🧠</div>
+                        <div>Procesamiento NLP</div>
+                    </div>
+                    <div class="diagram-arrow">→</div>
+                    <div class="diagram-node">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">⚙️</div>
+                        <div>Ejecución de Tarea</div>
+                    </div>
+                    <div class="diagram-arrow">→</div>
+                    <div class="diagram-node">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">✅</div>
+                        <div>Confirmación</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="automation-grid">
+                <div class="automation-card" style="background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);">
+                    <h3>📧 Email & Calendar</h3>
+                    <p>Integración con Outlook, Gmail, Google Calendar</p>
+                </div>
+                <div class="automation-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h3>💼 CRM Systems</h3>
+                    <p>Salesforce, HubSpot, Zoho CRM</p>
+                </div>
+                <div class="automation-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <h3>📊 Analytics</h3>
+                    <p>Google Analytics, Power BI, Tableau</p>
+                </div>
+                <div class="automation-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <h3>💬 Messaging</h3>
+                    <p>Slack, Microsoft Teams, WhatsApp Business</p>
+                </div>
+                <div class="automation-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <h3>📁 Cloud Storage</h3>
+                    <p>Google Drive, Dropbox, OneDrive</p>
+                </div>
+                <div class="automation-card" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <h3>🔐 Security</h3>
+                    <p>OAuth 2.0, SSO, Encriptación E2E</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="card">
+            <h2>✨ Características Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Multi-idioma</h3>
+                    <p>Soporte para 50+ idiomas con reconocimiento de acentos</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Aprendizaje Continuo</h3>
+                    <p>Se adapta a tu forma de hablar y preferencias</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacidad Total</h3>
+                    <p>Procesamiento local, datos encriptados</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Respuesta Rápida</h3>
+                    <p>Latencia menor a 500ms en procesamiento</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Alta Precisión</h3>
+                    <p>98.5% de precisión en reconocimiento de voz</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Contexto Persistente</h3>
+                    <p>Recuerda conversaciones anteriores</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px;">
+                <h3 style="margin-bottom: 15px; color: #667eea;">Stack Tecnológico</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">Gemini AI</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">Google Speech-to-Text</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">WebRTC</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">Node.js</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">Python NLP</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">TensorFlow</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">WebSocket</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">Redis</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 20px; background: #1e1e1e; color: #d4d4d4; border-radius: 12px; font-family: 'Courier New', monospace; font-size: 13px;">
+<span style="color: #6a9955;">// Ejemplo de integración</span>
+<span style="color: #569cd6;">const</span> assistant = <span style="color: #569cd6;">new</span> <span style="color: #4ec9b0;">VoiceAssistant</span>({
+  language: <span style="color: #ce9178;">'es-MX'</span>,
+  apiKey: <span style="color: #ce9178;">process.env.GEMINI_API_KEY</span>,
+  integrations: [<span style="color: #ce9178;">'gmail'</span>, <span style="color: #ce9178;">'calendar'</span>, <span style="color: #ce9178;">'crm'</span>]
+});
+
+assistant.<span style="color: #dcdcaa;">on</span>(<span style="color: #ce9178;">'command'</span>, <span style="color: #569cd6;">async</span> (cmd) => {
+  <span style="color: #569cd6;">const</span> result = <span style="color: #569cd6;">await</span> assistant.<span style="color: #dcdcaa;">execute</span>(cmd);
+  console.<span style="color: #dcdcaa;">log</span>(<span style="color: #ce9178;">'Tarea completada:'</span>, result);
+});
+
+assistant.<span style="color: #dcdcaa;">start</span>();
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const voiceBtn = document.getElementById('voiceBtn');
+        const waveform = document.getElementById('waveform');
+        const statusText = document.getElementById('statusText');
+        let isListening = false;
+
+        voiceBtn.addEventListener('click', () => {
+            isListening = !isListening;
+            
+            if (isListening) {
+                voiceBtn.classList.add('active');
+                waveform.style.display = 'flex';
+                statusText.textContent = 'Escuchando...';
+                statusText.style.color = '#51cf66';
+                
+                // Simulate listening timeout
+                setTimeout(() => {
+                    isListening = false;
+                    voiceBtn.classList.remove('active');
+                    waveform.style.display = 'none';
+                    statusText.textContent = 'Procesando comando...';
+                    statusText.style.color = '#667eea';
+                    
+                    setTimeout(() => {
+                        statusText.textContent = 'Presiona para hablar';
+                        statusText.style.color = '#667eea';
+                    }, 2000);
+                }, 3000);
+            } else {
+                voiceBtn.classList.remove('active');
+                waveform.style.display = 'none';
+                statusText.textContent = 'Presiona para hablar';
+                statusText.style.color = '#667eea';
+            }
+        });
+
+        // Interactive command items
+        document.querySelectorAll('.command-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const commandText = this.querySelector('.command-text').textContent;
+                statusText.textContent = `Ejecutando: ${commandText}`;
+                statusText.style.color = '#51cf66';
+                
+                setTimeout(() => {
+                    statusText.textContent = 'Presiona para hablar';
+                    statusText.style.color = '#667eea';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor Multilingüe IA - Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .translator-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease;
+            margin-bottom: 30px;
+        }
+
+        .translator-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .translation-panel {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 300px;
+        }
+
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .flag-icon {
+            font-size: 2rem;
+        }
+
+        .language-dropdown {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-dropdown:hover {
+            border-color: #764ba2;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .text-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .text-area:focus {
+            outline: 2px solid #667eea;
+        }
+
+        .swap-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            align-self: center;
+        }
+
+        .swap-button:hover {
+            transform: rotate(180deg) scale(1.1);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .translate-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .translate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .language-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .language-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .language-card.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease;
+            margin-bottom: 30px;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .use-case-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .use-case-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .use-case-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .use-case-card p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .api-example {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .code-keyword { color: #569cd6; }
+        .code-string { color: #ce9178; }
+        .code-function { color: #dcdcaa; }
+        .code-comment { color: #6a9955; }
+        .code-number { color: #b5cea8; }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .feature-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #667eea;
+        }
+
+        .feature-content p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .translator-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .swap-button {
+                transform: rotate(90deg);
+                margin: 20px auto;
+            }
+            .use-cases-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .use-cases-grid, .features-list, .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Traductor Multilingüe con IA</h1>
+            <p>Traducción en tiempo real con contexto cultural y precisión profesional</p>
+        </div>
+
+        <!-- Main Translator Interface -->
+        <div class="translator-card">
+            <div class="translator-grid">
+                <!-- Source Language -->
+                <div class="translation-panel">
+                    <div class="language-selector">
+                        <span class="flag-icon">🇲🇽</span>
+                        <select class="language-dropdown" id="sourceLang">
+                            <option value="es">Español</option>
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="it">Italiano</option>
+                            <option value="pt">Português</option>
+                            <option value="ja">日本語</option>
+                            <option value="zh">中文</option>
+                            <option value="ko">한국어</option>
+                            <option value="ru">Русский</option>
+                        </select>
+                    </div>
+                    <textarea class="text-area" id="sourceText" placeholder="Escribe o pega tu texto aquí...">Hola, ¿cómo estás? Me gustaría programar una reunión para discutir el proyecto de inteligencia artificial que estamos desarrollando.</textarea>
+                    <button class="translate-button" onclick="translateText()">🔄 Traducir</button>
+                </div>
+
+                <!-- Swap Button -->
+                <button class="swap-button" onclick="swapLanguages()">⇄</button>
+
+                <!-- Target Language -->
+                <div class="translation-panel">
+                    <div class="language-selector">
+                        <span class="flag-icon">🇺🇸</span>
+                        <select class="language-dropdown" id="targetLang">
+                            <option value="en" selected>English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="it">Italiano</option>
+                            <option value="pt">Português</option>
+                            <option value="ja">日本語</option>
+                            <option value="zh">中文</option>
+                            <option value="ko">한국어</option>
+                            <option value="ru">Русский</option>
+                        </select>
+                    </div>
+                    <textarea class="text-area" id="targetText" placeholder="La traducción aparecerá aquí..." readonly>Hello, how are you? I would like to schedule a meeting to discuss the artificial intelligence project we are developing.</textarea>
+                    <div style="margin-top: 15px; padding: 15px; background: #e7f5ff; border-radius: 10px; font-size: 0.9rem; color: #1971c2;">
+                        ✅ Traducción contextual aplicada | ⚡ Tiempo: 0.3s | 🎯 Confianza: 98.5%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="card">
+            <h2>📊 Estadísticas del Sistema</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Idiomas Soportados</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">98.5%</div>
+                    <div class="stat-label">Precisión Promedio</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">0.3s</div>
+                    <div class="stat-label">Tiempo de Respuesta</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">5M+</div>
+                    <div class="stat-label">Traducciones/Día</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Use Cases -->
+        <div class="card">
+            <h2>💼 Casos de Uso</h2>
+            <div class="use-cases-grid">
+                <div class="use-case-card" style="background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);">
+                    <div class="use-case-icon">📄</div>
+                    <h3>Documentos</h3>
+                    <p>Traduce contratos, manuales, reportes y documentación técnica manteniendo el formato original</p>
+                </div>
+                <div class="use-case-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="use-case-icon">💬</div>
+                    <h3>Conversaciones</h3>
+                    <p>Chat en tiempo real con traducción instantánea para comunicación internacional</p>
+                </div>
+                <div class="use-case-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="use-case-icon">🎬</div>
+                    <h3>Subtítulos</h3>
+                    <p>Genera subtítulos automáticos para videos en múltiples idiomas con sincronización perfecta</p>
+                </div>
+                <div class="use-case-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="use-case-icon">🌐</div>
+                    <h3>Sitios Web</h3>
+                    <p>Localización completa de sitios web con adaptación cultural y SEO multilingüe</p>
+                </div>
+                <div class="use-case-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="use-case-icon">📧</div>
+                    <h3>Emails</h3>
+                    <p>Traduce correos electrónicos manteniendo el tono profesional y contexto empresarial</p>
+                </div>
+                <div class="use-case-card" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <div class="use-case-icon">🎤</div>
+                    <h3>Audio</h3>
+                    <p>Transcripción y traducción de audio/video con reconocimiento de múltiples hablantes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="card">
+            <h2>✨ Características Avanzadas</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-content">
+                        <h3>Traducción Contextual</h3>
+                        <p>Entiende el contexto completo de la conversación, no solo palabras individuales. Adapta modismos y expresiones culturales.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-content">
+                        <h3>Especialización por Industria</h3>
+                        <p>Modelos especializados para legal, médico, técnico, financiero y más. Terminología precisa garantizada.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-content">
+                        <h3>Traducción Bidireccional</h3>
+                        <p>Traduce en ambas direcciones simultáneamente. Ideal para conversaciones en tiempo real.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📝</div>
+                    <div class="feature-content">
+                        <h3>Preservación de Formato</h3>
+                        <p>Mantiene el formato original de documentos: negritas, cursivas, listas, tablas y más.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-content">
+                        <h3>Privacidad Garantizada</h3>
+                        <p>Encriptación E2E, sin almacenamiento de datos sensibles. Cumple con GDPR y regulaciones internacionales.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-content">
+                        <h3>Procesamiento en Lote</h3>
+                        <p>Traduce múltiples documentos simultáneamente. Ideal para grandes volúmenes de contenido.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Integration -->
+        <div class="card">
+            <h2>💻 Integración API</h2>
+            <div class="api-example">
+<span class="code-comment">// Ejemplo de integración con la API de traducción</span>
+<span class="code-keyword">const</span> <span class="code-function">translateText</span> = <span class="code-keyword">async</span> (text, sourceLang, targetLang) => {
+  <span class="code-keyword">const</span> response = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'https://api.traductor-ia.com/v1/translate'</span>, {
+    method: <span class="code-string">'POST'</span>,
+    headers: {
+      <span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>,
+      <span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${API_KEY}`</span>
+    },
+    body: JSON.<span class="code-function">stringify</span>({
+      text: text,
+      source_language: sourceLang,
+      target_language: targetLang,
+      context_aware: <span class="code-keyword">true</span>,
+      preserve_formatting: <span class="code-keyword">true</span>,
+      industry: <span class="code-string">'general'</span> <span class="code-comment">// Options: general, legal, medical, technical</span>
+    })
+  });
+  
+  <span class="code-keyword">const</span> data = <span class="code-keyword">await</span> response.<span class="code-function">json</span>();
+  <span class="code-keyword">return</span> data;
+};
+
+<span class="code-comment">// Uso del traductor</span>
+<span class="code-keyword">const</span> result = <span class="code-keyword">await</span> <span class="code-function">translateText</span>(
+  <span class="code-string">'Hello, how are you?'</span>,
+  <span class="code-string">'en'</span>,
+  <span class="code-string">'es'</span>
+);
+
+console.<span class="code-function">log</span>(result);
+<span class="code-comment">// Output:</span>
+<span class="code-comment">// {</span>
+<span class="code-comment">//   translated_text: "Hola, ¿cómo estás?",</span>
+<span class="code-comment">//   confidence: 0.985,</span>
+<span class="code-comment">//   processing_time: 0.3,</span>
+<span class="code-comment">//   detected_source_language: "en",</span>
+<span class="code-comment">//   alternatives: ["Hola, ¿cómo te va?", "Hola, ¿qué tal?"]</span>
+<span class="code-comment">// }</span>
+
+<span class="code-comment">// Traducción de documentos</span>
+<span class="code-keyword">const</span> <span class="code-function">translateDocument</span> = <span class="code-keyword">async</span> (file) => {
+  <span class="code-keyword">const</span> formData = <span class="code-keyword">new</span> <span class="code-function">FormData</span>();
+  formData.<span class="code-function">append</span>(<span class="code-string">'file'</span>, file);
+  formData.<span class="code-function">append</span>(<span class="code-string">'target_language'</span>, <span class="code-string">'es'</span>);
+  
+  <span class="code-keyword">const</span> response = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'https://api.traductor-ia.com/v1/translate/document'</span>, {
+    method: <span class="code-string">'POST'</span>,
+    headers: { <span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${API_KEY}`</span> },
+    body: formData
+  });
+  
+  <span class="code-keyword">return await</span> response.<span class="code-function">blob</span>(); <span class="code-comment">// Returns translated document</span>
+};
+            </div>
+
+            <div style="margin-top: 25px; padding: 20px; background: #f8f9fa; border-radius: 12px;">
+                <h3 style="margin-bottom: 15px; color: #667eea;">Tecnologías Utilizadas</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">Google Translate AI</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">DeepL API</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">OpenAI GPT-4</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">Python</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">React</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">TensorFlow</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">NLP</span>
+                    <span style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem;">WebSocket</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function translateText() {
+            const sourceText = document.getElementById('sourceText').value;
+            const targetText = document.getElementById('targetText');
+            
+            // Simulate translation
+            targetText.value = 'Traduciendo...';
+            setTimeout(() => {
+                targetText.value = 'Hello, how are you? I would like to schedule a meeting to discuss the artificial intelligence project we are developing.';
+            }, 500);
+        }
+
+        function swapLanguages() {
+            const sourceLang = document.getElementById('sourceLang');
+            const targetLang = document.getElementById('targetLang');
+            const sourceText = document.getElementById('sourceText');
+            const targetText = document.getElementById('targetText');
+            
+            // Swap language selections
+            const tempLang = sourceLang.value;
+            sourceLang.value = targetLang.value;
+            targetLang.value = tempLang;
+            
+            // Swap text content
+            const tempText = sourceText.value;
+            sourceText.value = targetText.value;
+            targetText.value = tempText;
+        }
+
+        // Update flag icons based on language selection
+        document.getElementById('sourceLang').addEventListener('change', function() {
+            updateFlag(this, 0);
+        });
+
+        document.getElementById('targetLang').addEventListener('change', function() {
+            updateFlag(this, 1);
+        });
+
+        function updateFlag(select, index) {
+            const flags = {
+                'es': '🇲🇽', 'en': '🇺🇸', 'fr': '🇫🇷', 'de': '🇩🇪',
+                'it': '🇮🇹', 'pt': '🇵🇹', 'ja': '🇯🇵', 'zh': '🇨🇳',
+                'ko': '🇰🇷', 'ru': '🇷🇺'
+            };
+            const flagIcons = document.querySelectorAll('.flag-icon');
+            flagIcons[index].textContent = flags[select.value] || '🌍';
+        }
+    </script>
+</body>
+</html>
