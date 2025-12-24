@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace Local - Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                    <path d="M20 10L12 18H17V28H23V18H28L20 10Z" fill="white"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#6366f1"/>
+                            <stop offset="100%" stop-color="#8b5cf6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>Marketplace Local</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" onclick="showChat()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3.293 3.293 3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                    </svg>
+                    <span class="badge">3</span>
+                </button>
+                <button class="btn-icon" onclick="showDashboard()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+                    </svg>
+                </button>
+                <button class="btn-primary" onclick="showPublishModal()">Publicar Producto</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Filters Sidebar -->
+            <aside class="filters glass-card">
+                <h3>Filtros</h3>
+                
+                <div class="filter-group">
+                    <label>Categoría</label>
+                    <select id="categoryFilter" onchange="filterProducts()">
+                        <option value="all">Todas</option>
+                        <option value="electronica">Electrónica</option>
+                        <option value="hogar">Hogar</option>
+                        <option value="moda">Moda</option>
+                        <option value="deportes">Deportes</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Rango de Precio</label>
+                    <div class="price-inputs">
+                        <input type="number" id="minPrice" placeholder="Min" onchange="filterProducts()">
+                        <span>-</span>
+                        <input type="number" id="maxPrice" placeholder="Max" onchange="filterProducts()">
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Condición</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="nuevo" onchange="filterProducts()">
+                            <span>Nuevo</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="usado" onchange="filterProducts()">
+                            <span>Usado</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Calificación Mínima</label>
+                    <div class="rating-filter">
+                        <button class="star-btn" onclick="setMinRating(1)">⭐</button>
+                        <button class="star-btn" onclick="setMinRating(2)">⭐⭐</button>
+                        <button class="star-btn" onclick="setMinRating(3)">⭐⭐⭐</button>
+                        <button class="star-btn" onclick="setMinRating(4)">⭐⭐⭐⭐</button>
+                        <button class="star-btn" onclick="setMinRating(5)">⭐⭐⭐⭐⭐</button>
+                    </div>
+                </div>
+
+                <button class="btn-secondary" onclick="clearFilters()">Limpiar Filtros</button>
+            </aside>
+
+            <!-- Products Grid -->
+            <div class="products-section">
+                <div class="section-header">
+                    <h2>Productos Disponibles</h2>
+                    <div class="sort-options">
+                        <select id="sortBy" onchange="sortProducts()">
+                            <option value="recent">Más Recientes</option>
+                            <option value="price-low">Precio: Menor a Mayor</option>
+                            <option value="price-high">Precio: Mayor a Menor</option>
+                            <option value="rating">Mejor Calificados</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="productsGrid" class="products-grid"></div>
+            </div>
+        </div>
+
+        <!-- Product Detail Modal -->
+        <div id="productModal" class="modal">
+            <div class="modal-content glass-card">
+                <button class="close-btn" onclick="closeProductModal()">&times;</button>
+                <div id="productDetail"></div>
+            </div>
+        </div>
+
+        <!-- Chat Modal -->
+        <div id="chatModal" class="modal">
+            <div class="modal-content glass-card chat-modal">
+                <div class="chat-header">
+                    <h3>Mensajes</h3>
+                    <button class="close-btn" onclick="closeChat()">&times;</button>
+                </div>
+                <div class="chat-list">
+                    <div class="chat-item" onclick="openConversation('Juan Pérez')">
+                        <div class="chat-avatar">JP</div>
+                        <div class="chat-info">
+                            <div class="chat-name">Juan Pérez</div>
+                            <div class="chat-preview">¿Aún está disponible?</div>
+                        </div>
+                        <div class="chat-meta">
+                            <div class="chat-time">10:30</div>
+                            <div class="chat-unread">2</div>
+                        </div>
+                    </div>
+                    <div class="chat-item" onclick="openConversation('María García')">
+                        <div class="chat-avatar">MG</div>
+                        <div class="chat-info">
+                            <div class="chat-name">María García</div>
+                            <div class="chat-preview">Gracias por la información</div>
+                        </div>
+                        <div class="chat-meta">
+                            <div class="chat-time">Ayer</div>
+                        </div>
+                    </div>
+                    <div class="chat-item" onclick="openConversation('Carlos López')">
+                        <div class="chat-avatar">CL</div>
+                        <div class="chat-info">
+                            <div class="chat-name">Carlos López</div>
+                            <div class="chat-preview">¿Puedes enviar más fotos?</div>
+                        </div>
+                        <div class="chat-meta">
+                            <div class="chat-time">Ayer</div>
+                            <div class="chat-unread">1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversation Modal -->
+        <div id="conversationModal" class="modal">
+            <div class="modal-content glass-card conversation-modal">
+                <div class="conversation-header">
+                    <button class="back-btn" onclick="backToChats()">←</button>
+                    <div class="conversation-user">
+                        <div class="user-avatar" id="convAvatar">JP</div>
+                        <div class="user-info">
+                            <div class="user-name" id="convName">Juan Pérez</div>
+                            <div class="user-status">En línea</div>
+                        </div>
+                    </div>
+                    <button class="close-btn" onclick="closeConversation()">&times;</button>
+                </div>
+                <div class="messages-container" id="messagesContainer">
+                    <div class="message received">
+                        <div class="message-content">Hola, ¿aún está disponible el producto?</div>
+                        <div class="message-time">10:25</div>
+                    </div>
+                    <div class="message sent">
+                        <div class="message-content">¡Hola! Sí, está disponible.</div>
+                        <div class="message-time">10:27</div>
+                    </div>
+                    <div class="message received">
+                        <div class="message-content">¿Puedes hacer envío?</div>
+                        <div class="message-time">10:30</div>
+                    </div>
+                </div>
+                <div class="message-input">
+                    <input type="text" id="messageText" placeholder="Escribe un mensaje...">
+                    <button class="btn-send" onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Modal -->
+        <div id="dashboardModal" class="modal">
+            <div class="modal-content glass-card dashboard-modal">
+                <div class="modal-header">
+                    <h2>Mi Dashboard</h2>
+                    <button class="close-btn" onclick="closeDashboard()">&times;</button>
+                </div>
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" onclick="showTab('seller')">Vendedor</button>
+                    <button class="tab-btn" onclick="showTab('buyer')">Comprador</button>
+                </div>
+                <div id="sellerTab" class="tab-content active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Productos Activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$2,450</div>
+                            <div class="stat-label">Ventas del Mes</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">Calificación</div>
+                        </div>
+                    </div>
+                    <h3>Mis Productos</h3>
+                    <div id="myProducts" class="my-products-list"></div>
+                </div>
+                <div id="buyerTab" class="tab-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Compras Realizadas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Favoritos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">2</div>
+                            <div class="stat-label">Pendientes</div>
+                        </div>
+                    </div>
+                    <h3>Mis Compras</h3>
+                    <div id="myPurchases" class="purchases-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Publish Product Modal -->
+        <div id="publishModal" class="modal">
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h2>Publicar Producto</h2>
+                    <button class="close-btn" onclick="closePublishModal()">&times;</button>
+                </div>
+                <form id="publishForm" onsubmit="publishProduct(event)">
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select required>
+                            <option value="electronica">Electrónica</option>
+                            <option value="hogar">Hogar</option>
+                            <option value="moda">Moda</option>
+                            <option value="deportes">Deportes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio</label>
+                        <input type="number" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Condición</label>
+                        <select required>
+                            <option value="nuevo">Nuevo</option>
+                            <option value="usado">Usado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea rows="4" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closePublishModal()">Cancelar</button>
+                        <button type="submit" class="btn-primary">Publicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Analítico - Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                    <path d="M10 25L15 20L20 23L30 13" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="15" cy="20" r="2" fill="white"/>
+                    <circle cx="20" cy="23" r="2" fill="white"/>
+                    <circle cx="30" cy="13" r="2" fill="white"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#6366f1"/>
+                            <stop offset="100%" stop-color="#8b5cf6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>Dashboard Analítico</h1>
+            </div>
+            <div class="header-actions">
+                <select id="dateRange" class="date-selector" onchange="updateDateRange()">
+                    <option value="7">Últimos 7 días</option>
+                    <option value="30" selected>Últimos 30 días</option>
+                    <option value="90">Últimos 90 días</option>
+                    <option value="365">Último año</option>
+                </select>
+                <button class="btn-export" onclick="exportData()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/>
+                    </svg>
+                    Exportar
+                </button>
+                <button class="btn-refresh" onclick="refreshData()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card glass-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Ingresos Totales</div>
+                    <div class="kpi-value" id="totalRevenue">$0</div>
+                    <div class="kpi-change positive">
+                        <span>↑ 12.5%</span>
+                        <span class="change-label">vs mes anterior</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card glass-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                    </svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Usuarios Activos</div>
+                    <div class="kpi-value" id="activeUsers">0</div>
+                    <div class="kpi-change positive">
+                        <span>↑ 8.2%</span>
+                        <span class="change-label">vs mes anterior</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card glass-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                    </svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Conversiones</div>
+                    <div class="kpi-value" id="conversions">0</div>
+                    <div class="kpi-change positive">
+                        <span>↑ 15.3%</span>
+                        <span class="change-label">vs mes anterior</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-card glass-card">
+                <div class="kpi-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-label">Tasa de Rebote</div>
+                    <div class="kpi-value" id="bounceRate">0%</div>
+                    <div class="kpi-change negative">
+                        <span>↓ 3.1%</span>
+                        <span class="change-label">vs mes anterior</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+            <!-- Line Chart -->
+            <div class="chart-card glass-card">
+                <div class="chart-header">
+                    <h3>Tendencia de Ventas</h3>
+                    <div class="chart-legend">
+                        <span class="legend-item">
+                            <span class="legend-dot" style="background: #6366f1;"></span>
+                            Ventas
+                        </span>
+                        <span class="legend-item">
+                            <span class="legend-dot" style="background: #ec4899;"></span>
+                            Objetivo
+                        </span>
+                    </div>
+                </div>
+                <canvas id="lineChart"></canvas>
+            </div>
+
+            <!-- Bar Chart -->
+            <div class="chart-card glass-card">
+                <div class="chart-header">
+                    <h3>Comparación por Categoría</h3>
+                </div>
+                <canvas id="barChart"></canvas>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="chart-card glass-card">
+                <div class="chart-header">
+                    <h3>Distribución de Tráfico</h3>
+                </div>
+                <canvas id="pieChart"></canvas>
+            </div>
+
+            <!-- Area Chart -->
+            <div class="chart-card glass-card">
+                <div class="chart-header">
+                    <h3>Usuarios Acumulados</h3>
+                </div>
+                <canvas id="areaChart"></canvas>
+            </div>
+
+            <!-- Doughnut Chart -->
+            <div class="chart-card glass-card">
+                <div class="chart-header">
+                    <h3>Dispositivos</h3>
+                </div>
+                <canvas id="doughnutChart"></canvas>
+            </div>
+
+            <!-- Radar Chart -->
+            <div class="chart-card glass-card">
+                <div class="chart-header">
+                    <h3>Métricas de Rendimiento</h3>
+                </div>
+                <canvas id="radarChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="table-card glass-card">
+            <div class="table-header">
+                <h3>Transacciones Recientes</h3>
+                <button class="btn-secondary" onclick="exportTable()">
+                    <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z"/>
+                        <path d="M3 8a2 2 0 012-2v10h8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+                    </svg>
+                    Exportar CSV
+                </button>
+            </div>
+            <div class="table-container">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Producto</th>
+                            <th>Fecha</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Export Modal -->
+        <div id="exportModal" class="modal">
+            <div class="modal-content glass-card">
+                <div class="modal-header">
+                    <h2>Exportar Datos</h2>
+                    <button class="close-btn" onclick="closeExportModal()">&times;</button>
+                </div>
+                <div class="export-options">
+                    <button class="export-btn" onclick="exportAs('pdf')">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                        </svg>
+                        <span>PDF</span>
+                    </button>
+                    <button class="export-btn" onclick="exportAs('excel')">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                        </svg>
+                        <span>Excel</span>
+                    </button>
+                    <button class="export-btn" onclick="exportAs('csv')">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                        </svg>
+                        <span>CSV</span>
+                    </button>
+                    <button class="export-btn" onclick="exportAs('json')">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                        </svg>
+                        <span>JSON</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
