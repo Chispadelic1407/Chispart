@@ -1,14 +1,16 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Filter from './components/Filter';
 import FavoritesFilter from './components/FavoritesFilter';
 import Catalog from './components/Catalog';
-import InteractiveTour from './components/InteractiveTour';
-import PaymentMockup from './components/PaymentMockup';
 import { FavoritesProvider, useFavorites } from './context/FavoritesContext';
 import { websites, categories } from './data/websites';
 import './App.css';
+
+// Lazy load heavy components
+const InteractiveTour = lazy(() => import('./components/InteractiveTour'));
+const PaymentMockup = lazy(() => import('./components/PaymentMockup'));
 
 function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -99,9 +101,15 @@ function AppContent() {
         </div>
       </footer>
 
-      {showTour && <InteractiveTour onClose={handleCloseTour} />}
+      {showTour && (
+        <Suspense fallback={<div className="loading-overlay">Cargando...</div>}>
+          <InteractiveTour onClose={handleCloseTour} />
+        </Suspense>
+      )}
       {showPayment && selectedService && (
-        <PaymentMockup service={selectedService} onClose={handleClosePayment} />
+        <Suspense fallback={<div className="loading-overlay">Cargando...</div>}>
+          <PaymentMockup service={selectedService} onClose={handleClosePayment} />
+        </Suspense>
       )}
     </div>
   );

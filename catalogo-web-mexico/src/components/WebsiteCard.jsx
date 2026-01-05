@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import FavoriteButton from './FavoriteButton';
 import ShareButton from './ShareButton';
+import LazyImage from './LazyImage';
 import './WebsiteCard.css';
 
 const WebsiteCard = ({ website, onQuote }) => {
@@ -22,7 +23,12 @@ const WebsiteCard = ({ website, onQuote }) => {
   return (
     <div className="website-card" onClick={handleCardClick}>
       <div className="card-image">
-        <img src={website.image} alt={website.title} loading="lazy" />
+        <LazyImage 
+          src={website.image} 
+          alt={website.title}
+          width="100%"
+          height="200"
+        />
         <div className="category-badge">{website.category}</div>
         <FavoriteButton projectId={website.id} projectTitle={website.title} />
       </div>
