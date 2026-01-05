@@ -4,6 +4,9 @@ import SearchBar from './components/SearchBar';
 import Filter from './components/Filter';
 import FavoritesFilter from './components/FavoritesFilter';
 import Catalog from './components/Catalog';
+import SEO from './components/SEO';
+import StructuredData from './components/StructuredData';
+import SkipLink from './components/SkipLink';
 import { FavoritesProvider, useFavorites } from './context/FavoritesContext';
 import { websites, categories } from './data/websites';
 import './App.css';
@@ -67,9 +70,12 @@ function AppContent() {
 
   return (
     <div className="App">
+      <SEO />
+      <StructuredData type="portfolio" data={{ projects: websites }} />
+      <SkipLink />
       <Header onStartTour={handleStartTour} />
 
-      <main className="main-content">
+      <main id="main-content" className="main-content">
         <div className="container">
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
