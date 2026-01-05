@@ -2,18 +2,22 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Filter from './components/Filter';
+import FavoritesFilter from './components/FavoritesFilter';
 import Catalog from './components/Catalog';
 import InteractiveTour from './components/InteractiveTour';
 import PaymentMockup from './components/PaymentMockup';
+import { FavoritesProvider, useFavorites } from './context/FavoritesContext';
 import { websites, categories } from './data/websites';
 import './App.css';
 
-function App() {
+function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const [showTour, setShowTour] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
+  const { favorites } = useFavorites();
 
   // Verificar si es la primera visita
   useEffect(() => {
@@ -26,7 +30,7 @@ function App() {
     }
   }, []);
 
-  // Filtrar sitios web basándose en categoría y búsqueda
+  // Filtrar sitios web basándose en categoría, búsqueda y favoritos
   const filteredWebsites = useMemo(() => {
     return websites.filter((website) => {
       const matchesCategory = selectedCategory === 'Todos' || website.category === selectedCategory;
@@ -35,10 +39,11 @@ function App() {
         website.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         website.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
         website.features.some(feature => feature.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesFavorites = !showOnlyFavorites || favorites.includes(website.id);
 
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesSearch && matchesFavorites;
     });
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategory, searchTerm, showOnlyFavorites, favorites]);
 
   const handleStartTour = () => {
     setShowTour(true);
@@ -72,8 +77,15 @@ function App() {
             setSelectedCategory={setSelectedCategory}
           />
 
+          <FavoritesFilter 
+            showOnlyFavorites={showOnlyFavorites}
+            setShowOnlyFavorites={setShowOnlyFavorites}
+          />
+
           <div className="results-count">
             Mostrando {filteredWebsites.length} de {websites.length} servicios
+            {showOnlyFavorites && favorites.length > 0 && ' (Favoritos)'}
+            {showOnlyFavorites && favorites.length === 0 && ' - No hay favoritos guardados'}
           </div>
 
           <Catalog websites={filteredWebsites} onQuote={handleQuote} />
@@ -92,6 +104,14 @@ function App() {
         <PaymentMockup service={selectedService} onClose={handleClosePayment} />
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <FavoritesProvider>
+      <AppContent />
+    </FavoritesProvider>
   );
 }
 

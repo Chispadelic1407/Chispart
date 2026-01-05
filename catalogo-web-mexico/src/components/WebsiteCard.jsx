@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import FavoriteButton from './FavoriteButton';
 import './WebsiteCard.css';
 
 const WebsiteCard = ({ website, onQuote }) => {
@@ -22,6 +23,7 @@ const WebsiteCard = ({ website, onQuote }) => {
       <div className="card-image">
         <img src={website.image} alt={website.title} loading="lazy" />
         <div className="category-badge">{website.category}</div>
+        <FavoriteButton projectId={website.id} projectTitle={website.title} />
       </div>
 
       <div className="card-content">
@@ -49,29 +51,33 @@ const WebsiteCard = ({ website, onQuote }) => {
             </div>
           </div>
 
-          {website.category === "Mis Proyectos" ? (
-            <div className="project-links">
-              {website.demoUrl && (
-                <a href={website.demoUrl} className="demo-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
-                  🎨 Ver Demo
-                </a>
-              )}
-              {website.githubUrl && (
-                <a href={website.githubUrl} className="github-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
-                  📂 GitHub
-                </a>
-              )}
-              {website.liveUrl && (
-                <a href={website.liveUrl} className="live-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
-                  🚀 Sitio en Vivo
-                </a>
-              )}
-            </div>
-          ) : (
-            <button className="quote-btn" onClick={handleQuoteClick}>
-              💰 Solicitar Cotización
-            </button>
-          )}
+          <div className="project-links">
+            {website.demoUrl && (
+              <a href={website.demoUrl} className="demo-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
+                🎨 Ver Demo
+              </a>
+            )}
+            {website.githubUrl && (
+              <a href={website.githubUrl} className="github-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
+                📂 GitHub
+              </a>
+            )}
+            {website.liveUrl && (
+              <a href={website.liveUrl} className="live-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
+                🚀 Sitio en Vivo
+              </a>
+            )}
+            {!website.demoUrl && !website.githubUrl && !website.liveUrl && (
+              <button className="quote-btn" onClick={handleQuoteClick}>
+                💰 Solicitar Cotización
+              </button>
+            )}
+            {(website.demoUrl || website.githubUrl || website.liveUrl) && (
+              <button className="quote-btn" onClick={handleQuoteClick}>
+                💰 Solicitar Cotización
+              </button>
+            )}
+          </div>
         </div>
 
         <button className="expand-btn">
