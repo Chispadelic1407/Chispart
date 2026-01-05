@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FavoriteButton from './FavoriteButton';
+import ShareButton from './ShareButton';
 import './WebsiteCard.css';
 
 const WebsiteCard = ({ website, onQuote }) => {
@@ -31,6 +32,8 @@ const WebsiteCard = ({ website, onQuote }) => {
         <p className="card-description">{website.description}</p>
 
         <div className="card-price">{website.price}</div>
+        
+        <ShareButton project={website} />
 
         <div className={`card-details ${isExpanded ? 'expanded' : ''}`}>
           <div className="features">
