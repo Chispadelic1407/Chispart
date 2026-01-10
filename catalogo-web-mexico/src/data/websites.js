@@ -39,30 +39,8 @@ const templateProjects = [
     demoUrl: "/demos/facturacion-template/index.html",
     githubUrl: "https://github.com/SebastianVernis/Facturacion-Template"
   },
-  {
-    id: 109,
-    title: "Manda2 - Plataforma de Delivery",
-    description: "Sistema de envíos y delivery con tracking en tiempo real, gestión de repartidores y optimización de rutas. Integración con mapas y notificaciones.",
-    category: "Mis Proyectos",
-    price: "Proyecto Open Source",
-    features: ["Tracking en Tiempo Real", "Gestión de Repartidores", "Optimización de Rutas", "Notificaciones Push", "Panel Admin", "Reportes de Entregas"],
-    image: "https://images.unsplash.com/photo-1585834261445-ca76bf90afe9?w=800&h=600&fit=crop",
-    technologies: ["JavaScript", "Google Maps API", "Socket.io", "Node.js", "React"],
-    demoUrl: "/demos/manda2/index.html",
-    githubUrl: "https://github.com/SebastianVernis/manda2"
-  },
-  {
-    id: 110,
-    title: "Plantilla E-Shop - E-commerce Template",
-    description: "Plantilla moderna y completa para tienda online con carrito de compras, catálogo de productos, filtros y checkout. Lista para personalizar.",
-    category: "Mis Proyectos",
-    price: "Proyecto Open Source",
-    features: ["Carrito de Compras", "Catálogo de Productos", "Filtros Avanzados", "Checkout Process", "Diseño Responsivo", "Panel Admin"],
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=600&fit=crop",
-    technologies: ["JavaScript", "HTML5", "CSS3", "LocalStorage", "Vanilla JS"],
-    demoUrl: "/demos/plantilla-eshop/index.html",
-    githubUrl: "https://github.com/SebastianVernis/Plantilla-Eshop"
-  },
+
+
   {
     id: 111,
     title: "Tarot App - Lectura de Tarot IA",
@@ -99,18 +77,7 @@ const templateProjects = [
     demoUrl: "/demos/celula-chatbot-ia/index.html",
     githubUrl: "https://github.com/SebastianVernis/celula-chatbot-ia"
   },
-  {
-    id: 114,
-    title: "CV Chispart - Portfolio Resume",
-    description: "Curriculum vitae digital interactivo con animaciones, diseño moderno y secciones personalizables. Optimizado para impresión y compartir.",
-    category: "Mis Proyectos",
-    price: "Proyecto Open Source",
-    features: ["Diseño Interactivo", "Animaciones Suaves", "Modo Impresión", "Secciones Personalizables", "Responsive Design", "Compartir URL"],
-    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=600&fit=crop",
-    technologies: ["HTML", "CSS3", "JavaScript", "Print CSS"],
-    demoUrl: "/demos/cv-chispart/index.html",
-    githubUrl: "https://github.com/SebastianVernis/CV-Chispart"
-  },
+
   {
     id: 115,
     title: "CRM Twilio - Customer Management",
@@ -131,7 +98,8 @@ const templateProjects = [
     price: "$25,000 - $50,000 MXN",
     features: ["Carrito de compras", "Pasarela de pagos", "Gestión de inventario", "Panel administrativo"],
     image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"]
+    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+    demoUrl: "/demos/e-commerce-completo/index.html"
   },
   {
     id: 2,
@@ -141,7 +109,8 @@ const templateProjects = [
     price: "$8,000 - $15,000 MXN",
     features: ["Diseño responsivo", "Formulario de contacto", "SEO optimizado", "Animaciones"],
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-    technologies: ["React", "CSS3", "EmailJS"]
+    technologies: ["React", "CSS3", "EmailJS"],
+    demoUrl: "/demos/landing-corporativa/index.html"
   },
   {
     id: 3,
@@ -151,7 +120,8 @@ const templateProjects = [
     price: "$35,000 - $60,000 MXN",
     features: ["Calendario interactivo", "Pagos en línea", "Notificaciones por email", "Dashboard"],
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
-    technologies: ["React", "Firebase", "Calendar API", "PayPal"]
+    technologies: ["React", "Firebase", "Calendar API", "PayPal"],
+    demoUrl: "/demos/portal-reservaciones/index.html"
   },
   {
     id: 4,
@@ -161,7 +131,8 @@ const templateProjects = [
     price: "$12,000 - $20,000 MXN",
     features: ["CMS personalizado", "Categorías y tags", "Comentarios", "SEO avanzado"],
     image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=600&fit=crop",
-    technologies: ["React", "Headless CMS", "Markdown"]
+    technologies: ["React", "Headless CMS", "Markdown"],
+    demoUrl: "/demos/blog-corporativo/index.html"
   },
   {
     id: 5,
@@ -171,7 +142,8 @@ const templateProjects = [
     price: "$10,000 - $18,000 MXN",
     features: ["Galería interactiva", "Filtros por categoría", "Lightbox", "Formulario contacto"],
     image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop",
-    technologies: ["React", "Framer Motion", "CSS Grid"]
+    technologies: ["React", "Framer Motion", "CSS Grid"],
+    demoUrl: "/demos/portafolio-creativo/index.html"
   },
   {
     id: 6,
@@ -181,7 +153,8 @@ const templateProjects = [
     price: "$40,000 - $70,000 MXN",
     features: ["Gráficos interactivos", "Datos en tiempo real", "Exportar reportes", "Multi-usuario"],
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    technologies: ["React", "D3.js", "WebSocket", "Chart.js"]
+    technologies: ["React", "D3.js", "WebSocket", "Chart.js"],
+    demoUrl: "/demos/dashboard-analitico/index.html"
   },
   {
     id: 7,
@@ -191,18 +164,10 @@ const templateProjects = [
     price: "$15,000 - $25,000 MXN",
     features: ["Menú interactivo", "Reservaciones", "Galería de fotos", "Integración redes sociales"],
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
-    technologies: ["React", "Google Maps API", "WhatsApp API"]
+    technologies: ["React", "Google Maps API", "WhatsApp API"],
+    demoUrl: "/demos/restaurante/index.html"
   },
-  {
-    id: 8,
-    title: "Plataforma E-learning",
-    description: "Sistema de aprendizaje en línea con cursos, videos y certificaciones",
-    category: "Educación",
-    price: "$50,000 - $100,000 MXN",
-    features: ["Gestión de cursos", "Video streaming", "Exámenes online", "Certificados"],
-    image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=600&fit=crop",
-    technologies: ["React", "Node.js", "Video.js", "MongoDB"]
-  },
+
   {
     id: 9,
     title: "Marketplace Local",
@@ -211,7 +176,8 @@ const templateProjects = [
     price: "$60,000 - $120,000 MXN",
     features: ["Perfiles de usuario", "Chat en tiempo real", "Sistema de pagos", "Calificaciones"],
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-    technologies: ["React", "Socket.io", "Express", "PostgreSQL"]
+    technologies: ["React", "Socket.io", "Express", "PostgreSQL"],
+    demoUrl: "/demos/marketplace-local/index.html"
   },
   {
     id: 10,
@@ -221,7 +187,8 @@ const templateProjects = [
     price: "$30,000 - $55,000 MXN",
     features: ["Búsqueda avanzada", "Mapas interactivos", "Galería 360°", "Calculadora hipoteca"],
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop",
-    technologies: ["React", "Google Maps", "Three.js"]
+    technologies: ["React", "Google Maps", "Three.js"],
+    demoUrl: "/demos/portal-inmobiliario/index.html"
   },
   {
     id: 11,
@@ -231,7 +198,8 @@ const templateProjects = [
     price: "$25,000 - $45,000 MXN",
     features: ["Reserva de clases", "Planes personalizados", "Tracking de progreso", "Pagos mensuales"],
     image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop",
-    technologies: ["React", "Firebase", "Calendar API"]
+    technologies: ["React", "Firebase", "Calendar API"],
+    demoUrl: "/demos/app-gimnasio/index.html"
   },
   {
     id: 12,
@@ -241,7 +209,8 @@ const templateProjects = [
     price: "$35,000 - $65,000 MXN",
     features: ["Gestión de tickets", "Chat en vivo", "Base de conocimiento", "Reportes"],
     image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop",
-    technologies: ["React", "Socket.io", "Node.js", "MySQL"]
+    technologies: ["React", "Socket.io", "Node.js", "MySQL"],
+    demoUrl: "/demos/sistema-tickets/index.html"
   },
   {
     id: 13,
@@ -251,7 +220,8 @@ const templateProjects = [
     price: "$28,000 - $50,000 MXN",
     features: ["Venta de boletos", "Códigos QR", "Asientos numerados", "Reportes de ventas"],
     image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop",
-    technologies: ["React", "Stripe", "QR Code API", "PDF.js"]
+    technologies: ["React", "Stripe", "QR Code API", "PDF.js"],
+    demoUrl: "/demos/portal-eventos/index.html"
   },
   {
     id: 14,
@@ -261,7 +231,8 @@ const templateProjects = [
     price: "$45,000 - $80,000 MXN",
     features: ["Agenda médica", "Expedientes digitales", "Videollamadas", "Recetas electrónicas"],
     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
-    technologies: ["React", "WebRTC", "Node.js", "Encrypted DB"]
+    technologies: ["React", "WebRTC", "Node.js", "Encrypted DB"],
+    demoUrl: "/demos/clinica-medica/index.html"
   },
   {
     id: 15,
@@ -271,7 +242,8 @@ const templateProjects = [
     price: "$35,000 - $60,000 MXN",
     features: ["Visualización 3D", "Realidad aumentada", "Filtros avanzados", "Compartir productos"],
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=600&fit=crop",
-    technologies: ["React", "Three.js", "AR.js", "WebGL"]
+    technologies: ["React", "Three.js", "AR.js", "WebGL"],
+    demoUrl: "/demos/catalogo-digital/index.html"
   },
   {
     id: 16,
@@ -281,18 +253,10 @@ const templateProjects = [
     price: "$20,000 - $35,000 MXN",
     features: ["CMS completo", "Comentarios en vivo", "Newsletter", "Publicidad programática"],
     image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=600&fit=crop",
-    technologies: ["React", "Strapi", "Socket.io", "Mailchimp"]
+    technologies: ["React", "Strapi", "Socket.io", "Mailchimp"],
+    demoUrl: "/demos/portal-noticias/index.html"
   },
-  {
-    id: 17,
-    title: "Sistema CRM Empresarial",
-    description: "CRM personalizado para gestión de clientes, ventas y seguimiento",
-    category: "Sistema Web",
-    price: "$55,000 - $100,000 MXN",
-    features: ["Gestión de contactos", "Pipeline de ventas", "Automatización", "Integraciones"],
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop",
-    technologies: ["React", "Node.js", "PostgreSQL", "Redis"]
-  },
+
   {
     id: 18,
     title: "Web Despacho Legal",
@@ -301,18 +265,10 @@ const templateProjects = [
     price: "$18,000 - $30,000 MXN",
     features: ["Blog legal", "Formularios seguros", "Calendario de citas", "Área de clientes"],
     image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop",
-    technologies: ["React", "Encryption", "Calendar API", "PDF.js"]
+    technologies: ["React", "Encryption", "Calendar API", "PDF.js"],
+    demoUrl: "/demos/despacho-legal/index.html"
   },
-  {
-    id: 19,
-    title: "App de Delivery",
-    description: "Plataforma de entrega a domicilio con tracking en tiempo real",
-    category: "E-commerce",
-    price: "$45,000 - $85,000 MXN",
-    features: ["Tracking en vivo", "Múltiples restaurantes", "Sistema de calificación", "Pagos online"],
-    image: "https://images.unsplash.com/photo-1526367790999-0150786686a2?w=800&h=600&fit=crop",
-    technologies: ["React", "Google Maps", "Socket.io", "Stripe"]
-  },
+
   {
     id: 20,
     title: "Portal Gubernamental",
@@ -321,18 +277,10 @@ const templateProjects = [
     price: "$70,000 - $150,000 MXN",
     features: ["Trámites digitales", "Consultas públicas", "Transparencia", "Accesibilidad WCAG"],
     image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop",
-    technologies: ["React", "Node.js", "PostgreSQL", "OAuth"]
+    technologies: ["React", "Node.js", "PostgreSQL", "OAuth"],
+    demoUrl: "/demos/portal-gubernamental/index.html"
   },
-  {
-    id: 21,
-    title: "Chatbot Inteligente con IA",
-    description: "Asistente virtual conversacional con procesamiento de lenguaje natural y aprendizaje automático",
-    category: "Inteligencia Artificial",
-    price: "$35,000 - $65,000 MXN",
-    features: ["Procesamiento de lenguaje natural", "Respuestas contextuales", "Integración multicanal", "Análisis de sentimientos"],
-    image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=600&fit=crop",
-    technologies: ["OpenAI GPT", "Gemini AI", "Node.js", "WebSocket"]
-  },
+
   {
     id: 22,
     title: "Generador de Contenido con IA",
@@ -341,7 +289,8 @@ const templateProjects = [
     price: "$28,000 - $50,000 MXN",
     features: ["Generación de textos", "Optimización SEO automática", "Múltiples idiomas", "Plantillas personalizables"],
     image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop",
-    technologies: ["OpenAI API", "Claude AI", "React", "Python"]
+    technologies: ["OpenAI API", "Claude AI", "React", "Python"],
+    demoUrl: "/demos/generador-contenido-ia/index.html"
   },
   {
     id: 23,
@@ -351,7 +300,8 @@ const templateProjects = [
     price: "$40,000 - $75,000 MXN",
     features: ["Análisis en tiempo real", "Detección de emociones", "Reportes visuales", "Alertas automáticas"],
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-    technologies: ["Python", "TensorFlow", "NLP", "React Dashboard"]
+    technologies: ["Python", "TensorFlow", "NLP", "React Dashboard"],
+    demoUrl: "/demos/analisis-sentimientos/index.html"
   },
   {
     id: 24,
@@ -361,7 +311,8 @@ const templateProjects = [
     price: "$45,000 - $80,000 MXN",
     features: ["Detección de objetos", "Reconocimiento facial", "Clasificación automática", "API REST"],
     image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?w=800&h=600&fit=crop",
-    technologies: ["TensorFlow", "OpenCV", "Python", "Google Vision AI"]
+    technologies: ["TensorFlow", "OpenCV", "Python", "Google Vision AI"],
+    demoUrl: "/demos/reconocimiento-imagenes/index.html"
   },
   {
     id: 25,
@@ -371,7 +322,8 @@ const templateProjects = [
     price: "$50,000 - $90,000 MXN",
     features: ["Comandos de voz", "Integración con sistemas", "Automatización de procesos", "Aprendizaje continuo"],
     image: "https://images.unsplash.com/photo-1589254065878-42c9da997008?w=800&h=600&fit=crop",
-    technologies: ["Gemini AI", "Speech-to-Text", "Node.js", "WebRTC"]
+    technologies: ["Gemini AI", "Speech-to-Text", "Node.js", "WebRTC"],
+    demoUrl: "/demos/asistente-virtual/index.html"
   },
   {
     id: 26,
@@ -381,7 +333,8 @@ const templateProjects = [
     price: "$32,000 - $58,000 MXN",
     features: ["100+ idiomas", "Traducción contextual", "Documentos y audio", "API integrable"],
     image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop",
-    technologies: ["Google Translate AI", "DeepL API", "React", "Python"]
+    technologies: ["Google Translate AI", "DeepL API", "React", "Python"],
+    demoUrl: "/demos/traductor-multilingue/index.html"
   },
   {
     id: 27,
@@ -391,7 +344,8 @@ const templateProjects = [
     price: "$38,000 - $70,000 MXN",
     features: ["Generación text-to-image", "Múltiples estilos", "Alta resolución", "Edición con IA"],
     image: "https://images.unsplash.com/photo-1547954575-855750c57bd3?w=800&h=600&fit=crop",
-    technologies: ["DALL-E", "Stable Diffusion", "Midjourney API", "React"]
+    technologies: ["DALL-E", "Stable Diffusion", "Midjourney API", "React"],
+    demoUrl: "/demos/generador-imagenes-ia/index.html"
   },
   {
     id: 28,
@@ -401,7 +355,8 @@ const templateProjects = [
     price: "$60,000 - $120,000 MXN",
     features: ["Modelos predictivos", "Análisis de datos históricos", "Dashboards interactivos", "Alertas inteligentes"],
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    technologies: ["Python", "Scikit-learn", "TensorFlow", "React Dashboard"]
+    technologies: ["Python", "Scikit-learn", "TensorFlow", "React Dashboard"],
+    demoUrl: "/demos/analisis-predictivo/index.html"
   }
 ];
 

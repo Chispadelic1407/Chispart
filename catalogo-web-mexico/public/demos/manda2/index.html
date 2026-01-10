@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manda2 - Plataforma de Delivery Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    
+    <header class="glass-header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🚚</span>
+                <span class="logo-text">Manda2 Delivery</span>
+            </div>
+            <nav>
+                <a href="#tracking">Rastreo</a>
+                <a href="#services">Servicios</a>
+                <a href="#dashboard" class="btn-dashboard">Panel Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">Rápido • Seguro • Confiable</div>
+                <h1 class="hero-title">
+                    Entregas Express<br/>
+                    <span class="gradient-text">Tracking en Tiempo Real</span>
+                </h1>
+                <p class="hero-description">
+                    Sistema completo de delivery con rastreo GPS en vivo, optimización de rutas
+                    inteligente y gestión eficiente de repartidores. Conecta a tus clientes con
+                    entregas rápidas y seguras.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">15,000+</div>
+                        <div class="stat-label">Entregas/mes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">200+</div>
+                        <div class="stat-label">Repartidores</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">4.9★</div>
+                        <div class="stat-label">Calificación</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">35min</div>
+                        <div class="stat-label">Tiempo Promedio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tracking" class="tracking-section">
+        <div class="container">
+            <h2 class="section-title">Rastrear mi Pedido</h2>
+            <div class="tracking-input-container glass">
+                <input type="text" id="trackingInput" placeholder="Ingresa tu código de rastreo" />
+                <button class="btn-primary" id="trackBtn">Buscar</button>
+            </div>
+            <div id="trackingResult" class="tracking-result glass"></div>
+        </div>
+    </section>
+
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2 class="section-title">Servicios de Entrega</h2>
+            <div class="services-grid" id="servicesGrid"></div>
+        </div>
+    </section>
+
+    <section id="dashboard" class="dashboard-section">
+        <div class="container">
+            <h2 class="section-title">Panel de Control</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card glass">
+                    <div class="card-header"><h3>📊 Estadísticas en Tiempo Real</h3></div>
+                    <div id="statsContent"></div>
+                </div>
+                <div class="dashboard-card glass">
+                    <div class="card-header"><h3>🗺️ Mapa de Repartidores</h3></div>
+                    <div id="mapContent"></div>
+                </div>
+                <div class="dashboard-card glass">
+                    <div class="card-header"><h3>📦 Pedidos Activos</h3></div>
+                    <div id="ordersContent"></div>
+                </div>
+                <div class="dashboard-card glass">
+                    <div class="card-header"><h3>🚴 Repartidores Activos</h3></div>
+                    <div id="driversContent"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="successToast" class="toast glass">
+        <span class="toast-icon">✅</span>
+        <span class="toast-message"></span>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Manda2 Delivery Demo - Sistema de Gestión de Entregas</p>
+            <p>Desarrollado con Socket.io, Google Maps API y Node.js</p>
+        </div>
+    </footer>
+
+    <script src="../shared/customer-flow-mockup.js"></script>
+    <script src="script.js"></script>
+    <script>
+        window.customerFlow = new CustomerFlowMockup({
+            siteName: 'Manda2 Delivery',
+            currency: 'MXN',
+            products: [
+                { id: 1, name: 'Entrega Express (1hr)', price: 99, image: '⚡', category: 'Entregas' },
+                { id: 2, name: 'Entrega Estándar (3-5hr)', price: 49, image: '📦', category: 'Entregas' },
+                { id: 3, name: 'Entrega Programada', price: 79, image: '⏰', category: 'Entregas' },
+                { id: 4, name: 'Entrega Masiva', price: 299, image: '🚛', category: 'Empresarial' },
+                { id: 5, name: 'Entrega Refrigerada', price: 149, image: '❄️', category: 'Especial' },
+            ]
+        });
+    </script>
+</body>
+</html>

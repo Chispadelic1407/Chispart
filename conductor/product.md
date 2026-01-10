@@ -2,7 +2,7 @@
 
 ## Product Vision
 
-Chispart is a professional web catalog designed to showcase Sebastian Vernis's diverse portfolio of 13+ unique software projects. The platform serves as a comprehensive demonstration of technical capabilities, featuring live demos, interactive experiences, and detailed project information to attract potential clients, recruiters, and collaborators.
+Chispart is a professional web catalog designed to showcase Sebastian Vernis's diverse portfolio of 28+ unique software projects. The platform serves as a comprehensive demonstration of technical capabilities, featuring live demos, interactive experiences, and detailed project information to attract potential clients, recruiters, and collaborators.
 
 ## Target Users
 
@@ -29,7 +29,7 @@ Chispart is a professional web catalog designed to showcase Sebastian Vernis's d
 ## Core Goals
 
 ### For Visitors
-- **Discover Projects**: Easily browse and explore 13+ diverse projects across multiple categories
+- **Discover Projects**: Easily browse and explore 28+ diverse projects across multiple categories
 - **Experience Live Demos**: Interact with fully functional demos without installation
 - **Understand Capabilities**: Assess technical skills through real implementations
 - **Make Contact**: Connect for hiring, collaboration, or consultation opportunities
@@ -43,22 +43,30 @@ Chispart is a professional web catalog designed to showcase Sebastian Vernis's d
 ## Key Features
 
 ### 1. Interactive Project Catalog
-- **13+ Unique Projects**: Curated selection of production-ready applications
+- **28+ Unique Projects**: Curated selection of production-ready applications
 - **Live Demos**: Fully functional demos accessible via iframe integration
 - **Project Categories**: Organized by type (SaaS, E-commerce, AI/Chatbots, etc.)
 - **Technology Tags**: Filter by tech stack (React, Node.js, Python, etc.)
+- **Favorites System**: Save and organize favorite projects with localStorage persistence
+- **Social Sharing**: Share projects on Twitter, LinkedIn, Facebook, and WhatsApp
 
 ### 2. Advanced Search and Filtering
 - **Real-time Search**: Instant filtering by title, description, features, or technologies
 - **Category Filters**: Browse by project type (13 categories)
+- **Multi-Criteria Filtering**: Combine categories, technologies, and complexity levels
 - **Technology Filters**: Find projects using specific frameworks or languages
+- **Complexity Filters**: Filter by project complexity (simple, medium, complex)
 - **Smart Matching**: Search across multiple fields simultaneously
+- **URL Parameter Sync**: Shareable URLs with active filters preserved
+- **Active Filter Indicators**: Visual tags showing applied filters
 
 ### 3. User Experience Enhancements
 - **Interactive Tour**: First-time visitor onboarding experience
 - **Payment Mockup**: Simulate service purchase flow for potential clients
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Expandable Cards**: Click to reveal detailed project information
+- **Lazy Loading**: Progressive image loading with blur-up effect for faster perceived performance
+- **Code Splitting**: On-demand loading of heavy components for optimal performance
 
 ### 4. Project Showcase Details
 Each project includes:
@@ -68,16 +76,31 @@ Each project includes:
 - Technology stack breakdown
 - Key features and capabilities
 - Visual screenshots and media
+- **Favorite Button**: One-click save to favorites
+- **Share Button**: Share on social media or copy link
+
+### 5. SEO and Accessibility
+- **Search Engine Optimized**: Complete meta tags, structured data (Schema.org), sitemap.xml
+- **Social Media Ready**: Open Graph and Twitter Card meta tags for rich previews
+- **Keyboard Accessible**: Full keyboard navigation with skip links
+- **Screen Reader Support**: ARIA labels and semantic HTML
+- **Shareable URLs**: Direct links to filtered views and individual projects
 
 ## Product Scope
 
 ### In Scope
-- Portfolio catalog with 13+ projects
+- Portfolio catalog with 28+ projects
 - Live demo integration via iframes
 - Search and filter functionality
+- Advanced multi-criteria filtering with URL synchronization
+- Favorites system with localStorage persistence
+- Social sharing on 4 platforms
 - Interactive tour system
 - Payment mockup interface
 - Responsive web design
+- Performance optimizations (lazy loading, code splitting)
+- SEO optimization (meta tags, structured data, sitemap)
+- Accessibility features (keyboard navigation, ARIA labels, skip links)
 - GitHub integration links
 - Category-based organization
 
