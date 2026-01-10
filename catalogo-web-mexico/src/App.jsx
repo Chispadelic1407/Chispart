@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useMemo, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import Filter from './components/Filter';
@@ -15,28 +15,15 @@ import { websites, categories } from './data/websites';
 import './App.css';
 
 // Lazy load heavy components
-const InteractiveTour = lazy(() => import('./components/InteractiveTour'));
 const PaymentMockup = lazy(() => import('./components/PaymentMockup'));
 
 function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
-  const [showTour, setShowTour] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const { favorites } = useFavorites();
   const { filters, updateFilters, clearFilters, getActiveFilterCount } = useFilterParams();
-
-  // Verificar si es la primera visita
-  useEffect(() => {
-    const tourCompleted = localStorage.getItem('tourCompleted');
-    if (!tourCompleted) {
-      // Mostrar el tour automáticamente después de 1 segundo
-      setTimeout(() => {
-        setShowTour(true);
-      }, 1000);
-    }
-  }, []);
 
   // Filtrar sitios web usando el sistema de filtrado avanzado
   const filteredWebsites = useMemo(() => {
@@ -58,14 +45,6 @@ function AppContent() {
     return filtered;
   }, [selectedCategory, filters, showOnlyFavorites, favorites]);
 
-  const handleStartTour = () => {
-    setShowTour(true);
-  };
-
-  const handleCloseTour = () => {
-    setShowTour(false);
-  };
-
   const handleQuote = (service) => {
     setSelectedService(service);
     setShowPayment(true);
@@ -81,7 +60,7 @@ function AppContent() {
       <SEO />
       <StructuredData type="portfolio" data={{ projects: websites }} />
       <SkipLink />
-      <Header onStartTour={handleStartTour} />
+      <Header />
 
       <main id="main-content" className="main-content">
         <div className="container">
@@ -132,11 +111,6 @@ function AppContent() {
         </div>
       </footer>
 
-      {showTour && (
-        <Suspense fallback={<div className="loading-overlay">Cargando...</div>}>
-          <InteractiveTour onClose={handleCloseTour} />
-        </Suspense>
-      )}
       {showPayment && selectedService && (
         <Suspense fallback={<div className="loading-overlay">Cargando...</div>}>
           <PaymentMockup service={selectedService} onClose={handleClosePayment} />

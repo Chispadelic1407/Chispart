@@ -64,7 +64,6 @@ const PaymentMockup = ({ service, onClose }) => {
             <div className="step-content">
               <div className="service-summary">
                 <h3>{service.title}</h3>
-                <p className="service-price">{service.price}</p>
                 <p className="service-category">Categoría: {service.category}</p>
               </div>
 

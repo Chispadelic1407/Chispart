@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ 
   title = 'WebCatalogMX - Soluciones Digitales para tu Negocio',
-  description = 'Descubre 28+ soluciones web profesionales para tu negocio en México. Desde e-commerce hasta sistemas de gestión, con demos en vivo y tecnologías modernas.',
+  description = 'Descubre 28+ soluciones web profesionales para tu negocio en México. Desde e-commerce hasta sistemas de gestión, con tecnologías modernas.',
   keywords = 'desarrollo web, diseño web, e-commerce, páginas web México, soluciones digitales, React, Node.js, desarrollo profesional',
   image = '/og-image.jpg',
   url = 'https://webcatalogmx.com',

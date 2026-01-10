@@ -23,9 +23,7 @@
                 <a href="https://github.com/SebastianVernis/SAAS-DND" target="_blank" class="btn-github">
                     <span>GitHub</span>
                 </a>
-                <a href="http://18.223.32.141" target="_blank" class="btn-demo">
-                    <span>Demo en Vivo</span>
-                </a>
+
             </nav>
         </div>
     </header>
@@ -52,10 +50,7 @@
                     autenticación segura y sistema completo de gestión de proyectos.
                 </p>
                 <div class="hero-buttons">
-                    <a href="http://18.223.32.141" target="_blank" class="btn-primary">
-                        <span>🚀 Ver Demo en Vivo</span>
-                    </a>
-                    <a href="https://github.com/SebastianVernis/SAAS-DND" target="_blank" class="btn-secondary">
+                    <a href="https://github.com/SebastianVernis/SAAS-DND" target="_blank" class="btn-primary">
                         <span>📂 Ver Código</span>
                     </a>
                 </div>
@@ -81,33 +76,7 @@
         </div>
     </section>
 
-    <!-- Live Demo Section -->
-    <section class="live-demo">
-        <div class="container">
-            <h2 class="section-title">🖥️ Demo en Vivo</h2>
-            <p class="section-subtitle">Explora el editor en acción - Proyecto deployado en AWS EC2</p>
-            <div class="demo-container glass">
-                <div class="demo-controls">
-                    <div class="demo-url">
-                        <span class="url-icon">🔗</span>
-                        <span class="url-text">http://18.223.32.141</span>
-                    </div>
-                    <button class="btn-fullscreen" onclick="toggleFullscreen()">
-                        <span>⛶ Fullscreen</span>
-                    </button>
-                </div>
-                <div class="iframe-wrapper" id="iframeWrapper">
-                    <iframe 
-                        src="http://18.223.32.141" 
-                        frameborder="0"
-                        id="demoIframe"
-                        title="SAAS-DND Live Demo"
-                        loading="lazy"
-                    ></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Architecture Section -->
     <section class="architecture">
@@ -497,12 +466,9 @@ export const Draggable: FC&lt;DraggableProps&gt; = ({
         <div class="container">
             <div class="cta-content glass">
                 <h2>¿Listo para explorar el proyecto?</h2>
-                <p>Visita el demo en vivo o revisa el código fuente en GitHub</p>
+                <p>Revisa el código fuente en GitHub</p>
                 <div class="cta-buttons">
-                    <a href="http://18.223.32.141" target="_blank" class="btn-primary">
-                        <span>🚀 Demo en Vivo</span>
-                    </a>
-                    <a href="https://github.com/SebastianVernis/SAAS-DND" target="_blank" class="btn-secondary">
+                    <a href="https://github.com/SebastianVernis/SAAS-DND" target="_blank" class="btn-primary">
                         <span>📂 Ver en GitHub</span>
                     </a>
                 </div>
@@ -522,54 +488,7 @@ export const Draggable: FC&lt;DraggableProps&gt; = ({
     <script src="script.js"></script>
     <script>
         // Initialize customer flow mockup for SAAS-DND
-        window.customerFlow = new CustomerFlowMockup({
-            siteName: 'SAAS-DND',
-            currency: 'MXN',
-            products: [
-                {
-                    id: 1,
-                    name: 'Plan Starter',
-                    price: 499,
-                    image: '🚀',
-                    category: 'Planes'
-                },
-                {
-                    id: 2,
-                    name: 'Plan Business',
-                    price: 1499,
-                    image: '💼',
-                    category: 'Planes'
-                },
-                {
-                    id: 3,
-                    name: 'Plan Enterprise',
-                    price: 3999,
-                    image: '🏢',
-                    category: 'Planes'
-                },
-                {
-                    id: 4,
-                    name: 'Templates Premium',
-                    price: 299,
-                    image: '🎨',
-                    category: 'Add-ons'
-                },
-                {
-                    id: 5,
-                    name: 'Componentes Extra',
-                    price: 199,
-                    image: '🧩',
-                    category: 'Add-ons'
-                },
-                {
-                    id: 6,
-                    name: 'Soporte Priority',
-                    price: 999,
-                    image: '🎯',
-                    category: 'Servicios'
-                },
-            ]
-        });
+
     </script>
 </body>
 </html>

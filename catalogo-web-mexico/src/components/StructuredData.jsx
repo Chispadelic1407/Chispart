@@ -29,7 +29,7 @@ const StructuredData = ({ type = 'website', data = {} }) => {
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
           name: 'Catálogo de Proyectos Web',
-          description: 'Colección de 28+ proyectos web profesionales con demos en vivo',
+          description: 'Colección de 28+ proyectos web profesionales',
           url: 'https://webcatalogmx.com',
           author: {
             '@type': 'Person',
@@ -46,11 +46,7 @@ const StructuredData = ({ type = 'website', data = {} }) => {
               name: project.title,
               description: project.description,
               applicationCategory: 'WebApplication',
-              offers: {
-                '@type': 'Offer',
-                price: project.price,
-                priceCurrency: 'MXN'
-              }
+
             }
           })) || []
         };
@@ -63,12 +59,7 @@ const StructuredData = ({ type = 'website', data = {} }) => {
           description: data.description,
           applicationCategory: 'WebApplication',
           operatingSystem: 'Web Browser',
-          offers: {
-            '@type': 'Offer',
-            price: data.price,
-            priceCurrency: 'MXN',
-            availability: 'https://schema.org/InStock'
-          },
+
           author: {
             '@type': 'Person',
             name: 'Sebastian Vernis'

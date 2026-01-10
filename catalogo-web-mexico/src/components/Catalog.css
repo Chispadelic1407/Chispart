@@ -4,9 +4,10 @@
 
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 2rem;
   animation: fadeIn 0.6s ease-in;
+  align-items: start;
 }
 
 .no-results {

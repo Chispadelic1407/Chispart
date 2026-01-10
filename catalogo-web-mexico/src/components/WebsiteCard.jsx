@@ -37,7 +37,7 @@ const WebsiteCard = ({ website, onQuote }) => {
         <h3 className="card-title">{website.title}</h3>
         <p className="card-description">{website.description}</p>
 
-        <div className="card-price">{website.price}</div>
+
         
         <ShareButton project={website} />
 
@@ -61,11 +61,7 @@ const WebsiteCard = ({ website, onQuote }) => {
           </div>
 
           <div className="project-links">
-            {website.demoUrl && (
-              <a href={website.demoUrl} className="demo-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
-                🎨 Ver Demo
-              </a>
-            )}
+
             {website.githubUrl && (
               <a href={website.githubUrl} className="github-btn" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
                 📂 GitHub

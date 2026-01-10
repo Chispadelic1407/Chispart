@@ -43,9 +43,7 @@ function ProjectCard({ website }) {
           )}
         </div>
 
-        {website.price && (
-          <div className="project-price">{website.price}</div>
-        )}
+
 
         {!isExpanded && (
           <button className="expand-button" onClick={toggleExpand}>
@@ -75,14 +73,7 @@ function ProjectCard({ website }) {
             >
               🛠️ Tech Stack
             </button>
-            {website.liveUrl && (
-              <button 
-                className={`tab-button ${activeTab === 'demo' ? 'active' : ''}`}
-                onClick={() => setActiveTab('demo')}
-              >
-                🚀 Demo Live
-              </button>
-            )}
+
             {website.metrics && (
               <button 
                 className={`tab-button ${activeTab === 'metrics' ? 'active' : ''}`}
@@ -131,7 +122,7 @@ function ProjectCard({ website }) {
                       rel="noopener noreferrer"
                       className="project-link live-link"
                     >
-                      🌐 Demo Live
+                      🌐 Sitio en Vivo
                     </a>
                   )}
                 </div>
@@ -165,32 +156,7 @@ function ProjectCard({ website }) {
               </div>
             )}
 
-            {activeTab === 'demo' && website.liveUrl && (
-              <div className="tab-panel">
-                <h4>Demo en Vivo</h4>
-                <div className="demo-container">
-                  <div className="demo-info">
-                    <p>🚀 Este proyecto está desplegado y funcionando en producción.</p>
-                    <a 
-                      href={website.liveUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="demo-button"
-                    >
-                      Abrir Demo en Nueva Pestaña →
-                    </a>
-                  </div>
-                  <div className="demo-preview">
-                    <iframe 
-                      src={website.liveUrl}
-                      title={`Demo de ${website.title}`}
-                      className="demo-iframe"
-                      sandbox="allow-scripts allow-same-origin allow-forms"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
+
 
             {activeTab === 'metrics' && website.metrics && (
               <div className="tab-panel">

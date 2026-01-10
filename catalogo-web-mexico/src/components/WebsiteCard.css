@@ -5,7 +5,9 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .website-card:hover {
@@ -47,6 +49,9 @@
 
 .card-content {
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .card-title {
@@ -61,6 +66,8 @@
   line-height: 1.6;
   margin-bottom: 1rem;
   font-size: 0.95rem;
+  flex: 1;
+  min-height: 3em;
 }
 
 .card-price {
@@ -141,6 +148,7 @@
   cursor: pointer;
   transition: all 0.3s;
   font-size: 0.9rem;
+  margin-top: auto;
 }
 
 .expand-btn:hover {

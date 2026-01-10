@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css';
 
-const Header = ({ onStartTour }) => {
+const Header = () => {
   return (
     <header className="header">
       <div className="header-content">
@@ -13,9 +13,6 @@ const Header = ({ onStartTour }) => {
           <a href="#catalogo">Catálogo</a>
           <a href="#servicios">Servicios</a>
           <a href="#contacto">Contacto</a>
-          <button className="tour-start-btn" onClick={onStartTour} title="Iniciar tour guiado">
-            🎯 Tour Guiado
-          </button>
         </nav>
       </div>
       <div className="hero">

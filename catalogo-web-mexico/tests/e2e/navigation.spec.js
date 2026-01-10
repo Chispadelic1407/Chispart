@@ -20,14 +20,6 @@ test.describe('Basic Navigation', () => {
     await expect(page.getByRole('link', { name: 'Contacto' })).toBeVisible();
   });
 
-  test('should display tour button', async ({ page }) => {
-    await page.goto('/');
-    
-    // Check if tour button is present
-    const tourButton = page.getByRole('button', { name: /tour guiado/i });
-    await expect(tourButton).toBeVisible();
-  });
-
   test('should display project catalog', async ({ page }) => {
     await page.goto('/');
     
