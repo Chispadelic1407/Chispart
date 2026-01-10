@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconocimiento de Imágenes IA - Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f0f0;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .image-preview {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #000;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .bounding-box {
+            position: absolute;
+            border: 3px solid;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .box-label {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .box-1 {
+            top: 15%;
+            left: 20%;
+            width: 25%;
+            height: 35%;
+            border-color: #51cf66;
+        }
+
+        .box-2 {
+            top: 25%;
+            left: 55%;
+            width: 30%;
+            height: 40%;
+            border-color: #ff6b6b;
+        }
+
+        .box-3 {
+            top: 60%;
+            left: 15%;
+            width: 35%;
+            height: 25%;
+            border-color: #ffd43b;
+        }
+
+        .detection-results {
+            margin-top: 20px;
+        }
+
+        .detection-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .detection-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .detection-icon {
+            font-size: 2rem;
+        }
+
+        .detection-info {
+            flex: 1;
+        }
+
+        .detection-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .confidence-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .classification-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .classification-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .classification-card:hover {
+            transform: scale(1.05);
+        }
+
+        .classification-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .classification-card .score {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .api-docs {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .code-keyword { color: #569cd6; }
+        .code-string { color: #ce9178; }
+        .code-function { color: #dcdcaa; }
+        .code-comment { color: #6a9955; }
+        .code-number { color: #b5cea8; }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tech-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .tech-card p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-box {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .feature-box p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .tech-stack {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .classification-grid, .features-grid, .tech-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Reconocimiento de Imágenes con IA</h1>
+            <p>Detección y clasificación automática de objetos con visión artificial</p>
+        </div>
+
+        <div class="main-grid">
+            <!-- Upload & Detection -->
+            <div class="card">
+                <h2>📤 Análisis de Imagen</h2>
+                <div class="image-preview">
+                    <svg width="100%" height="400" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <!-- Street scene mockup -->
+                        <rect x="0" y="0" width="100%" height="100%" fill="url(#gradient1)"/>
+                        <defs>
+                            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Person -->
+                        <ellipse cx="30%" cy="30%" rx="8%" ry="12%" fill="#FFD700" opacity="0.7"/>
+                        <rect x="25%" y="35%" width="10%" height="15%" fill="#FFD700" opacity="0.7" rx="5"/>
+                        
+                        <!-- Car -->
+                        <rect x="55%" y="35%" width="25%" height="20%" fill="#FF6B6B" opacity="0.7" rx="8"/>
+                        <circle cx="60%" cy="52%" r="3%" fill="#333"/>
+                        <circle cx="75%" cy="52%" r="3%" fill="#333"/>
+                        
+                        <!-- Traffic Sign -->
+                        <polygon points="30%,70% 40%,70% 35%,60%" fill="#FFC107" opacity="0.7"/>
+                        <rect x="34%" y="70%" width="2%" height="10%" fill="#666"/>
+                        
+                        <!-- Bounding boxes -->
+                        <rect class="box-1" x="20%" y="15%" width="25%" height="35%" fill="none" stroke="#51cf66" stroke-width="3" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="0.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="21%" y="13%" fill="#51cf66" font-size="14" font-weight="bold">Persona 98.5%</text>
+                        
+                        <rect class="box-2" x="55%" y="25%" width="30%" height="40%" fill="none" stroke="#ff6b6b" stroke-width="3" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="0.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="56%" y="23%" fill="#ff6b6b" font-size="14" font-weight="bold">Automóvil 96.2%</text>
+                        
+                        <rect class="box-3" x="25%" y="60%" width="20%" height="25%" fill="none" stroke="#ffd43b" stroke-width="3" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" from="0" to="10" dur="0.5s" repeatCount="indefinite"/>
+                        </rect>
+                        <text x="26%" y="58%" fill="#ffd43b" font-size="14" font-weight="bold">Señal 94.7%</text>
+                    </svg>
+                </div>
+
+                <div class="detection-results">
+                    <h3 style="margin-bottom: 15px; color: #667eea;">Objetos Detectados (3)</h3>
+                    
+                    <div class="detection-item">
+                        <div class="detection-icon">🚶</div>
+                        <div class="detection-info">
+                            <div class="detection-label">Persona</div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: 98.5%;"></div>
+                            </div>
+                            <div class="confidence-text">Confianza: 98.5%</div>
+                        </div>
+                    </div>
+
+                    <div class="detection-item">
+                        <div class="detection-icon">🚗</div>
+                        <div class="detection-info">
+                            <div class="detection-label">Automóvil</div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: 96.2%;"></div>
+                            </div>
+                            <div class="confidence-text">Confianza: 96.2%</div>
+                        </div>
+                    </div>
+
+                    <div class="detection-item">
+                        <div class="detection-icon">🚦</div>
+                        <div class="detection-info">
+                            <div class="detection-label">Señal de Tráfico</div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: 94.7%;"></div>
+                            </div>
+                            <div class="confidence-text">Confianza: 94.7%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classification -->
+            <div class="card">
+                <h2>🎯 Clasificación Automática</h2>
+                <div class="classification-grid">
+                    <div class="classification-card">
+                        <h3>Categoría Principal</h3>
+                        <div class="score">Urbano</div>
+                        <p>Escena de ciudad</p>
+                    </div>
+                    <div class="classification-card">
+                        <h3>Precisión Global</h3>
+                        <div class="score">96.5%</div>
+                        <p>Muy alta confianza</p>
+                    </div>
+                    <div class="classification-card">
+                        <h3>Tiempo de Análisis</h3>
+                        <div class="score">0.8s</div>
+                        <p>Procesamiento rápido</p>
+                    </div>
+                    <div class="classification-card">
+                        <h3>Objetos Totales</h3>
+                        <div class="score">3</div>
+                        <p>Detectados con éxito</p>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-box">
+                        <h3>🎭 Reconocimiento Facial</h3>
+                        <p>Detección de rostros con análisis de características faciales, edad estimada y emociones (cumple con GDPR)</p>
+                    </div>
+                    <div class="feature-box">
+                        <h3>🏷️ Etiquetado Automático</h3>
+                        <p>Clasificación inteligente de imágenes con más de 10,000 categorías predefinidas</p>
+                    </div>
+                    <div class="feature-box">
+                        <h3>📊 Análisis de Escena</h3>
+                        <p>Comprensión contextual de la imagen completa, no solo objetos individuales</p>
+                    </div>
+                    <div class="feature-box">
+                        <h3>🔍 OCR Integrado</h3>
+                        <p>Extracción de texto de imágenes con soporte para múltiples idiomas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Documentation -->
+        <div class="card">
+            <h2>📚 Documentación API REST</h2>
+            <div class="api-docs">
+<span class="code-comment">// Endpoint de detección de objetos</span>
+<span class="code-keyword">POST</span> <span class="code-string">https://api.vision-ia.com/v1/detect</span>
+
+<span class="code-comment">// Headers</span>
+{
+  <span class="code-string">"Content-Type"</span>: <span class="code-string">"multipart/form-data"</span>,
+  <span class="code-string">"Authorization"</span>: <span class="code-string">"Bearer YOUR_API_KEY"</span>
+}
+
+<span class="code-comment">// Request Body</span>
+{
+  <span class="code-string">"image"</span>: <span class="code-string">"base64_encoded_image"</span>,
+  <span class="code-string">"features"</span>: [<span class="code-string">"object_detection"</span>, <span class="code-string">"face_recognition"</span>, <span class="code-string">"ocr"</span>],
+  <span class="code-string">"confidence_threshold"</span>: <span class="code-number">0.8</span>,
+  <span class="code-string">"max_results"</span>: <span class="code-number">10</span>
+}
+
+<span class="code-comment">// Response</span>
+{
+  <span class="code-string">"status"</span>: <span class="code-string">"success"</span>,
+  <span class="code-string">"processing_time"</span>: <span class="code-number">0.847</span>,
+  <span class="code-string">"detections"</span>: [
+    {
+      <span class="code-string">"label"</span>: <span class="code-string">"person"</span>,
+      <span class="code-string">"confidence"</span>: <span class="code-number">0.985</span>,
+      <span class="code-string">"bounding_box"</span>: {
+        <span class="code-string">"x"</span>: <span class="code-number">120</span>, <span class="code-string">"y"</span>: <span class="code-number">80</span>, <span class="code-string">"width"</span>: <span class="code-number">200</span>, <span class="code-string">"height"</span>: <span class="code-number">350</span>
+      }
+    },
+    {
+      <span class="code-string">"label"</span>: <span class="code-string">"car"</span>,
+      <span class="code-string">"confidence"</span>: <span class="code-number">0.962</span>,
+      <span class="code-string">"bounding_box"</span>: {
+        <span class="code-string">"x"</span>: <span class="code-number">450</span>, <span class="code-string">"y"</span>: <span class="code-number">200</span>, <span class="code-string">"width"</span>: <span class="code-number">300</span>, <span class="code-string">"height"</span>: <span class="code-number">180</span>
+      }
+    }
+  ]
+}
+
+<span class="code-comment">// Ejemplo en JavaScript</span>
+<span class="code-keyword">const</span> <span class="code-function">analyzeImage</span> = <span class="code-keyword">async</span> (imageFile) => {
+  <span class="code-keyword">const</span> formData = <span class="code-keyword">new</span> <span class="code-function">FormData</span>();
+  formData.<span class="code-function">append</span>(<span class="code-string">'image'</span>, imageFile);
+  
+  <span class="code-keyword">const</span> response = <span class="code-keyword">await</span> <span class="code-function">fetch</span>(<span class="code-string">'https://api.vision-ia.com/v1/detect'</span>, {
+    method: <span class="code-string">'POST'</span>,
+    headers: { <span class="code-string">'Authorization'</span>: <span class="code-string">`Bearer ${API_KEY}`</span> },
+    body: formData
+  });
+  
+  <span class="code-keyword">return await</span> response.<span class="code-function">json</span>();
+};
+            </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="card">
+            <h2>🛠️ Stack Tecnológico</h2>
+            <div class="tech-stack">
+                <div class="tech-card" style="background: linear-gradient(135deg, #FF6F00 0%, #FFA000 100%);">
+                    <h4>TensorFlow</h4>
+                    <p>Framework principal para modelos de deep learning</p>
+                </div>
+                <div class="tech-card" style="background: linear-gradient(135deg, #00897B 0%, #00ACC1 100%);">
+                    <h4>OpenCV</h4>
+                    <p>Procesamiento de imágenes y visión por computadora</p>
+                </div>
+                <div class="tech-card" style="background: linear-gradient(135deg, #5E35B1 0%, #7E57C2 100%);">
+                    <h4>Google Vision AI</h4>
+                    <p>API de reconocimiento de imágenes avanzado</p>
+                </div>
+                <div class="tech-card" style="background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);">
+                    <h4>Python</h4>
+                    <p>Backend para procesamiento de modelos ML</p>
+                </div>
+                <div class="tech-card" style="background: linear-gradient(135deg, #C62828 0%, #E53935 100%);">
+                    <h4>YOLO v8</h4>
+                    <p>Detección de objetos en tiempo real</p>
+                </div>
+                <div class="tech-card" style="background: linear-gradient(135deg, #6A1B9A 0%, #8E24AA 100%);">
+                    <h4>PyTorch</h4>
+                    <p>Modelos de redes neuronales personalizados</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px;">
+                <h3 style="margin-bottom: 15px; color: #667eea;">Casos de Uso</h3>
+                <ul style="color: #666; line-height: 2; padding-left: 20px;">
+                    <li><strong>Retail:</strong> Análisis de productos en estanterías, control de inventario visual</li>
+                    <li><strong>Seguridad:</strong> Detección de intrusos, reconocimiento facial para acceso</li>
+                    <li><strong>Manufactura:</strong> Control de calidad automatizado, detección de defectos</li>
+                    <li><strong>Salud:</strong> Análisis de imágenes médicas, detección de anomalías</li>
+                    <li><strong>Automotriz:</strong> Sistemas de conducción autónoma, detección de peatones</li>
+                    <li><strong>E-commerce:</strong> Búsqueda visual de productos, recomendaciones por imagen</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate confidence bars on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.confidence-fill');
+            bars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+
+        // Interactive upload area
+        const uploadArea = document.querySelector('.upload-area');
+        if (uploadArea) {
+            uploadArea.addEventListener('click', () => {
+                alert('En una implementación real, aquí se abriría el selector de archivos para cargar una imagen.');
+            });
+        }
+    </script>
+</body>
+</html>

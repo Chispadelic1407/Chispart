@@ -161,33 +161,417 @@
         </div>
     </section>
 
-    <!-- Architecture Section -->
-    <section class="architecture">
+    <!-- Live Playground Section -->
+    <section class="playground">
         <div class="container">
-            <h2 class="section-title">Arquitectura del Sistema</h2>
-            <div class="architecture-grid">
-                <div class="arch-card glass">
-                    <div class="arch-icon">📥</div>
-                    <h3>Input Layer</h3>
-                    <p>REST API y CLI reciben solicitudes del usuario</p>
+            <h2 class="section-title">🖥️ Playground en Vivo</h2>
+            <p class="section-description">Interactúa con la aplicación real deployada en Vercel</p>
+            <div class="playground-container glass">
+                <div class="playground-header">
+                    <div class="playground-controls">
+                        <span class="control-dot red"></span>
+                        <span class="control-dot yellow"></span>
+                        <span class="control-dot green"></span>
+                    </div>
+                    <div class="playground-url">https://chispart-app.vercel.app</div>
+                    <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
                 </div>
-                <div class="arch-arrow">→</div>
-                <div class="arch-card glass">
-                    <div class="arch-icon">🧠</div>
-                    <h3>Orchestrator</h3>
-                    <p>Coordina agentes y distribuye tareas</p>
+                <div class="iframe-wrapper">
+                    <iframe 
+                        id="playground-iframe"
+                        src="https://chispart-app.vercel.app" 
+                        frameborder="0"
+                        allowfullscreen
+                        loading="lazy"
+                    ></iframe>
                 </div>
-                <div class="arch-arrow">→</div>
-                <div class="arch-card glass">
-                    <div class="arch-icon">🤖</div>
-                    <h3>AI Agents</h3>
-                    <p>Procesan tareas especializadas</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Multi-Agent Architecture Section -->
+    <section class="multi-agent-arch">
+        <div class="container">
+            <h2 class="section-title">🤖 Arquitectura Multi-Agente</h2>
+            <p class="section-description">Sistema de colaboración inteligente entre agentes especializados</p>
+            
+            <!-- Flow Diagram -->
+            <div class="agent-flow">
+                <div class="flow-layer">
+                    <div class="flow-card glass" data-agent="input">
+                        <div class="flow-icon">📥</div>
+                        <h3>Input Layer</h3>
+                        <p>REST API & CLI</p>
+                    </div>
                 </div>
-                <div class="arch-arrow">→</div>
-                <div class="arch-card glass">
-                    <div class="arch-icon">📤</div>
-                    <h3>Output</h3>
-                    <p>Resultados consolidados y formateados</p>
+                <div class="flow-connector">
+                    <div class="flow-line"></div>
+                    <div class="flow-pulse"></div>
+                </div>
+                <div class="flow-layer">
+                    <div class="flow-card glass" data-agent="orchestrator">
+                        <div class="flow-icon">🧠</div>
+                        <h3>Orchestrator</h3>
+                        <p>Task Distribution</p>
+                    </div>
+                </div>
+                <div class="flow-connector">
+                    <div class="flow-line multi"></div>
+                    <div class="flow-pulse"></div>
+                </div>
+                <div class="flow-layer agents-layer">
+                    <div class="flow-card glass" data-agent="code">
+                        <div class="flow-icon">💻</div>
+                        <h3>Code Agent</h3>
+                        <p>Code Generation</p>
+                    </div>
+                    <div class="flow-card glass" data-agent="analysis">
+                        <div class="flow-icon">📊</div>
+                        <h3>Analysis Agent</h3>
+                        <p>Data Analysis</p>
+                    </div>
+                    <div class="flow-card glass" data-agent="content">
+                        <div class="flow-icon">✍️</div>
+                        <h3>Content Agent</h3>
+                        <p>Content Creation</p>
+                    </div>
+                    <div class="flow-card glass" data-agent="research">
+                        <div class="flow-icon">🔍</div>
+                        <h3>Research Agent</h3>
+                        <p>Information Gathering</p>
+                    </div>
+                </div>
+                <div class="flow-connector">
+                    <div class="flow-line multi"></div>
+                    <div class="flow-pulse"></div>
+                </div>
+                <div class="flow-layer">
+                    <div class="flow-card glass" data-agent="output">
+                        <div class="flow-icon">📤</div>
+                        <h3>Output Layer</h3>
+                        <p>Consolidated Results</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agent Details -->
+            <div class="agent-details-grid">
+                <div class="agent-detail-card glass">
+                    <div class="agent-detail-icon">💻</div>
+                    <h3>Code Agent</h3>
+                    <p>Especializado en generación de código, refactoring, debugging y análisis de sintaxis. Soporta múltiples lenguajes de programación.</p>
+                    <div class="agent-capabilities">
+                        <span class="capability-tag">Python</span>
+                        <span class="capability-tag">JavaScript</span>
+                        <span class="capability-tag">TypeScript</span>
+                        <span class="capability-tag">Debugging</span>
+                    </div>
+                </div>
+                <div class="agent-detail-card glass">
+                    <div class="agent-detail-icon">📊</div>
+                    <h3>Analysis Agent</h3>
+                    <p>Procesa y analiza grandes volúmenes de datos, genera insights, estadísticas y visualizaciones de información compleja.</p>
+                    <div class="agent-capabilities">
+                        <span class="capability-tag">Data Processing</span>
+                        <span class="capability-tag">Statistics</span>
+                        <span class="capability-tag">Visualization</span>
+                        <span class="capability-tag">ML</span>
+                    </div>
+                </div>
+                <div class="agent-detail-card glass">
+                    <div class="agent-detail-icon">✍️</div>
+                    <h3>Content Agent</h3>
+                    <p>Crea contenido de alta calidad: documentación técnica, artículos, copywriting y material educativo adaptado al contexto.</p>
+                    <div class="agent-capabilities">
+                        <span class="capability-tag">Documentation</span>
+                        <span class="capability-tag">Copywriting</span>
+                        <span class="capability-tag">Technical Writing</span>
+                        <span class="capability-tag">SEO</span>
+                    </div>
+                </div>
+                <div class="agent-detail-card glass">
+                    <div class="agent-detail-icon">🔍</div>
+                    <h3>Research Agent</h3>
+                    <p>Investiga información relevante, verifica fuentes, sintetiza conocimiento y proporciona contexto actualizado sobre cualquier tema.</p>
+                    <div class="agent-capabilities">
+                        <span class="capability-tag">Web Search</span>
+                        <span class="capability-tag">Fact Checking</span>
+                        <span class="capability-tag">Synthesis</span>
+                        <span class="capability-tag">Context</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Documentation Section -->
+    <section class="api-docs">
+        <div class="container">
+            <h2 class="section-title">📡 API Documentation</h2>
+            <p class="section-description">Endpoints REST completos con ejemplos interactivos</p>
+            
+            <div class="api-explorer">
+                <div class="api-endpoint glass">
+                    <div class="endpoint-header">
+                        <span class="http-method post">POST</span>
+                        <span class="endpoint-path">/api/v1/generate</span>
+                        <button class="expand-btn" onclick="toggleEndpoint(this)">▼</button>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="endpoint-description">Genera contenido utilizando el sistema multi-agente</p>
+                        <div class="code-example">
+                            <div class="code-header">
+                                <span>Request Body</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋</button>
+                            </div>
+                            <pre><code>{
+  "prompt": "Crea una función Python para calcular fibonacci",
+  "agent_type": "code",
+  "model": "blackbox-ai",
+  "max_tokens": 2000
+}</code></pre>
+                        </div>
+                        <div class="code-example">
+                            <div class="code-header">
+                                <span>Response</span>
+                            </div>
+                            <pre><code>{
+  "status": "success",
+  "result": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)",
+  "agent_used": "code",
+  "execution_time": 1.23
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-endpoint glass">
+                    <div class="endpoint-header">
+                        <span class="http-method post">POST</span>
+                        <span class="endpoint-path">/api/v1/analyze</span>
+                        <button class="expand-btn" onclick="toggleEndpoint(this)">▼</button>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="endpoint-description">Analiza código, datos o contenido con agentes especializados</p>
+                        <div class="code-example">
+                            <div class="code-header">
+                                <span>Request Body</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋</button>
+                            </div>
+                            <pre><code>{
+  "content": "def example(): pass",
+  "analysis_type": "code_quality",
+  "language": "python"
+}</code></pre>
+                        </div>
+                        <div class="code-example">
+                            <div class="code-header">
+                                <span>Response</span>
+                            </div>
+                            <pre><code>{
+  "status": "success",
+  "analysis": {
+    "quality_score": 7.5,
+    "suggestions": ["Add docstring", "Implement function body"],
+    "complexity": "low"
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-endpoint glass">
+                    <div class="endpoint-header">
+                        <span class="http-method get">GET</span>
+                        <span class="endpoint-path">/api/v1/models</span>
+                        <button class="expand-btn" onclick="toggleEndpoint(this)">▼</button>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="endpoint-description">Lista todos los modelos de IA disponibles en el sistema</p>
+                        <div class="code-example">
+                            <div class="code-header">
+                                <span>Response</span>
+                            </div>
+                            <pre><code>{
+  "models": [
+    {
+      "id": "blackbox-ai",
+      "name": "Blackbox AI",
+      "capabilities": ["code", "analysis", "content"],
+      "max_tokens": 4096
+    },
+    {
+      "id": "gpt-4",
+      "name": "GPT-4",
+      "capabilities": ["general", "reasoning"],
+      "max_tokens": 8192
+    }
+  ]
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="api-endpoint glass">
+                    <div class="endpoint-header">
+                        <span class="http-method post">POST</span>
+                        <span class="endpoint-path">/api/v1/workflow</span>
+                        <button class="expand-btn" onclick="toggleEndpoint(this)">▼</button>
+                    </div>
+                    <div class="endpoint-content">
+                        <p class="endpoint-description">Ejecuta un workflow multi-agente complejo</p>
+                        <div class="code-example">
+                            <div class="code-header">
+                                <span>Request Body</span>
+                                <button class="copy-btn" onclick="copyCode(this)">📋</button>
+                            </div>
+                            <pre><code>{
+  "workflow_type": "research_and_code",
+  "task": "Investiga mejores prácticas de FastAPI y crea ejemplo",
+  "agents": ["research", "code"],
+  "sequential": true
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLI Demo Section -->
+    <section class="cli-demo">
+        <div class="container">
+            <h2 class="section-title">💻 CLI Interface</h2>
+            <p class="section-description">Interfaz de línea de comandos completa para interactuar con el sistema</p>
+            
+            <div class="terminal glass">
+                <div class="terminal-header">
+                    <div class="terminal-controls">
+                        <span class="control-dot red"></span>
+                        <span class="control-dot yellow"></span>
+                        <span class="control-dot green"></span>
+                    </div>
+                    <div class="terminal-title">chispart-cli</div>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line">
+                        <span class="prompt">$</span>
+                        <span class="command" id="cli-command-1"></span>
+                        <span class="cursor">_</span>
+                    </div>
+                    <div class="terminal-output" id="cli-output-1"></div>
+                    <div class="terminal-line">
+                        <span class="prompt">$</span>
+                        <span class="command" id="cli-command-2"></span>
+                    </div>
+                    <div class="terminal-output" id="cli-output-2"></div>
+                    <div class="terminal-line">
+                        <span class="prompt">$</span>
+                        <span class="command" id="cli-command-3"></span>
+                    </div>
+                    <div class="terminal-output" id="cli-output-3"></div>
+                </div>
+            </div>
+
+            <div class="cli-commands-grid">
+                <div class="cli-command-card glass">
+                    <div class="cli-cmd-header">
+                        <span class="cli-icon">🚀</span>
+                        <code>chispart generate</code>
+                    </div>
+                    <p>Genera contenido usando agentes especializados</p>
+                </div>
+                <div class="cli-command-card glass">
+                    <div class="cli-cmd-header">
+                        <span class="cli-icon">📊</span>
+                        <code>chispart analyze</code>
+                    </div>
+                    <p>Analiza código, datos o contenido</p>
+                </div>
+                <div class="cli-command-card glass">
+                    <div class="cli-cmd-header">
+                        <span class="cli-icon">🔄</span>
+                        <code>chispart workflow</code>
+                    </div>
+                    <p>Ejecuta workflows multi-agente complejos</p>
+                </div>
+                <div class="cli-command-card glass">
+                    <div class="cli-cmd-header">
+                        <span class="cli-icon">⚙️</span>
+                        <code>chispart config</code>
+                    </div>
+                    <p>Configura modelos y preferencias</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Gallery Section -->
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="section-title">📸 Galería de Screenshots</h2>
+            <p class="section-description">Visualiza las diferentes interfaces y funcionalidades del sistema</p>
+            
+            <div class="screenshots-grid">
+                <div class="screenshot-card glass">
+                    <div class="screenshot-placeholder">
+                        <div class="placeholder-icon">📄</div>
+                        <div class="placeholder-text">FastAPI Swagger UI</div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3>API Documentation</h3>
+                        <p>Interfaz Swagger interactiva con todos los endpoints documentados</p>
+                    </div>
+                </div>
+                <div class="screenshot-card glass">
+                    <div class="screenshot-placeholder">
+                        <div class="placeholder-icon">💻</div>
+                        <div class="placeholder-text">CLI Interface</div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3>Terminal Interface</h3>
+                        <p>Interfaz de línea de comandos con colores y formato avanzado</p>
+                    </div>
+                </div>
+                <div class="screenshot-card glass">
+                    <div class="screenshot-placeholder">
+                        <div class="placeholder-icon">🌐</div>
+                        <div class="placeholder-text">Web Playground</div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3>Web Interface</h3>
+                        <p>Playground web para probar el sistema sin instalación</p>
+                    </div>
+                </div>
+                <div class="screenshot-card glass">
+                    <div class="screenshot-placeholder">
+                        <div class="placeholder-icon">🤖</div>
+                        <div class="placeholder-text">Multi-Agent Flow</div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3>Agent Workflow</h3>
+                        <p>Visualización del flujo de trabajo entre agentes especializados</p>
+                    </div>
+                </div>
+                <div class="screenshot-card glass">
+                    <div class="screenshot-placeholder">
+                        <div class="placeholder-icon">🐳</div>
+                        <div class="placeholder-text">Docker Deployment</div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3>Container Setup</h3>
+                        <p>Configuración Docker con docker-compose para deployment</p>
+                    </div>
+                </div>
+                <div class="screenshot-card glass">
+                    <div class="screenshot-placeholder">
+                        <div class="placeholder-icon">📊</div>
+                        <div class="placeholder-text">Analytics Dashboard</div>
+                    </div>
+                    <div class="screenshot-info">
+                        <h3>Metrics & Analytics</h3>
+                        <p>Dashboard con métricas de uso y performance del sistema</p>
+                    </div>
                 </div>
             </div>
         </div>

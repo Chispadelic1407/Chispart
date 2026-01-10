@@ -167,6 +167,17 @@ const templateProjects = [
     technologies: ["React", "Google Maps API", "WhatsApp API"],
     demoUrl: "/demos/restaurante/index.html"
   },
+  {
+    id: 8,
+    title: "Plataforma E-learning",
+    description: "Sistema de aprendizaje en línea con cursos, videos y certificaciones",
+    category: "Educación",
+    price: "$50,000 - $100,000 MXN",
+    features: ["Gestión de cursos", "Video streaming", "Exámenes online", "Certificados"],
+    image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=600&fit=crop",
+    technologies: ["React", "Node.js", "Video.js", "MongoDB"],
+    demoUrl: "/demos/e-learning/index.html"
+  },
 
   {
     id: 9,

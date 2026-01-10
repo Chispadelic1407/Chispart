@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Sentimientos - Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stat-card.positive::before {
+            background: linear-gradient(90deg, #51cf66 0%, #37b24d 100%);
+        }
+
+        .stat-card.negative::before {
+            background: linear-gradient(90deg, #ff6b6b 0%, #fa5252 100%);
+        }
+
+        .stat-card.neutral::before {
+            background: linear-gradient(90deg, #ffd43b 0%, #fab005 100%);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .stat-change.up {
+            color: #51cf66;
+        }
+
+        .stat-change.down {
+            color: #ff6b6b;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            margin-top: 20px;
+        }
+
+        .timeline {
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item.positive {
+            border-left-color: #51cf66;
+            background: #f0fff4;
+        }
+
+        .timeline-item.negative {
+            border-left-color: #ff6b6b;
+            background: #fff5f5;
+        }
+
+        .timeline-item.neutral {
+            border-left-color: #ffd43b;
+            background: #fffbeb;
+        }
+
+        .timeline-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-text {
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .timeline-meta {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            gap: 15px;
+        }
+
+        .wordcloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            min-height: 250px;
+        }
+
+        .word {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .word:hover {
+            transform: scale(1.1);
+        }
+
+        .word.size-1 { font-size: 0.9rem; opacity: 0.7; }
+        .word.size-2 { font-size: 1.1rem; opacity: 0.8; }
+        .word.size-3 { font-size: 1.4rem; opacity: 0.9; }
+        .word.size-4 { font-size: 1.8rem; opacity: 1; }
+        .word.size-5 { font-size: 2.2rem; opacity: 1; }
+
+        .word.positive { background: #d3f9d8; color: #2b8a3e; }
+        .word.negative { background: #ffe3e3; color: #c92a2a; }
+        .word.neutral { background: #fff3bf; color: #e67700; }
+
+        .alert-box {
+            background: linear-gradient(135deg, #ff6b6b 0%, #fa5252 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        .alert-icon {
+            font-size: 2rem;
+        }
+
+        .alert-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .alert-content p {
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        .monitoring-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #51cf66;
+            animation: blink 1.5s infinite;
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .platform-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .platform-icon {
+            font-size: 2rem;
+        }
+
+        .platform-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .platform-info p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @media (max-width: 1400px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .dashboard-grid, .platform-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Análisis de Sentimientos en Redes Sociales</h1>
+            <p>Monitoreo en tiempo real de opiniones y emociones</p>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="dashboard-grid">
+            <div class="stat-card positive">
+                <div class="stat-icon">😊</div>
+                <div class="stat-value">68%</div>
+                <div class="stat-label">Sentimiento Positivo</div>
+                <div class="stat-change up">↑ 12% vs semana anterior</div>
+            </div>
+            <div class="stat-card negative">
+                <div class="stat-icon">😞</div>
+                <div class="stat-value">18%</div>
+                <div class="stat-label">Sentimiento Negativo</div>
+                <div class="stat-change down">↓ 5% vs semana anterior</div>
+            </div>
+            <div class="stat-card neutral">
+                <div class="stat-icon">😐</div>
+                <div class="stat-value">14%</div>
+                <div class="stat-label">Sentimiento Neutral</div>
+                <div class="stat-change up">↑ 2% vs semana anterior</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💬</div>
+                <div class="stat-value">24.5K</div>
+                <div class="stat-label">Menciones Totales</div>
+                <div class="stat-change up">↑ 18% vs semana anterior</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Sentiment Chart -->
+            <div class="card">
+                <h2>📈 Tendencia de Sentimientos (Últimos 7 días)</h2>
+                <div class="chart-container">
+                    <canvas id="sentimentChart"></canvas>
+                </div>
+                <div class="monitoring-status">
+                    <div class="status-dot"></div>
+                    <span style="font-weight: 600;">Monitoreo activo en tiempo real</span>
+                    <span style="margin-left: auto; color: #666;">Última actualización: hace 2 min</span>
+                </div>
+            </div>
+
+            <!-- Distribution Chart -->
+            <div class="card">
+                <h2>🎯 Distribución de Sentimientos</h2>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <p style="font-size: 0.9rem; color: #666; text-align: center;">
+                        <strong>Análisis:</strong> Tendencia positiva general con alta satisfacción del cliente
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="card">
+            <h2>⏱️ Timeline de Menciones Recientes</h2>
+            <div class="timeline">
+                <div class="timeline-item positive">
+                    <div class="timeline-icon">😍</div>
+                    <div class="timeline-content">
+                        <div class="timeline-text">"¡Excelente servicio! Superó todas mis expectativas. Totalmente recomendado 👏"</div>
+                        <div class="timeline-meta">
+                            <span>📱 Twitter</span>
+                            <span>👤 @usuario_feliz</span>
+                            <span>🕐 Hace 5 min</span>
+                            <span style="color: #51cf66; font-weight: 600;">Positivo (95%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item positive">
+                    <div class="timeline-icon">🎉</div>
+                    <div class="timeline-content">
+                        <div class="timeline-text">"La mejor decisión que tomé este año. Producto de calidad excepcional."</div>
+                        <div class="timeline-meta">
+                            <span>📘 Facebook</span>
+                            <span>👤 María González</span>
+                            <span>🕐 Hace 12 min</span>
+                            <span style="color: #51cf66; font-weight: 600;">Positivo (92%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item negative">
+                    <div class="timeline-icon">😠</div>
+                    <div class="timeline-content">
+                        <div class="timeline-text">"El tiempo de entrega fue más largo de lo esperado. Necesitan mejorar la logística."</div>
+                        <div class="timeline-meta">
+                            <span>📷 Instagram</span>
+                            <span>👤 @cliente_2024</span>
+                            <span>🕐 Hace 18 min</span>
+                            <span style="color: #ff6b6b; font-weight: 600;">Negativo (78%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item neutral">
+                    <div class="timeline-icon">🤔</div>
+                    <div class="timeline-content">
+                        <div class="timeline-text">"Producto correcto, cumple con lo prometido. Precio dentro del promedio del mercado."</div>
+                        <div class="timeline-meta">
+                            <span>💼 LinkedIn</span>
+                            <span>👤 Carlos Ruiz</span>
+                            <span>🕐 Hace 25 min</span>
+                            <span style="color: #ffd43b; font-weight: 600;">Neutral (65%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item positive">
+                    <div class="timeline-icon">⭐</div>
+                    <div class="timeline-content">
+                        <div class="timeline-text">"Atención al cliente de primera. Resolvieron mi problema en minutos. 5 estrellas!"</div>
+                        <div class="timeline-meta">
+                            <span>📱 Twitter</span>
+                            <span>👤 @happy_customer</span>
+                            <span>🕐 Hace 32 min</span>
+                            <span style="color: #51cf66; font-weight: 600;">Positivo (98%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <!-- Word Cloud -->
+            <div class="card">
+                <h2>☁️ Palabras Más Mencionadas</h2>
+                <div class="wordcloud">
+                    <span class="word positive size-5">Excelente</span>
+                    <span class="word positive size-4">Calidad</span>
+                    <span class="word positive size-3">Recomendado</span>
+                    <span class="word neutral size-4">Precio</span>
+                    <span class="word positive size-5">Servicio</span>
+                    <span class="word negative size-2">Lento</span>
+                    <span class="word positive size-3">Rápido</span>
+                    <span class="word positive size-4">Profesional</span>
+                    <span class="word neutral size-2">Normal</span>
+                    <span class="word positive size-3">Innovador</span>
+                    <span class="word negative size-2">Caro</span>
+                    <span class="word positive size-4">Confiable</span>
+                    <span class="word positive size-3">Eficiente</span>
+                    <span class="word neutral size-2">Promedio</span>
+                    <span class="word positive size-5">Increíble</span>
+                    <span class="word positive size-2">Útil</span>
+                    <span class="word negative size-1">Deficiente</span>
+                    <span class="word positive size-3">Satisfecho</span>
+                </div>
+            </div>
+
+            <!-- Platforms & Alerts -->
+            <div class="card">
+                <h2>🌐 Plataformas Monitoreadas</h2>
+                <div class="platform-grid">
+                    <div class="platform-card" style="background: linear-gradient(135deg, #1DA1F2 0%, #0d8bd9 100%);">
+                        <div class="platform-icon">🐦</div>
+                        <div class="platform-info">
+                            <h4>Twitter</h4>
+                            <p>8,542 menciones</p>
+                        </div>
+                    </div>
+                    <div class="platform-card" style="background: linear-gradient(135deg, #4267B2 0%, #365899 100%);">
+                        <div class="platform-icon">📘</div>
+                        <div class="platform-info">
+                            <h4>Facebook</h4>
+                            <p>6,234 menciones</p>
+                        </div>
+                    </div>
+                    <div class="platform-card" style="background: linear-gradient(135deg, #E1306C 0%, #C13584 100%);">
+                        <div class="platform-icon">📷</div>
+                        <div class="platform-info">
+                            <h4>Instagram</h4>
+                            <p>5,891 menciones</p>
+                        </div>
+                    </div>
+                    <div class="platform-card" style="background: linear-gradient(135deg, #0077B5 0%, #005885 100%);">
+                        <div class="platform-icon">💼</div>
+                        <div class="platform-info">
+                            <h4>LinkedIn</h4>
+                            <p>3,876 menciones</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-box">
+                    <div class="alert-icon">🚨</div>
+                    <div class="alert-content">
+                        <h3>Alerta de Crisis Detectada</h3>
+                        <p>Incremento del 45% en menciones negativas en las últimas 2 horas. Se recomienda acción inmediata.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sentiment Trend Chart
+        const ctx1 = document.getElementById('sentimentChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                datasets: [
+                    {
+                        label: 'Positivo',
+                        data: [62, 65, 63, 68, 70, 67, 68],
+                        borderColor: '#51cf66',
+                        backgroundColor: 'rgba(81, 207, 102, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Negativo',
+                        data: [25, 23, 24, 20, 18, 19, 18],
+                        borderColor: '#ff6b6b',
+                        backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Neutral',
+                        data: [13, 12, 13, 12, 12, 14, 14],
+                        borderColor: '#ffd43b',
+                        backgroundColor: 'rgba(255, 212, 59, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Distribution Pie Chart
+        const ctx2 = document.getElementById('distributionChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Positivo', 'Negativo', 'Neutral'],
+                datasets: [{
+                    data: [68, 18, 14],
+                    backgroundColor: [
+                        '#51cf66',
+                        '#ff6b6b',
+                        '#ffd43b'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+
+        // Animate word cloud
+        document.querySelectorAll('.word').forEach(word => {
+            word.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+            });
+            word.addEventListener('mouseleave', function() {
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
